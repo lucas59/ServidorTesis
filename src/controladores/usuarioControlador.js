@@ -1,15 +1,38 @@
-
-exports.inicio = function(req,res){
+const passport = require('passport');
+exports.inicio = function (req, res) {
     var titulo = "Inicio";
     res.render("autenticacion/inicio", { titulo });
 };
 
-exports.login = function(req,res){
+exports.login = function (req, res) {
     var titulo = "Inicia Sesión";
     res.render("autenticacion/login", { titulo });
 };
 
-exports.singin = function(req,res){
+exports.iniciar = passport.authenticate('local.iniciar', {
+    successRedirect: '/perfil',
+    failureRedirect: '/login',
+    failureFlash: true
+});
+exports.salir = function(req,res){
+    req.logOut();
+    res.redirect('/login');
+}
+
+exports.perfil = function (req, res) {
+    var titulo = "Inicia Sesión";
+    res.render("perfil", { titulo });
+};
+
+exports.registrarse = passport.authenticate('local.signup', {
+    successRedirect: '/perfil',
+    failureRedirect: '/registrarse',
+    failureFlash: true
+});
+
+exports.singin = function (req, res) {
     var titulo = "Registrarse";
     res.render("autenticacion/singin", { titulo });
 };
+
+

@@ -1,15 +1,25 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/">Control de Personal</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <span>
-
-    </span>
-    <span>
-      <a href="login">Comenzar</a>
-    </span>
+<header>
+  <div class="contenedornav">
+    <nav class="menu">
+      <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="">Información</a></li>
+        <li><a href="">Contacto</a></li>
+        <li><a href="">Otros</a></li>
+      </ul>
+      <div class="session">
+        {{#if user}}
+        <a href="/perfil">{{user.nombre}} {{user.apellido}}</a>
+        <a href="/logout">Salir</a>
+        {{else}}
+        <li class="nav-item">
+          <a href="/login" class="nav-link">Ingresar</a>
+        </li>
+        <li class="nav-item">
+          <a href="/registrarse" class="nav-link">Registrarme</a>
+        </li>
+        {{/if}}
+      </div>
+    </nav>
   </div>
-</nav>
+</header>
