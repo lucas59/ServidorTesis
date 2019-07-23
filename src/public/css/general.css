@@ -7,9 +7,12 @@
     font-family:Arial;
 }
 
-body{
-    background: #e1e6ec;
+body {
+    font: 14px/1.5 'Open Sans', sans-serif;
+    color: #345;
+    background: #f0f2f4;
 }
+
 .index{
     width: 100vw;
     height: 100vh;
@@ -48,4 +51,9 @@ body{
     .masthead h1{
         font-size: 5.5rem;
     }
+}
+
+.login{
+    width: 50%;
+    margin: auto;
 }

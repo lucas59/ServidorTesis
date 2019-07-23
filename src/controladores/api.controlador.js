@@ -22,9 +22,8 @@ exports.login = async function (req, res) {
             res.send(JSON.stringify({ retorno: false,mensaje:'Contraseña incorrecta.' }));
         }
     } else {
-        res.send(JSON.stringify({ retorno: false, mensaje:'No existe este usuario'}));
+        res.send(JSON.stringify({ retorno: false, mensaje:'No existe este usuario.'}));
     }
-
 };
 
 

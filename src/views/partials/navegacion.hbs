@@ -1,4 +1,4 @@
-<header>
+<!--<header>
   <div class="contenedornav">
     <nav class="menu">
       <ul>
@@ -20,6 +20,32 @@
         </li>
         {{/if}}
       </div>
+    </nav>
+  </div>
+</header>-->
+
+<header>
+  <div class="contenedor">
+    <nav class="menu">
+      <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="">Información</a></li>
+        <li><a href="">Contacto</a></li>
+        <li><a href="">Otros</a></li>
+        <div class="session">
+          {{#if user}}
+          <a href="/perfil">{{user.nombre}} {{user.apellido}}</a>
+          <a href="/logout">Salir</a>
+          {{else}}
+          <li class="nav-item">
+            <a href="/login" class="nav-link">Ingresar</a>
+          </li>
+          <li class="nav-item">
+            <a href="/registrarse" class="nav-link">Registrarme</a>
+          </li>
+          {{/if}}
+        </div>
+      </ul>
     </nav>
   </div>
 </header>

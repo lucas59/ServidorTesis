@@ -5,10 +5,10 @@ const router = express.Router();
 const usuarioControlador = require("../controladores/usuarioControlador");
 
 router.get('/', usuarioControlador.inicio);
-router.get('/login', usuarioControlador.login);
+router.get('/login',noHaySession, usuarioControlador.login);
 router.post('/login', noHaySession, usuarioControlador.iniciar);
-router.get('/logout', usuarioControlador.salir);
-router.get('/registrarse', usuarioControlador.singin);
+router.get('/logout', haySession, usuarioControlador.salir);
+router.get('/registrarse', noHaySession,usuarioControlador.singin);
 router.post('/signup', usuarioControlador.registrarse);
 
 router.get('/perfil',haySession,usuarioControlador.perfil);

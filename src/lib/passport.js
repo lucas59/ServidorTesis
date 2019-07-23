@@ -53,35 +53,40 @@ passport.use('local.signup', new LocalStrategy({
         contrasenia: password,
         email: email,
         estado: true,
-        fotoPerfil_id: null
+        fotoPerfil_id: null,
+        pais_id:1,
+        ciudad_id:1
+
     }
+    console.log(usuario);
 
     usuario.contrasenia = await helpers.encryptPassword(password);
     // Saving in the Database
+    
     const result = await pool.query('INSERT INTO usuario SET ? ', usuario);
+    console.log(tipo);
     if (result) {
         if (tipo == 'empleado') {
-            const empleado = {
+           const empleado = {
                 apellido,
                 celular: tel,
-                pin: null,
-                edad: null,
+                pin: 1,
+                fechaNacimiento: null,
                 nombre,
                 id: username
             }
             const resultEmpleado = await pool.query('INSERT INTO empleado SET ? ', empleado);
             console.log('usuario empresa insertado');
-            return done(null, empleado);
+            return done(null, empleado,req.flash('success', 'Bienvenido ' + nombre));
         } else {
             const empresa = {
-                nombre,
-                id: username,
-                latitud: '',
-                longitud: ''
+                nombre: nombre,
+                id: username
             }
             const resultEmpresa = await pool.query('INSERT INTO empresa SET ? ', empresa);
-            console.log('usuario empleado insertado');
-            return done(null, empresa);
+            console.log(resultEmpresa);
+            console.log('usuario empresa insertado');
+            return done(null, empresa,req.flash('success', 'Bienvenido ' + nombre));
 
         }
     }
@@ -90,16 +95,17 @@ passport.use('local.signup', new LocalStrategy({
 
 
 passport.serializeUser((user, done) => {
-    console.log(user);
-    done(null, user.nombreUsuario);
+    done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
     const rows = await pool.query('SELECT * FROM usuario, empresa WHERE email = ? OR nombreUsuario = ?', [id,id]);
     const rows2 = await pool.query('SELECT * FROM usuario, empleado WHERE email = ? OR nombreUsuario = ?', [id, id]);
     if (rows.length>0) {
+        rows[0]['tipo']=0;
         return done(null, rows[0]);        
     }else{
+        rows[0]['tipo']=1;
         return done(null, rows2[0]);        
     }
 

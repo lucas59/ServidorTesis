@@ -1,7 +1,18 @@
 const passport = require('passport');
 exports.inicio = function (req, res) {
-    var titulo = "Inicio";
-    res.render("autenticacion/inicio", { titulo });
+    if (req.isAuthenticated()) { //si hay session 
+        console.log(req.user.tipo); //ahora me fijo de que tipo es la session
+        var titulo = "Inicio";
+        if(req.user.tipo==0){
+            res.render("registros/empresaRegistros", { titulo });
+        }else{
+            res.render("autenticacion/inicio", { titulo });
+        }
+    } else {
+        var titulo = "Inicio";
+        res.render("autenticacion/inicio", { titulo });
+    }
+
 };
 
 exports.login = function (req, res) {
@@ -14,7 +25,7 @@ exports.iniciar = passport.authenticate('local.iniciar', {
     failureRedirect: '/login',
     failureFlash: true
 });
-exports.salir = function(req,res){
+exports.salir = function (req, res) {
     req.logOut();
     res.redirect('/login');
 }
