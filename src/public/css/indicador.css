@@ -1,0 +1,23 @@
+.verde {
+    height: 25px;
+    width: 25px;
+    background-color: #09df09;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.amarillo {
+    height: 25px;
+    width: 25px;
+    background-color: yellow;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.rojo {
+    height: 25px;
+    width: 25px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+}

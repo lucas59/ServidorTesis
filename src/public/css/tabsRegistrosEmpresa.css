@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+
 *,
 *::before,
 *::after {
@@ -104,23 +106,9 @@ input:checked+label {
     }
 }
 
-.cardTarjeta .referente{
-    width: 25%;
-    display: inline-block;
-    border: solid;
-    padding:10px;
-}
-
-.cardTarjeta .referente img{
-    width: 50px;
-    border: solid green;
-}
-
-
-.cardTarjeta .body {
-    border: solid;
-    display: inline-block;
-    width: 50%;
+.table tbody img{
+    width: 40px;
+    height: 70px;
 }
 
 .table .thead-light {
