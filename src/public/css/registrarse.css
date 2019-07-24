@@ -170,3 +170,29 @@
     border-radius: 3px;
     cursor: pointer;
 }
+
+.fotoUsuario{
+    width: 200px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.contenedorFoto {
+    margin-bottom: 20px;
+}
+
+.contenedorFoto .inputFoto{
+ font-size: 14px;
+ font-weight: 600;
+ color: #fff;
+ background-color: #106BA0;
+ display: inline-block;
+ transition: all .5s;
+ cursor: pointer;
+ padding: 15px 40px !important;
+ text-transform: uppercase;
+ width:100%;
+ text-align: center;
+    border-radius:5px;
+    }
