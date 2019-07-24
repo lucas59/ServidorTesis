@@ -15,15 +15,25 @@ exports.login = async function (req, res) {
 
     if (rows.length > 0) {
         const user = rows[0];
-        const validacion = await helpers.compararContraseña(pass,user.contrasenia);
+        const validacion = await helpers.compararContraseña(pass, user.contrasenia);
         if (validacion) {
-            res.send(JSON.stringify({ retorno: true, mensaje:'Un exito.' }));
+            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.' }));
         } else {
-            res.send(JSON.stringify({ retorno: false,mensaje:'Contraseña incorrecta.' }));
+            res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
         }
     } else {
-        res.send(JSON.stringify({ retorno: false, mensaje:'No existe este usuario.'}));
+        res.send(JSON.stringify({ retorno: false, mensaje: 'No existe este usuario.' }));
     }
+};
+
+exports.Alta_tarea = async function (req, res) {
+    var titulo = req.param('titulo');
+    var estado = req.param('estado');
+    var inicio = req.param('inicio');
+    var fin = req.param('fin');
+
+    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`) VALUES (?,?,?,?)', [estado, fin, inicio, titulo]);
+    res.send(JSON.stringify({ retorno: true, mensaje: 'Usuario ingresado correctamente' }));
 };
 
 
