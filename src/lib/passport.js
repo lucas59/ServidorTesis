@@ -26,6 +26,9 @@ passport.use('local.iniciar', new LocalStrategy({
             done(null, false, req.flash('message', 'Contraseña incorrecta.'));
         }
     } else if (rows2.length > 0) { //usuaris empleados
+        
+        console.log(user);
+        console.log(username);
         return done(null, false, req.flash('message', 'No tiene permitido iniciar vía web .'));
     } else {
         return done(null, false, req.flash('message', 'El usuario no existe.'));

@@ -12,8 +12,12 @@ exports.login = async function (req, res) {
     var pass = req.param('password');
 
     const rows = await pool.query('SELECT * FROM usuario WHERE email = ? OR nombreUsuario = ?', [id, id]);
-
+    console.log(id);
+    console.log(pass);
+    
     if (rows.length > 0) {
+        console.log('asdasdasdasd');
+    
         const user = rows[0];
         const validacion = await helpers.compararContraseña(pass, user.contrasenia);
         if (validacion) {
