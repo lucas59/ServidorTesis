@@ -80,20 +80,23 @@ exports.signup = async function (req, res) {
     }
 };
 
+exports.ListaTareas = async function (req, res) {
+    const rows = await pool.query('SELECT * FROM tarea');
+    if (rows.length > 0) {
+        res.send(JSON.stringify({ retorno: true, mensaje: rows }));
+    } else {
+        res.send(JSON.stringify({ retorno: false, mensaje: 'No existen tareas' }));
+    }
+};
+
 exports.Alta_tarea = async function (req, res) {
     var titulo = req.param('titulo');
-    var estado = req.param('estado');
     var inicio = req.param('inicio');
     var fin = req.param('fin');
 
-    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`) VALUES (?,?,?,?)', [estado, fin, inicio, titulo]);
+    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`) VALUES (?,?,?,?)', [1, fin, inicio, titulo]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Usuario ingresado correctamente' }));
 };
-
-exports.ListaTareas = async function (req, res) {
-    var sql = await pool.query('SELECT * FROM tarea');
-    res.send(JSON.stringify({ retorno: true, mensaje: sql }));
-}
 
 
 /*
