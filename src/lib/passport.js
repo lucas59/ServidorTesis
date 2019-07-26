@@ -3,14 +3,14 @@ const LocalStrategy = require("passport-local").Strategy;
 const pool = require("../database");
 const helpers = require("./helpers");
 const image2base64 = require('image-to-base64');
-
+var multer = require('multer');
 
 
 passport.use('local.iniciar', new LocalStrategy({
     usernameField: 'identificador',
     passwordField: 'password',
     passReqToCallback: true
-}, async(req, username, password, done) => { //SELECT * FROM `empresa` as emp, usuario as u WHERE ( u.nombreUsuario = 'pedro' OR u.email="pedro" )  and emp.id = u.nombreUsuario 
+}, async (req, username, password, done) => { //SELECT * FROM `empresa` as emp, usuario as u WHERE ( u.nombreUsuario = 'pedro' OR u.email="pedro" )  and emp.id = u.nombreUsuario 
     const rows = await pool.query('SELECT * FROM `empresa` as emp, usuario as u WHERE ( u.nombreUsuario = ? OR u.email= ? )  and emp.id = u.nombreUsuario ', [username, username]);
     const rows2 = await pool.query('SELECT * FROM `empleado` as emp, usuario as u WHERE ( u.nombreUsuario = ? OR u.email="?" )  and emp.id = u.nombreUsuario ', [username, username]);
 
@@ -33,13 +33,24 @@ passport.use('local.iniciar', new LocalStrategy({
 }));
 
 
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/public/img/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+
+var upload = multer({ storage: storage }).single('fotoPerfil');
+
+
 //registro de usuario
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
-}, async(req, username, password, done) => {
-
+}, async (req, username, password, done) => {
 
     const { email, nombre, apellido, tel, tipo, fotoPerfil } = req.body;
 
@@ -69,7 +80,13 @@ passport.use('local.signup', new LocalStrategy({
                 nombre,
                 id: username
             }
+
             const resultEmpleado = await pool.query('INSERT INTO empleado SET ? ', empleado);
+
+         /*   upload(req,res,function(err){
+                console.log(err);
+            });
+*/
             console.log('usuario empresa insertado');
             return true;
             //   return done(null, empleado, req.flash('success', 'Bienvenido ' + nombre));
@@ -93,7 +110,7 @@ passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
-passport.deserializeUser(async(id, done) => {
+passport.deserializeUser(async (id, done) => {
     const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.nombreUsuario  ', [id, id]);
     const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE  (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.nombreUsuario ', [id, id]);
     if (rows.length > 0) {

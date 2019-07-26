@@ -46,6 +46,8 @@ exports.signup = async function (req, res) {
             ciudad_id: null
 
         }
+        usuario.contrasenia = await helpers.encryptPassword(pass);
+
         const user = rows[0];
         const result = await pool.query('INSERT INTO usuario SET ? ', usuario);
         if (result) {
@@ -62,7 +64,7 @@ exports.signup = async function (req, res) {
                 const empleado = {
                     apellido: null,
                     celular: null,
-                   // pin: 11,
+                    // pin: 11,
                     fechaNacimiento: null,
                     nombre: null,
                     id: fullName
@@ -87,6 +89,11 @@ exports.Alta_tarea = async function (req, res) {
     await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`) VALUES (?,?,?,?)', [estado, fin, inicio, titulo]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Usuario ingresado correctamente' }));
 };
+
+exports.ListaTareas = async function (req, res) {
+    var sql = await pool.query('SELECT * FROM tarea');
+    res.send(JSON.stringify({ retorno: true, mensaje: sql }));
+}
 
 
 /*
