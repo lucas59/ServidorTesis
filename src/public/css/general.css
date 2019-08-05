@@ -10,7 +10,11 @@
 body {
     font: 14px/1.5 'Open Sans', sans-serif;
     color: #345;
-    background: #ffff;
+    background-color: #fafcf9;
+}
+
+video{
+    margin-top:-15%;
 }
 
 .index{

@@ -24,28 +24,36 @@
   </div>
 </header>-->
 
-<header>
-  <div class="contenedor">
-    <nav class="menu">
-      <ul>
-        <li><a href="/">Inicio</a></li>
-        <li><a href="">Información</a></li>
-        <li><a href="">Contacto</a></li>
-        <li><a href="">Otros</a></li>
-        <div class="session">
-          {{#if user}}
-          <a href="/perfil">{{user.nombre}} {{user.apellido}}</a>
-          <a href="/logout">Salir</a>
-          {{else}}
-          <li class="nav-item">
-            <a href="/login" class="nav-link">Ingresar</a>
-          </li>
-          <li class="nav-item">
-            <a href="/registrarse" class="nav-link">Registrarme</a>
-          </li>
-          {{/if}}
-        </div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">TINE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07"
+      aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExample07">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Información</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contacto</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Otros</a>
+        </li>
       </ul>
-    </nav>
+      <form class="form-inline my-2 my-md-0">
+        {{#if user}}
+        <a href="/perfil">{{user.nombre}} {{user.apellido}}</a>
+        <a href="/logout">Salir</a>
+        {{else}}
+        <a href="/login" class="nav-link">Ingresar</a>
+        <a href="/registrarse" class="nav-link">Registrarme</a>
+
+        {{/if}}
+      </form>
+    </div>
   </div>
-</header>
+</nav>
