@@ -1,6 +1,6 @@
 const pool = require("../database");
 const helpers = require("../lib/helpers");
-
+const bodyParser = require('body-parser');
 
 exports.inicio = function (req, res) {
     res.send(JSON.stringify({ coso: 'Esto es la api' }));
@@ -14,14 +14,16 @@ exports.login = async function (req, res) {
     const rows = await pool.query('SELECT * FROM usuario WHERE email = ? OR nombreUsuario = ?', [id, id]);
     console.log(id);
     console.log(pass);
-    
+
     if (rows.length > 0) {
         console.log('asdasdasdasd');
-    
+
         const user = rows[0];
         const validacion = await helpers.compararContraseña(pass, user.contrasenia);
         if (validacion) {
-            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.' }));
+            var tipo = await obtenerTipoUsuario(id);
+            console.log('tipo', tipo);
+            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo }));
         } else {
             res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
         }
@@ -30,14 +32,23 @@ exports.login = async function (req, res) {
     }
 };
 
-exports.signup = async function (req, res) {
+async function obtenerTipoUsuario(id) {
+    const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.nombreUsuario  ', [id, id]);
+    const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE  (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.nombreUsuario ', [id, id]);
+    if (rows.length > 0) {
+        return 0;
+    } else if (rows2.length > 0) {
+        return 1;
+    }
+}
 
+exports.signup = async function (req, res) {
     var correo = req.param('email');
     var pass = req.param('password');
+    var documento = req.param('documento');
     var fullName = req.param('fullName');
     var tipo = req.param('tipo');
-
-    const rows = await pool.query('SELECT * FROM usuario WHERE email = ? OR nombreUsuario = ?', [correo, fullName]);
+    const rows = await pool.query('SELECT * FROM usuario WHERE email = ? OR nombreUsuario = ? OR documento = ?', [correo, fullName, documento]);
 
     if (rows.length == 0) {
         const usuario = {
@@ -45,10 +56,8 @@ exports.signup = async function (req, res) {
             contrasenia: pass,
             email: correo,
             estado: true,
-            fotoPerfil_id: null,
-            pais_id: null,
-            ciudad_id: null
-
+            fotoPerfil: null,
+            documento
         }
         usuario.contrasenia = await helpers.encryptPassword(pass);
 
@@ -65,24 +74,69 @@ exports.signup = async function (req, res) {
                 console.log('usuario empresa insertado');
                 res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.' }));
             } else {
+                var pin = await obtenerPin(documento);
                 const empleado = {
                     apellido: null,
                     celular: null,
-                    // pin: 11,
+                    pin: pin,
                     fechaNacimiento: null,
                     nombre: null,
                     id: fullName
                 }
                 const resultEmpleado = await pool.query('INSERT INTO empleado SET ? ', empleado);
-                console.log('usuario empresa insertado');
-                return true;
+                console.log('usuario empleado insertado');
+                res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.' }));
             }
         }
-        res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.' }));
     } else {
         res.send(JSON.stringify({ retorno: false, mensaje: 'Ya existe este usuario.' }));
     }
 };
+
+exports.signup2 = async function (req, res) {///////Registro dos de la aplicacion movil
+    //    var email = req.param('email');
+
+    var email = req.param('email');
+    var fullName = req.param('fullName');
+
+    var nacimiento = req.param('nacimiento');
+    var nombre = req.param('nombre');
+    var apellido = req.param('apellido');
+    var celular = req.param('celular');
+    var image = req.param('image');
+
+    const insertEmpleado = await pool.query("UPDATE `empleado` SET `apellido` = ?, `celular` = ?, `fechaNacimiento` = ?, `nombre` = ? WHERE `empleado`.`id` = ?", [apellido, celular, nacimiento, nombre, fullName]);
+    res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito' }));
+
+
+};
+
+    
+
+exports.signup2Empresa = async function (req, res) {///////Registro dos de la aplicacion movil
+    var email = req.param('email');
+    var fullName = req.param('fullName');
+    var nombre = req.param('nombre');
+    var image = req.param('image');
+
+    console.log('fullname: ', req.param('fullName'));
+
+    const insertEmpresa = await pool.query("UPDATE `empresa` SET `nombre` = ? WHERE `empresa`.`id` = ?", [nombre, fullName]);
+    console.log(insertEmpresa);
+    res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito' }));
+};
+
+async function obtenerPin(documento) { //saco los ultimos cuatro digitos de la cedula
+    var digitos = documento.split("");
+    var pin = "";
+    for (let index = digitos.length - 4; index < digitos.length; index++) {
+        pin = pin + digitos[index];
+    }
+    return pin;
+}
+
+
+
 
 exports.ListaTareas = async function (req, res) {
     const rows = await pool.query('SELECT * FROM tarea');

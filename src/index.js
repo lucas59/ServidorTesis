@@ -8,6 +8,7 @@ const session = require("express-session");
 const MYSQStore = require("express-mysql-session");
 const passport = require("passport");
 const { database } = require("./keys")
+const bodyParse = require("body-parser");
 
 
 
@@ -33,12 +34,16 @@ app.use(session({
     store: new MYSQStore(database)
 }));
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded());
 app.use(express.json());
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParse.urlencoded({extends:false}));
 
+//static file image
+
+app.use(express.static(path.join(__dirname,'public')));
 
 //inicializacion
 require("./lib/passport");

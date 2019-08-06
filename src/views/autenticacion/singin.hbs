@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/registrarse.css">
 <div class="root">
-    <form method="POST" action="/signup" class="form-register">
+    <form method="POST" action="/signup" enctype="multipart/form-data" class="form-register">
         <div class="form-register__header">
             <ul class="progressbar">
                 <li class="progressbar__option active">paso 1</li>
@@ -18,7 +18,7 @@
                     <input name="username" type="text" placeholder="Nombre de usuario" class="step__input" placeholder>
                     <input name="email" type="email" placeholder="Correo" class="step__input" placeholder>
                     <input name="password" type="password" placeholder="Contraseña" class="step__input" placeholder="">
-                    <input name="password2" type="password2" placeholder="Confirmar contraseña" class="step__input"
+                    <input name="password2" type="password" placeholder="Confirmar contraseña" class="step__input"
                         placeholder>
                 </div>
                 <div class="step__footer">
@@ -31,6 +31,7 @@
                     <h2 class="step__title">Información personal</h2>
                 </div>
                 <div class="step__body">
+                    <input name="documento" type="text" placeholder="Nro documento" class="step__input" placeholder>
                     <input name="nombre" type="text" placeholder="Nombre" class="step__input" placeholder>
                     <input name="apellido" type="text" placeholder="Apellido" class="step__input" placeholder>
                     <input name="tel" type="tel" placeholder="Teléfono" class="step__input" placeholder>

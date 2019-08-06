@@ -1,3 +1,5 @@
+const pool = require("../database");
+
 module.exports = {
     haySession(req, res, next) {
         if (req.isAuthenticated()) {
@@ -10,5 +12,5 @@ module.exports = {
             return next();
         }
         return res.redirect('/');
-    }
+    } 
 }
