@@ -1,14 +1,70 @@
-<div class="container p-4">
+<link rel="stylesheet" href="css/perfil.css">
+<div class="container ">
     <div class="row">
-        <div class="col-md-4 mx-auto">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3>Bienvenido {{user.nombre}} {{user.apellido}}</h3>
-                    <h3>{{user.nombreUsuario}}</h3>
-                    <a href="/links" class="btn btn-primary">Tareas</a>
-                </div>
-            </div>
+        <span class="foto">
+            <img src="img/perfiles/{{datos.fotoPerfil}}" alt="">
+            <h4>{{datos.nombre}}</h4>
+        </span>
+        <span class="datos">
+            <h3>Mis datos</h3>
 
+            <ul>
+                <li>Cédula: {{datos.documento}}</li>
+                <li>Nombre de usuario: {{datos.id}}</li>
+                <li>Correo: {{datos.email}}</li>
+                <li>Nombre: {{datos.nombre}}</li>
+            </ul>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Modificar mis datos</button>
+
+        </span>
+    </div>
+
+</div>
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modificar datos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Mis datos</h3>
+                <form action="/update" enctype="multipart/form-data" method="POST" action="">
+                    <img id="fotoUsuario" class="fotoUsuario" src="img/perfiles/{{datos.fotoPerfil}}" />
+                    <div class="contenedorFoto">
+                        <input name="fotoPerfil" alt="asd" id="inputFoto" class="inputFoto" type="file" />
+                    </div>
+                    <ul>
+                        <input type="text"  style="display: none" value="{{datos.documento}}" name="documento">
+                        <div class="dato">
+                            <label for="">Nombre de usuario</label>
+                            <input name="username" type="text" value="{{datos.id}}" required>
+                        </div>
+                        <div class="dato">
+                            <label for="">Nombre</label>
+                            <input type="text" name="nombre" value="{{datos.nombre}}" required>
+                        </div>
+                        <div class="dato">
+                            <label for="">Correo</label>
+                            <input type="text" name="email" value="{{datos.email}}" required>
+                        </div>
+                    </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
+</div>
+
+<script src="js/perfil.js"></script>
