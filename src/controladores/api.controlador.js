@@ -70,7 +70,7 @@ exports.signup = async function (req, res) {
             if (tipo == 0) {
                 const empresa = {
                     nombre: null,
-                    id: fullName
+                    id: documento
                 }
                 const resultEmpresa = await pool.query('INSERT INTO empresa SET ? ', empresa);
                 console.log(resultEmpresa);
@@ -84,7 +84,7 @@ exports.signup = async function (req, res) {
                     pin: pin,
                     fechaNacimiento: null,
                     nombre: null,
-                    id: fullName
+                    id: documento
                 }
                 const resultEmpleado = await pool.query('INSERT INTO empleado SET ? ', empleado);
                 console.log('usuario empleado insertado');
@@ -97,35 +97,28 @@ exports.signup = async function (req, res) {
 };
 
 exports.signup2 = async function (req, res) {///////Registro dos de la aplicacion movil
-    //    var email = req.param('email');
-
     var email = req.param('email');
     var fullName = req.param('fullName');
-
+    var documento = req.param('documento');
     var nacimiento = req.param('nacimiento');
     var nombre = req.param('nombre');
     var apellido = req.param('apellido');
     var celular = req.param('celular');
     var image = req.param('image');
-
-    const insertEmpleado = await pool.query("UPDATE `empleado` SET `apellido` = ?, `celular` = ?, `fechaNacimiento` = ?, `nombre` = ? WHERE `empleado`.`id` = ?", [apellido, celular, nacimiento, nombre, fullName]);
+    console.log(documento);
+    const insertEmpleado = await pool.query("UPDATE `empleado` SET `apellido` = ?, `celular` = ?, `fechaNacimiento` = ?, `nombre` = ? WHERE `empleado`.`id` = ?", [apellido, celular, nacimiento, nombre, documento]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito' }));
-
-
 };
 
-    
+
 
 exports.signup2Empresa = async function (req, res) {///////Registro dos de la aplicacion movil
     var email = req.param('email');
     var fullName = req.param('fullName');
     var nombre = req.param('nombre');
     var image = req.param('image');
-
-    console.log('fullname: ', req.param('fullName'));
-
-    const insertEmpresa = await pool.query("UPDATE `empresa` SET `nombre` = ? WHERE `empresa`.`id` = ?", [nombre, fullName]);
-    console.log(insertEmpresa);
+    var documento = req.param('documento');
+    const insertEmpresa = await pool.query("UPDATE `empresa` SET `nombre` = ? WHERE `empresa`.`id` = ?", [nombre, documento]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito' }));
 };
 
