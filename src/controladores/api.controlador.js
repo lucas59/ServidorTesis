@@ -21,6 +21,7 @@ exports.login = async function (req, res) {
         const user = rows[0];
         const validacion = await helpers.compararContraseña(pass, user.contrasenia);
         if (validacion) {
+            console.log("correo",id);
             var tipo = await obtenerTipoUsuario(id);
             console.log('tipo', tipo);
             res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo }));
@@ -33,8 +34,10 @@ exports.login = async function (req, res) {
 };
 
 async function obtenerTipoUsuario(id) {
-    const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.nombreUsuario  ', [id, id]);
-    const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE  (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.nombreUsuario ', [id, id]);
+    const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.documento', [id, id]);
+    const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE  (u.email = ? OR u.nombreUsuario = ?) and (emp.id = u.documento)', [id, id]);
+    console.log(rows);
+    console.log(rows2);
     if (rows.length > 0) {
         return 0;
     } else if (rows2.length > 0) {
