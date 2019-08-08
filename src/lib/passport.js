@@ -111,21 +111,23 @@ passport.use('local.signup', new LocalStrategy({
 }));
 
 passport.use('local.updateEmpresa', new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password',
-    passReqToCallback: true
+    usernameField: 'nombreUsuario',
+    passwordField: 'password'
 }, async (req, username, password, done) => {
+    console.log('nombre, email, username, documento');
 
     const { nombre, email, documento } = req.body;
     console.log(nombre, email, username, documento);
 
-    var check = checkUsuario(documento, email, username);
+    var check = await checkUsuario(documento, email, username);
+
+    var nombreArchivo = (documento + path.extname(req.file.originalname)).toLocaleLowerCase();
 
     if (check.valor = true) {
         return done(null, req.flash('message', check.mensaje));
     }
 
-    const sql = await pool.query('UPDATE `empresa` as emp SET emp.nombre = ? WHERE `empresa`.`id` = ? ', [nombre, pepe]);
+    const sql = await pool.query('UPDATE `empresa` as emp SET emp.nombre = ? WHERE `empresa`.`id` = ? ', [nombre, documento]);
 
 
     return done(null, req.flash('sucess', 'Datos actualizados correctamente'));

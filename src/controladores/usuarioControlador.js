@@ -1,5 +1,8 @@
 const passport = require('passport');
 const pool = require("../database");
+const path = require("path");
+var multer = require('multer');
+
 
 exports.inicio = function (req, res) {
     if (req.isAuthenticated()) { //si hay session 
@@ -38,7 +41,6 @@ exports.perfil = async function (req, res) {
     var titulo = "Inicia Sesión";
     var datos;
     if (session) {
-        console.log(session);
         const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE u.documento = ? and emp.id = u.documento  ', [session]);
         const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ', [session]);
 
@@ -49,8 +51,6 @@ exports.perfil = async function (req, res) {
         }
 
         datos['contrasenia'] = "";
-        console.log(JSON.stringify(datos));
-        //datos = JSON.stringify(datos);
         res.render("perfil", { titulo, datos });
     } else {
         res.redirect("/login");
@@ -65,11 +65,70 @@ exports.registrarse = passport.authenticate('local.signup', {
 });
 
 
-exports.update = passport.authenticate('local.update', {
-    successRedirect: '/',
-    failureRedirect: '/perfil',
-    failureFlash: true
-});
+exports.update = async function (req, res) {
+
+    const { nombre, email, documento, username } = req.body;
+
+    //console.log(nombre, email, documento, username);
+    const { passport } = req.session;
+    var session = passport.user;
+    var check = await checkUsuario(email, username, session);
+
+    // var nombreArchivo = (documento + path.extname(req.file.originalname)).toLocaleLowerCase();
+    if (check.valor == true) {
+        req.flash("message", check.mensaje);
+        res.redirect('/perfil');
+        return;
+    }
+
+    const sql = await pool.query('UPDATE `empresa` SET nombre = ? WHERE `empresa`.`id` = ? ', [nombre, documento]);
+
+    if (sql.affectedRows == 1) {
+        const editUsuario = await pool.query("UPDATE `usuario` SET  `nombreUsuario` = ?, email = ? WHERE `usuario`.`documento` = ?", [username, email, documento]);
+        if (editUsuario.affectedRows == 1) {
+            req.flash("succes", 'Cosooooo');
+            res.redirect('/perfil');
+            return;
+        }
+    }
+}
+
+
+
+async function checkUsuario(email, username, session) {
+
+
+    var retorno = {
+        valor: false,
+        mensaje: ''
+    }
+
+
+    if (email) {
+        const sql = await pool.query('SELECT * FROM usuario WHERE email = ? AND NOT documento = ?', [email, session]);
+
+        if (sql.length > 0) {
+            retorno.mensaje = 'Este correo ya existe';
+            retorno.valor = true;
+            return retorno;
+        }
+    }
+
+    if (username) {
+        const sql = await pool.query('SELECT * FROM usuario WHERE nombreUsuario = ? AND NOT documento = ? ', [username, session]);
+        if (sql.length > 0) {
+            retorno.mensaje = 'Nombre de usuario ya existe';
+            retorno.valor = true;
+            return retorno;
+        }
+    }
+
+    return retorno;
+}
+
+
+
+
 
 
 exports.singin = function (req, res) {

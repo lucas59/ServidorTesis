@@ -2,24 +2,25 @@
 <div class="container ">
     <div class="row">
         <span class="foto">
+            {{#if datos.fotoPerfil}}
             <img src="img/perfiles/{{datos.fotoPerfil}}" alt="">
+            {{else}}
+            <img src="img/user.jpg" alt="">
+            {{/if}}
             <h4>{{datos.nombre}}</h4>
         </span>
         <span class="datos">
             <h3>Mis datos</h3>
-
             <ul>
                 <li>Cédula: {{datos.documento}}</li>
-                <li>Nombre de usuario: {{datos.id}}</li>
+                <li>Nombre de usuario: {{datos.nombreUsuario}}</li>
                 <li>Correo: {{datos.email}}</li>
                 <li>Nombre: {{datos.nombre}}</li>
             </ul>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 Modificar mis datos</button>
-
         </span>
     </div>
-
 </div>
 
 <!-- Button trigger modal -->
@@ -38,15 +39,21 @@
             <div class="modal-body">
                 <h3>Mis datos</h3>
                 <form action="/update" enctype="multipart/form-data" method="POST" action="">
-                    <img id="fotoUsuario" class="fotoUsuario" src="img/perfiles/{{datos.fotoPerfil}}" />
+                    {{#if datos.fotoPerfil}}
+                    <img id="fotoUsuario" class="fotoUsuario" src="img/perfiles/{{datos.fotoPerfil}}" alt="">
+                    {{else}}
+                    <img id="fotoUsuario" class="fotoUsuario" src="img/user.jpg" alt="">
+                    {{/if}}
+
                     <div class="contenedorFoto">
                         <input name="fotoPerfil" alt="asd" id="inputFoto" class="inputFoto" type="file" />
                     </div>
                     <ul>
-                        <input type="text"  style="display: none" value="{{datos.documento}}" name="documento">
+                        <input type="text" style="display: none" value="{{datos.documento}}" name="documento">
                         <div class="dato">
                             <label for="">Nombre de usuario</label>
-                            <input name="username" type="text" value="{{datos.id}}" required>
+                            <input name="username" value="{{datos.nombreUsuario}}"
+                                id="username" />
                         </div>
                         <div class="dato">
                             <label for="">Nombre</label>

@@ -9,9 +9,20 @@ const storage = multer.diskStorage({
     destination: path.join(__dirname, "../public/img/perfiles"),
     filename: (req, file, cb) => {
         const { documento } = req.body;
+        console.log('documento', file);
         cb(null, documento + path.extname(file.originalname).toLocaleLowerCase());
     }
 });
+
+const storageUpdate = multer.diskStorage({
+    destination: path.join(__dirname, "../public/img/perfiles"),
+    filename: (req, file, cb) => {
+        const { documento } = req.body;
+        console.log('documento',documento);
+        cb(null, documento + path.extname(file.originalname).toLocaleLowerCase());
+    }
+});
+
 
 router.get('/', usuarioControlador.inicio);
 router.get('/login', noHaySession, usuarioControlador.login);
@@ -36,7 +47,7 @@ router.post('/signup', multer({
 
 
 router.post('/update', multer({
-    storage,
+    storageUpdate,
     limits: { fileSize: 2000000 },
     fileFilter: (res, file, cb) => {
         const type = /jpeg|jpg|png/;
