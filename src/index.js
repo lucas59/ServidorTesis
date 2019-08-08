@@ -35,12 +35,11 @@ app.use(session({
 }));
 app.use(morgan('dev'));
 app.use(express.urlencoded());
-app.use(express.json({limit:'50mb'}));
+app.use(express.json({limit: '50mb'}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParse.urlencoded({limit:'50mb',extends:false}));
-
+app.use(bodyParse.urlencoded({limit: '50mb'},{extends:false}));
 
 //static file image
 

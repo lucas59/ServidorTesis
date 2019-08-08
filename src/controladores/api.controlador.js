@@ -21,6 +21,7 @@ exports.login = async function (req, res) {
         const user = rows[0];
         const validacion = await helpers.compararContraseña(pass, user.contrasenia);
         if (validacion) {
+            console.log("correo", id);
             var tipo = await obtenerTipoUsuario(id);
             console.log('tipo', tipo);
             res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo }));
@@ -32,9 +33,29 @@ exports.login = async function (req, res) {
     }
 };
 
+exports.login_tablet = async function (req, res) {
+    var pass = req.param('codigo');
+    const rows = await pool.query('SELECT * FROM empleado WHERE pin = ?', [pass]);
+    if (rows.length > 0) {
+        var id = rows[0].id;
+        const reentrada = await pool.query('SELECT * FROM asistencia WHERE empleado_id = ?', [id]);
+        if (reentrada.length > 0) {
+            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', id: id, estado_ree: 0 }));
+        }
+        else {
+            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', id: id, estado_ree: 1 }));
+        }
+
+    } else {
+        res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta' }));
+    }
+};
+
 async function obtenerTipoUsuario(id) {
-    const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.nombreUsuario  ', [id, id]);
-    const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE  (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.nombreUsuario ', [id, id]);
+    const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.documento', [id, id]);
+    const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE  (u.email = ? OR u.nombreUsuario = ?) and (emp.id = u.documento)', [id, id]);
+    console.log(rows);
+    console.log(rows2);
     if (rows.length > 0) {
         return 0;
     } else if (rows2.length > 0) {
@@ -147,6 +168,20 @@ exports.Alta_tarea = async function (req, res) {
 
     await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`) VALUES (?,?,?,?)', [1, fin, inicio, titulo]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Usuario ingresado correctamente' }));
+};
+
+exports.Alta_asistencia = async function (req, res) {
+    var inicio = req.param('inicio');
+    var fin = req.param('fin');
+    var foto = req.param('foto');
+    var id = req.param('empleado_id');
+    if (fin == null) {
+        await pool.query('INSERT INTO asistencia (`inicio`,`fin`,`foto`,`empleado_id`) VALUES (?,?,?,?)', [inicio, fin, foto, id]);
+        res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia ingresada correctamente' }));
+    } else {
+        await pool.query('UPDATE asistencia set fin = ? WHERE fin IS null AND empleado_id = ?', [fin,id]);
+        res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia actualizada correctamente' }));
+    }
 };
 
 
