@@ -24,7 +24,7 @@ exports.login = async function (req, res) {
             console.log("correo", id);
             var tipo = await obtenerTipoUsuario(id);
             console.log('tipo', tipo);
-            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo }));
+            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento }));
         } else {
             res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
         }
@@ -161,13 +161,33 @@ exports.ListaTareas = async function (req, res) {
     }
 };
 
+exports.ListaEmpresas = async function (req, res) {
+    const filas = await pool.query('SELECT * FROM empresa');
+    if (filas.length > 0) {
+        res.send(JSON.stringify({ retorno: true, mensaje: filas }));
+    } else {
+        res.send(JSON.stringify({ retorno: false, mensaje: 'No existen empresas' }));
+    }
+};
+
 exports.Alta_tarea = async function (req, res) {
     var titulo = req.param('titulo');
     var inicio = req.param('inicio');
     var fin = req.param('fin');
+    var long = req.param('long');
+    var lat = req.param('lat');
+    var empleado_id = req.param('empleado_id');
+    var empresa_id = req.param('empresa_id');
 
-    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`) VALUES (?,?,?,?)', [1, fin, inicio, titulo]);
-    res.send(JSON.stringify({ retorno: true, mensaje: 'Usuario ingresado correctamente' }));
+    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`) VALUES (?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id,empresa_id]);
+    await pool.query('INSERT INTO ubicacion (`latitud`,`longitud`) VALUES (?,?)', [lat,long]);
+
+    var id_tarea = await pool.query('SELECT MAX(id) AS id FROM tarea');
+    var id_ubicacion = await pool.query('SELECT MAX(id) AS id FROM ubicacion');
+
+    await pool.query('INSERT INTO tarea_ubicacion (`Tarea_id`,`ubicaciones_id`) VALUES (?,?)', [id_tarea[0].id,id_ubicacion[0].id]);
+
+    res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea ingresada correctamente' }));
 };
 
 exports.Alta_asistencia = async function (req, res) {

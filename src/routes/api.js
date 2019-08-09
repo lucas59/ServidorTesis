@@ -28,5 +28,6 @@ router.post('/Alta_tarea', apiControlador.Alta_tarea);
 router.post('/Alta_asistencia', apiControlador.Alta_asistencia);
 
 router.post('/Tareas/ListaTareas', apiControlador.ListaTareas);
+router.post('/Tareas/ListaEmpresas', apiControlador.ListaEmpresas);
 
 module.exports = router;
