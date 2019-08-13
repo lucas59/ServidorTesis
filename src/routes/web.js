@@ -9,26 +9,20 @@ const storage = multer.diskStorage({
     destination: path.join(__dirname, "../public/img/perfiles"),
     filename: (req, file, cb) => {
         const { documento } = req.body;
-        console.log('documento', file);
+        console.log('documento', documento)
         cb(null, documento + path.extname(file.originalname).toLocaleLowerCase());
     }
 });
-
-const storageUpdate = multer.diskStorage({
-    destination: path.join(__dirname, "../public/img/perfiles"),
-    filename: (req, file, cb) => {
-        const { documento } = req.body;
-        console.log('documento',documento);
-        cb(null, documento + path.extname(file.originalname).toLocaleLowerCase());
-    }
-});
-
 
 router.get('/', usuarioControlador.inicio);
 router.get('/login', noHaySession, usuarioControlador.login);
 router.post('/login', noHaySession, usuarioControlador.iniciar);
 router.get('/logout', haySession, usuarioControlador.salir);
 router.get('/registrarse', noHaySession, usuarioControlador.singin);
+router.get('/mail', noHaySession, usuarioControlador.mail);
+
+router.get('/personal', haySession, usuarioControlador.personal);
+
 
 router.post('/signup', multer({
     storage,
@@ -37,35 +31,33 @@ router.post('/signup', multer({
         const type = /jpeg|jpg|png/;
         const mimetype = type.test(file.mimetype);
         const extname = type.test(path.extname(file.originalname));
-       // const existe = usuarioControlador.checkUser();
-        if (mimetype && extname ) {
+        // const existe = usuarioControlador.checkUser();
+        if (mimetype && extname) {
             return cb(null, true);
         }
         return cb('Error: Archivo no valido');
     }
 }).single('fotoPerfil'), usuarioControlador.registrarse);
 
-
 router.post('/update', multer({
-    storageUpdate,
+    storage,
     limits: { fileSize: 2000000 },
     fileFilter: (res, file, cb) => {
         const type = /jpeg|jpg|png/;
         const mimetype = type.test(file.mimetype);
         const extname = type.test(path.extname(file.originalname));
-        if (mimetype && extname ) {
+        if (mimetype && extname) {
             return cb(null, true);
         }
         return cb('Error: Archivo no valido');
     }
 }).single('fotoPerfil'), usuarioControlador.update);
 
-
-
 router.get('/perfil', haySession, usuarioControlador.perfil);
-//recibo los datos
+router.get('/empleado/:documento', haySession, usuarioControlador.perfilEmpleado);
 
-//faltan las demas peticiones de la parte de tareas etc
+router.post('/desactivar', haySession, usuarioControlador.desactivar);
+router.post('/resetPass', noHaySession, usuarioControlador.resetPass);
 
 
 

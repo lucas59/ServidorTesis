@@ -14,14 +14,14 @@ passport.use('local.iniciar', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => { //SELECT * FROM `empresa` as emp, usuario as u WHERE ( u.nombreUsuario = 'pedro' OR u.email="pedro" )  and emp.id = u.nombreUsuario 
-    const rows = await pool.query('SELECT * FROM `empresa` as emp, usuario as u WHERE ( u.nombreUsuario = ? OR u.email= ? )  and emp.id = u.documento ', [username, username]);
-    const rows2 = await pool.query('SELECT * FROM `empleado` as emp, usuario as u WHERE ( u.nombreUsuario = ? OR u.email="?" )  and emp.id = u.documento ', [username, username]);
+    const rows = await pool.query('SELECT * FROM `empresa` as emp, usuario as u WHERE ( u.nombreUsuario = ? OR u.email= ? )  and emp.id = u.documento and u.estado = 1 ', [username, username]);
+    const rows2 = await pool.query('SELECT * FROM `empleado` as emp, usuario as u WHERE ( u.nombreUsuario = ? OR u.email="?" )  and emp.id = u.documento and u.estado = 1', [username, username]);
 
     if (rows.length > 0) { ///usuarios empresas
         const user = rows[0];
         console.log(user);
         console.log(username);
-        const validPassword = await helpers.compararContraseña(password, user.contrasenia)
+        const validPassword = await helpers.compararContraseña(password, user.contrasenia);
 
         if (validPassword) {
             console.log('valido', user);
@@ -198,3 +198,5 @@ passport.deserializeUser(async (id, done) => {
     }
 
 });
+
+

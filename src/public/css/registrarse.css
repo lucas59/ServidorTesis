@@ -16,6 +16,7 @@
     font-family: sans-serif;
     background-image: linear-gradient(var(--color-bg-1), var(--color-bg-2));
     overflow: hidden;
+    background: #f5f5f6;
 }
 
 /* Formulario */

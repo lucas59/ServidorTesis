@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="css/perfil.css">
-<div class="container ">
+<div class="containerPerfil ">
     <div class="row">
         <span class="foto">
             {{#if datos.fotoPerfil}}
@@ -9,16 +9,18 @@
             {{/if}}
             <h4>{{datos.nombre}}</h4>
         </span>
-        <span class="datos">
-            <h3>Mis datos</h3>
-            <ul>
-                <li>Cédula: {{datos.documento}}</li>
-                <li>Nombre de usuario: {{datos.nombreUsuario}}</li>
-                <li>Correo: {{datos.email}}</li>
-                <li>Nombre: {{datos.nombre}}</li>
-            </ul>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Modificar mis datos</button>
+        <h3>Mis datos</h3>
+        <ul>
+            <li>Cédula: {{datos.documento}}</li>
+            <li>Nombre de usuario: {{datos.nombreUsuario}}</li>
+            <li>Correo: {{datos.email}}</li>
+            <li>Nombre: {{datos.nombre}}</li>
+        </ul>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Modificar mis datos</button>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDesactivar">
+            Desactivar cuenta</button>
         </span>
     </div>
 </div>
@@ -36,9 +38,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <h3>Mis datos</h3>
-                <form action="/update" enctype="multipart/form-data" method="POST" action="">
+            <form action="/update" enctype="multipart/form-data" method="POST" action="">
+                <div class="modal-body">
+                    <h3>Mis datos</h3>
                     {{#if datos.fotoPerfil}}
                     <img id="fotoUsuario" class="fotoUsuario" src="img/perfiles/{{datos.fotoPerfil}}" alt="">
                     {{else}}
@@ -52,8 +54,7 @@
                         <input type="text" style="display: none" value="{{datos.documento}}" name="documento">
                         <div class="dato">
                             <label for="">Nombre de usuario</label>
-                            <input name="username" value="{{datos.nombreUsuario}}"
-                                id="username" />
+                            <input name="username" value="{{datos.nombreUsuario}}" id="username" />
                         </div>
                         <div class="dato">
                             <label for="">Nombre</label>
@@ -64,14 +65,49 @@
                             <input type="text" name="email" value="{{datos.email}}" required>
                         </div>
                     </ul>
-            </div>
+                </div>
+            </form>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="modalDesactivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modificar datos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/desactivar" method="POST" action="">
+                <div class="modal-body">
+                    <ul>
+                        <input type="text" style="display: none" value="{{datos.documento}}" name="documento">
+                        <div class="dato">
+                            <label for="">Contraseña </label>
+                            <input name="pass" type="password" value="{{datos.nombreUsuario}}" id="pass" />
+                        </div>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Desactivar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
 </div>
 
 <script src="js/perfil.js"></script>

@@ -16,4 +16,13 @@ helpers.compararContraseña = async (password, contraseñaGuardada) => {
     }
 }
 
+helpers.generarPass = async (identificador) => {
+    try {
+        return await bcrypt.hashSync(identificador,8);
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+
 module.exports = helpers;

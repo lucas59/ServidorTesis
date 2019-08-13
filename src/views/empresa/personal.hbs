@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="css/personal.css">
+<div class="sessionLista">
+    <div class="container">
+        <div class="row">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="text-center">
+                            Personal
+                        </h3>
+                        <div class="buscador">
+
+                            <div class="container h-100">
+                                <div class="d-flex justify-content-center h-100">
+                                    <div class="searchbar">
+                                        <input onkeypress="FiltrarTabla()" id="buscar" class="search_input" type="text"
+                                            name="" placeholder="Search...">
+                                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="tabla" class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Documento
+                                    </th>
+                                    <th>
+                                        Colaborador
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#if listaPersonal}}
+
+                                {{#each listaPersonal}}
+                                <tr onclick="window.location = '/empleado/{{documento}}'" >
+                                    <td>
+                                        {{documento}}
+                                    </td>
+                                    <td>
+                                        <img class="fotoPerfilTabla"
+                                            src="http://localhost:4005/img/perfiles/{{fotoPerfil}}" alt="" />
+                                        {{nombre}} {{apellido}}
+                                    </td>
+                                </tr>
+                              
+                                
+                                {{/each}}
+                                {{else}}
+
+                                <tr>
+                                    <td>Lista vacía</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                {{/if}}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="js/buscador.js"></script>

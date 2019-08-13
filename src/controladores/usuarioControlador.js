@@ -1,7 +1,12 @@
 const passport = require('passport');
+var fs = require('fs');
 const pool = require("../database");
 const path = require("path");
 var multer = require('multer');
+const helpers = require("../lib/helpers");
+const nodeMailer = require('nodemailer');
+var handlebars = require('handlebars');
+var templeateMail = require('../views/autenticacion/mail');
 
 
 exports.inicio = function (req, res) {
@@ -24,6 +29,26 @@ exports.login = function (req, res) {
     var titulo = "Inicia Sesión";
     res.render("autenticacion/login", { titulo });
 };
+
+exports.mail = function (req, res) {
+    var titulo = "Inicia Sesión";
+    var pass = "Coso";
+
+    res.render("autenticacion/mail", { titulo, pass });
+};
+
+
+exports.personal = async function (req, res) {
+    const { passport } = req.session;
+    var session = passport.user;
+    const sql = await pool.query('SELECT u.*, col.* FROM `empresa_empleado` as ee, usuario as u, empleado as col WHERE  u.documento = col.id AND u.documento = ee.empleados_id AND ee.empresa_id = ? ', [session]);
+    let listaPersonal = sql;
+
+    var titulo = "Personal";
+    res.render("empresa/personal", { titulo, listaPersonal });
+};
+
+
 
 exports.iniciar = passport.authenticate('local.iniciar', {
     successRedirect: '/',
@@ -58,6 +83,31 @@ exports.perfil = async function (req, res) {
 
 };
 
+
+
+exports.perfilEmpleado = async function (req, res) {
+    var titulo = "Perfil";
+    const documento = req.params;
+    console.log(documento.documento);
+    var datos;
+    if (documento.documento) {
+        const rows = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ', [documento.documento]);
+        if (rows.length > 0) {
+            datos = rows[0];
+            
+        console.log(datos);
+        datos['contrasenia'] = "";
+        res.render("perfil", { titulo, datos });
+        }else{
+            res.redirect('/');
+        }
+
+    } else {
+        res.redirect("/login");
+    }
+};
+
+
 exports.registrarse = passport.authenticate('local.signup', {
     successRedirect: '/',
     failureRedirect: '/login',
@@ -80,7 +130,6 @@ exports.update = async function (req, res) {
         res.redirect('/perfil');
         return;
     }
-
     const sql = await pool.query('UPDATE `empresa` SET nombre = ? WHERE `empresa`.`id` = ? ', [nombre, documento]);
 
     if (sql.affectedRows == 1) {
@@ -146,3 +195,90 @@ exports.checkUser = async function (req, res) {
         return false;
     }
 };
+
+
+exports.desactivar = async function (req, res) {
+    const { documento, pass } = req.body;
+    console.log(documento, pass);
+    const rows = await pool.query('SELECT u.*, emp.* FROM `empresa` as emp, usuario as u  WHERE  emp.id = ? and u.documento = emp.id  ', [documento]);
+    console.log(rows);
+    if (rows.length > 0) {
+        const user = rows[0];
+        const checkPass = await helpers.compararContraseña(pass, user.contrasenia);
+
+        if (checkPass) {
+            const sql = await pool.query('UPDATE `usuario` SET `estado` = 0 WHERE `usuario`.`documento` = ?', [documento]);
+            if (sql.affectedRows == 1) {
+                req.logOut();
+                req.flash('success', 'Nos vemos pronto ' + user.nombre)
+                res.redirect('/login');
+                return;
+            }
+        } else {
+            req.flash('message', 'Contraseña incorrecta.');
+            res.redirect('/');
+            return;
+        }
+    } else {
+        res.redirect('/');
+        return;
+    }
+};
+
+
+exports.resetPass = async function (req, res) {
+    const { identificador } = req.body;
+    console.log('identificador', identificador);
+    const sql = await pool.query('SELECT * FROM usuario as u WHERE u.documento = ? or u.nombreUsuario = ? or u.email = ? ', [identificador, identificador, identificador]);
+    if (sql.length > 0) {
+        const user = sql[0];
+
+        let transporter = nodeMailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'idevelopcomunidad@gmail.com',
+                pass: 'idevelop2019'
+            }
+        });
+
+        var passGenerate = generar(8);
+        var hash = await helpers.encryptPassword(passGenerate);
+
+        const updatePass = await pool.query('UPDATE `usuario` SET `contrasenia`= ? WHERE `documento` = ? ', [hash, identificador]);
+
+        var source = fs.readFileSync(path.join(__dirname, '../views/autenticacion/mail.hbs'), 'utf8');
+        var template = handlebars.compile(source);
+        var replacements = {
+            pass: passGenerate
+        };
+        var htmlAEnviar = template(replacements);
+
+        let mailOptions = {
+            from: '"Tine" <Tine@gmail.com>', // sender address
+            to: user.email, // list of receivers
+            subject: "Restauración de contraseña", // Subject line
+            html: htmlAEnviar
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message %s sent: %s', info.messageId, info.response);
+            req.flash('success', 'Contraseña restaurada y enviada a su casilla de correo.');
+            res.redirect('/login');
+            return;
+        });
+
+    }
+}
+
+function generar(longitud) {
+    var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";
+    var contraseña = "";
+    for (i = 0; i < longitud; i++) contraseña += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+    return contraseña;
+}
+

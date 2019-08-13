@@ -1,4 +1,11 @@
 
+
+#vertical-bar {
+	border-left: 1px solid #ccc;
+  width:1px;
+  height:50px;
+}
+
 .contenedor {
 	width: 95%;
 	max-width:1000px;
@@ -41,9 +48,48 @@ header nav ul li a:hover {
 }
 .session{
   padding: 20px;
-  float: right;
 }
 
 a{
 	color: #0082ce;
+}
+
+#datosSession{
+	float: right;
+}
+
+#datosSession{
+	float: right;
+	position: unset
+}
+
+#datosSession .datos{	
+	margin: 0px 20px 0px 20px;
+}
+
+.reloj{
+	color: white;
+	margin: 0px auto 0px auto;
+	
+}
+
+	#datosSession .datos{
+	 padding: 5px;
+		font-size: 20px;
+		text-transform: capitalize;	
+	}
+
+#datosSession img{
+	width: 80px;
+	border-radius:50%;
+	margin: 0px 10px 0px 10px;
+	  
+}
+
+.opciones *{
+	margin: 5px;
+	color: white;
+	border: solid 0.1px gray;
+	border-radius: 5px;
+	padding: 10px
 }

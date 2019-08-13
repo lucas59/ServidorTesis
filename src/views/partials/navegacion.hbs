@@ -1,38 +1,33 @@
-<!--<header>
-  <div class="contenedornav">
-    <nav class="menu">
-      <ul>
-        <li><a href="/">Inicio</a></li>
-        <li><a href="">Información</a></li>
-        <li><a href="">Contacto</a></li>
-        <li><a href="">Otros</a></li>
-      </ul>
-      <div class="session">
-        {{#if user}}
-        <a href="/perfil">{{user.nombre}} {{user.apellido}}</a>
-        <a href="/logout">Salir</a>
-        {{else}}
-        <li class="nav-item">
-          <a href="/login" class="nav-link">Ingresar</a>
-        </li>
-        <li class="nav-item">
-          <a href="/registrarse" class="nav-link">Registrarme</a>
-        </li>
-        {{/if}}
-      </div>
-    </nav>
-  </div>
-</header>-->
-
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
     <a class="navbar-brand" href="/">TINE</a>
+    <div id="vertical-bar"></div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07"
       aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarsExample07">
+
+
+      {{#if user}}
+
+
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/personal">Personal</a>
+        </li>
+      </ul>
+
+      <div class="reloj">
+        <a href="https://time.is/Salto,_Salto" id="time_is_link" rel="nofollow" style="font-size:20px"></a>
+        <span id="Salto__Salto_z15d" style="font-size:20px"></span>
+        <script src="//widget.time.is/t.js"></script>
+        <script>
+          time_is_widget.init({ Salto__Salto_z15d: {} });
+        </script>
+      </div>
+      {{else}}
+
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" href="#">Información</a>
@@ -44,14 +39,24 @@
           <a class="nav-link" href="#">Otros</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-md-0">
-        {{#if user}}
-        <a href="/perfil">{{user.nombre}} {{user.apellido}}</a>
-        <a href="/logout">Salir</a>
-        {{else}}
-        <a href="/login" class="nav-link">Ingresar</a>
-        <a href="/registrarse" class="nav-link">Registrarme</a>
 
+      {{/if}}
+
+      <form id="datosSession" class="form-inline my-2 my-md-0">
+        <div class="session"> {{#if user}}
+          {{#if user.fotoPerfil}}
+          <img src="http://localhost:4005/img/perfiles/{{user.fotoPerfil}}" alt="Foto Usuario">
+          {{else}}
+          <img src="http://localhost:4005/img/user.jpg" alt="Foto Usuario">
+          {{/if}}
+          <a href="/perfil">{{user.nombre}} {{user.apellido}}</a>
+        </div>
+        <a class="btn btn-danger" href="/logout">Salir</a>
+        {{else}}
+        <div class="opciones">
+          <a href="/login" class="">Ingresar</a>
+          <a href="/registrarse" class="">Registrarme</a>
+        </div>
         {{/if}}
       </form>
     </div>
