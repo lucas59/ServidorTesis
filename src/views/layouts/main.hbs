@@ -4,17 +4,15 @@
 <head>
     <meta http-equiv="Content-Type" charset="UTF-8" content="text/html">
     <title>{{titulo}}</title>
-    {{!-- BOOTSRAP 4 --}}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/solid.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/solid.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
     <link type="text/css" rel="stylesheet" href="css/general.css">
     <link type="text/css" rel="stylesheet" href="css/nav.css">
     <link type="text/css" rel="stylesheet" href="css/buscador.css">
 
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 </head>
 
@@ -22,10 +20,13 @@
     {{>navegacion}}
     {{>message}}
     {{{body}}}
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="script" src="js/nav.js"></script>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+
 </body>
 
 </html>

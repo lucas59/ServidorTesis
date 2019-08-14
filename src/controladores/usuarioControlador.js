@@ -13,7 +13,7 @@ exports.inicio = async function (req, res) {
     if (req.isAuthenticated()) { //si hay session 
         var titulo = "Inicio";
         if (req.user.tipo == 0) {
-            const tareas = await pool.query('SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento ORDER BY td.inicio ASC ', [req.user.documento])
+            const tareas = await pool.query('SELECT td.*, empleado.*, u.*, ubic.latitud, ubic.longitud FROM `tarea` as td, empleado AS empleado, usuario as u, tarea_ubicacion as tdUbic, ubicacion as ubic WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento AND tdUbic.Tarea_id=td.id AND ubic.id= tdUbic.ubicaciones_id ORDER BY td.inicio ASC', [req.user.documento])
             res.render("registros/empresaRegistros", { titulo, tareas });
         } else {
             res.render("autenticacion/inicio", { titulo });

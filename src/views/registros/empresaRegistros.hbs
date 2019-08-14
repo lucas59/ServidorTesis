@@ -17,6 +17,8 @@
                     <th scope="col">Tarea</th>
 
                     <th scope="col">Inicio / Fin</th>
+                    <th scope="col"></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +46,8 @@
                         {{timeago fin}}
                         {{/if}}
                     </td>
+                    <td class="columnaUbicacion"> <button onclick="abrirMapa({{latitud}},{{longitud}})"
+                            class="btn btn-primary">Ubicacion</button> </td>
                 </tr>
                 {{/each}}
                 {{/if}}
@@ -133,3 +137,23 @@
     </section>
 
 </main>
+
+
+<div id="modalUbicacion" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Lugar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="mapid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/registrosEmpresas.js"></script>
