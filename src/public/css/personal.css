@@ -18,3 +18,58 @@ table img.fotoPerfilTabla{
   border-radius: 5px;
   background: white;
 }
+
+.imgTablaEmpleado{
+  width: 70px;
+}
+
+.modal-body session div{
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.modal-body session div *{
+  height: 40px;
+  border-radius: 5px;
+  border: solid 0.1px gray;
+  
+}
+
+#tablaUsuarios{
+  width: 100%;
+  border: solid;
+  margin: auto;
+   
+}
+
+#spinner{
+  visibility: hidden;
+  width: 80px;
+  height: 80px;
+
+  border: 2px solid #f3f3f3;
+  border-top:3px solid #f25a41;
+  border-radius: 100%;
+
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right: 0;
+  margin: auto;
+
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+      transform: rotate(0deg);
+  } to {
+      transform: rotate(360deg);
+  }
+}
+
+#spinner.show {
+  visibility: visible;
+}
+

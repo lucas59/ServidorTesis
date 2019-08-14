@@ -22,6 +22,8 @@ router.get('/registrarse', noHaySession, usuarioControlador.singin);
 router.get('/mail', noHaySession, usuarioControlador.mail);
 
 router.get('/personal', haySession, usuarioControlador.personal);
+router.post('/agregarAEmp', haySession, usuarioControlador.agregarAEmp);
+router.post('/despedirEmpleado', haySession, usuarioControlador.despedirEmpleado);
 
 
 router.post('/signup', multer({
@@ -58,6 +60,10 @@ router.get('/empleado/:documento', haySession, usuarioControlador.perfilEmpleado
 
 router.post('/desactivar', haySession, usuarioControlador.desactivar);
 router.post('/resetPass', noHaySession, usuarioControlador.resetPass);
+
+router.get('/busquedaEmpleado', haySession, usuarioControlador.busquedaEmpleado);
+
+
 
 
 

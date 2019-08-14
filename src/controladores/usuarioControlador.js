@@ -9,12 +9,12 @@ var handlebars = require('handlebars');
 var templeateMail = require('../views/autenticacion/mail');
 
 
-exports.inicio = function (req, res) {
+exports.inicio = async function (req, res) {
     if (req.isAuthenticated()) { //si hay session 
-        console.log(req.user.tipo); //ahora me fijo de que tipo es la session
         var titulo = "Inicio";
         if (req.user.tipo == 0) {
-            res.render("registros/empresaRegistros", { titulo });
+            const tareas = await pool.query('SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento ORDER BY td.inicio ASC ', [req.user.documento])
+            res.render("registros/empresaRegistros", { titulo, tareas });
         } else {
             res.render("autenticacion/inicio", { titulo });
         }
@@ -48,6 +48,30 @@ exports.personal = async function (req, res) {
     res.render("empresa/personal", { titulo, listaPersonal });
 };
 
+exports.agregarAEmp = function (req, res) {
+    const documento = req.body.documento;
+    const { passport } = req.session;
+    var session = passport.user;
+    console.log(session);
+    try {
+        const sql = pool.query('INSERT INTO `empresa_empleado` (`Empresa_id`, `empleados_id`) VALUES (?,?)', [session, documento]);
+        res.send(JSON.stringify({ retorno: true }));
+    } catch (error) {
+        console.log("Error: ", error);
+    }
+}
+
+exports.despedirEmpleado = function (req, res) {
+    const documento = req.body.documento;
+    const { passport } = req.session;
+    var session = passport.user;
+    try {
+        const sql = pool.query('DELETE FROM `empresa_empleado` WHERE `Empresa_id` = ? AND `empleados_id`=?',[session,documento]);
+        res.send(JSON.stringify({ retorno: true }));
+    } catch (error) {
+        console.log("Error: ", error);
+    }
+}
 
 
 exports.iniciar = passport.authenticate('local.iniciar', {
@@ -94,11 +118,11 @@ exports.perfilEmpleado = async function (req, res) {
         const rows = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ', [documento.documento]);
         if (rows.length > 0) {
             datos = rows[0];
-            
-        console.log(datos);
-        datos['contrasenia'] = "";
-        res.render("perfil", { titulo, datos });
-        }else{
+
+            console.log(datos);
+            datos['contrasenia'] = "";
+            res.render("perfil", { titulo, datos });
+        } else {
             res.redirect('/');
         }
 
@@ -224,6 +248,13 @@ exports.desactivar = async function (req, res) {
         return;
     }
 };
+
+exports.busquedaEmpleado = async function (req, res) {
+    const { identificador } = req.query;
+    const session = req.user.documento;
+    const sql = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE u.documento=emp.id AND emp.id = ' + identificador + ' AND emp.id NOT IN (SELECT empleados_id FROM empresa_empleado WHERE empresa_id = ' + session + ')');
+    res.send(JSON.stringify(sql));
+}
 
 
 exports.resetPass = async function (req, res) {

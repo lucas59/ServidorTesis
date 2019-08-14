@@ -10,11 +10,6 @@
     box-sizing: border-box;
 }
 
-html,
-body {
-    height: 100vh;
-}
-
 
 p:not(:last-child) {
     margin: 0 0 20px;

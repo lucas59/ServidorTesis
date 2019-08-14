@@ -7,6 +7,16 @@
     padding: 10px;
 }
 
+.addUser {
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 60px;
+    background-color: #353b48;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+
 .search_input {
     color: white;
     border: 0;
@@ -31,6 +41,17 @@
 }
 
 .search_icon {
+    height: 40px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+}
+
+.addUser_icon {
     height: 40px;
     width: 40px;
     float: right;

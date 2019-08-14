@@ -14,110 +14,39 @@
             <thead class="thead-light">
                 <tr>
                     <th class="colUser" scope="col">Usuario</th>
-                    <th scope="col">Tiempo</th>
                     <th scope="col">Tarea</th>
-                    <th scope="col"></th>
+
+                    <th scope="col">Inicio / Fin</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                {{#if tareas}}
+
+                {{#each tareas}} <tr>
                     <th class="columnaUsuario" scope="row">
+                        {{#if fotoPerfil}}
+
                         <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Steve_Jobs_Headshot_2010-CROP2.jpg/220px-Steve_Jobs_Headshot_2010-CROP2.jpg"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
+                            src="http://localhost:4005/img/perfiles/{{fotoPerfil}}">
+                        {{else}}
+
+                        <img style="width: 70px" class="rounded-circle userTarea"
+                            src="http://localhost:4005/img/user.jpg">
+
+                        {{/if}}
+                        <p>{{nombre}} {{apellido}}</p>
                     </th>
-
-                    <td class="columnaTiempo">9 minutos</td>
                     <td class="columnaTarea">
-                        Nombre de la tarea
+                        {{titulo}}
                     </td>
-
-                    <td class="columnaOpciones">
-                        <span class="verde"></span>
+                    <td class="columnaTiempo">{{timeago inicio}} /
+                        {{#if fin}}
+                        {{timeago fin}}
+                        {{/if}}
                     </td>
                 </tr>
-                <tr>
-                    <th class="columnaUsuario" scope="row">
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://specials-images.forbesimg.com/imageserve/5c76b4b84bbe6f24ad99c370/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=0&cropY2=4000"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
-                    </th>
-                    <td class="columnaTiempo">9 minutos</td>
-                    <td class="columnaTarea">
-                        Nombre de la tarea
-                    </td>
-
-                    <td class="columnaOpciones">
-                        <span class="verde"></span>
-                    </td>
-                </tr>
-                 <tr>
-                    <th class="columnaUsuario" scope="row">
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://specials-images.forbesimg.com/imageserve/5c76b4b84bbe6f24ad99c370/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=0&cropY2=4000"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
-                    </th>
-                    <td class="columnaTiempo">9 minutos</td>
-                    <td class="columnaTarea">
-                        Nombre de la tarea
-                    </td>
-
-                    <td class="columnaOpciones">
-                        <span class="verde"></span>
-                    </td>
-                </tr>
-                 <tr>
-                    <th class="columnaUsuario" scope="row">
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://specials-images.forbesimg.com/imageserve/5c76b4b84bbe6f24ad99c370/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=0&cropY2=4000"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
-                    </th>
-                    <td class="columnaTiempo">9 minutos</td>
-                    <td class="columnaTarea">
-                        Nombre de la tarea
-                    </td>
-
-                    <td class="columnaOpciones">
-                        <span class="verde"></span>
-                    </td>
-                </tr>
-                 <tr>
-                    <th class="columnaUsuario" scope="row">
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://specials-images.forbesimg.com/imageserve/5c76b4b84bbe6f24ad99c370/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=0&cropY2=4000"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
-                    </th>
-                    <td class="columnaTiempo">9 minutos</td>
-                    <td class="columnaTarea">
-                        Nombre de la tarea
-                    </td>
-
-                    <td class="columnaOpciones">
-                        <span class="verde"></span>
-                    </td>
-                </tr>
-                 <tr>
-                    <th class="columnaUsuario" scope="row">
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://specials-images.forbesimg.com/imageserve/5c76b4b84bbe6f24ad99c370/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=0&cropY2=4000"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
-                    </th>
-                    <td class="columnaTiempo">9 minutos</td>
-                    <td class="columnaTarea">
-                        Nombre de la tarea
-                    </td>
-
-                    <td class="columnaOpciones">
-                        <span class="verde"></span>
-                    </td>
-                </tr>
-
+                {{/each}}
+                {{/if}}
             </tbody>
         </table>
     </section>

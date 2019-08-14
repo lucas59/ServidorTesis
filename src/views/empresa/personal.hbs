@@ -14,10 +14,14 @@
                             <div class="container h-100">
                                 <div class="d-flex justify-content-center h-100">
                                     <div class="searchbar">
-                                        <input onkeypress="FiltrarTabla()" id="buscar" class="search_input" type="text"
+                                        <input onkeyup="FiltrarTabla()" id="buscar" class="search_input" type="text"
                                             name="" placeholder="Search...">
                                         <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
                                     </div>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#modalAddUser">
+                                        Launch demo modal
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -32,25 +36,26 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbodyListos">
                                 {{#if listaPersonal}}
 
                                 {{#each listaPersonal}}
-                                <tr onclick="window.location = '/empleado/{{documento}}'" >
+                                <tr>
                                     <td>
                                         {{documento}}
                                     </td>
                                     <td>
                                         <img class="fotoPerfilTabla"
                                             src="http://localhost:4005/img/perfiles/{{fotoPerfil}}" alt="" />
-                                        {{nombre}} {{apellido}}
+                                      <p onclick="window.location = '/empleado/{{documento}}'" >{{nombre}} {{apellido}}</p>
+                                    </td>
+                                    <td>
+                                        <button onclick="despedirEmpleado({{documento}})"
+                                            class="btn btn-danger">Borrar</button>
                                     </td>
                                 </tr>
-                              
-                                
                                 {{/each}}
                                 {{else}}
-
                                 <tr>
                                     <td>Lista vacía</td>
                                     <td></td>
@@ -70,4 +75,45 @@
         </div>
     </div>
 </div>
+
+<div id="spinner"></div> 
+
+<div class="modal fade" id="modalAddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Buscar colaborador</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <session>
+                    <div>
+                        <input placeholder="Cédula" id="buscadorUsuario" type="number" name="identificador">
+                        <input type="submit" onclick="buscarUsuario()" value="Buscar">
+                    </div>
+                </session>
+                <table style="display: none" id="tablaUsuarios" class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="colUser" scope="col">Usuario</th>
+                            <th scope="col">correo</th>
+
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="js/buscador.js"></script>
