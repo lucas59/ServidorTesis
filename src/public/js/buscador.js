@@ -160,3 +160,4 @@ function showSpinner() {
     spinner.className = spinner.className.replace("show", "");
   }, 5000);
 }
+

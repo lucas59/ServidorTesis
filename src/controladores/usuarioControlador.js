@@ -66,7 +66,7 @@ exports.despedirEmpleado = function (req, res) {
     const { passport } = req.session;
     var session = passport.user;
     try {
-        const sql = pool.query('DELETE FROM `empresa_empleado` WHERE `Empresa_id` = ? AND `empleados_id`=?',[session,documento]);
+        const sql = pool.query('DELETE FROM `empresa_empleado` WHERE `Empresa_id` = ? AND `empleados_id`=?', [session, documento]);
         res.send(JSON.stringify({ retorno: true }));
     } catch (error) {
         console.log("Error: ", error);
@@ -86,21 +86,34 @@ exports.salir = function (req, res) {
 
 exports.perfil = async function (req, res) {
     const { passport } = req.session;
+    var documento = req.query.doc;
     var session = passport.user;
     var titulo = "Inicia Sesión";
     var datos;
     if (session) {
-        const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE u.documento = ? and emp.id = u.documento  ', [session]);
-        const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ', [session]);
+        if (documento) {
+            const rows = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ', [documento]);
+            if (rows.length > 0) {
+                datos = rows[0];
 
-        if (rows.length > 0) {
-            datos = rows[0];
+                console.log(datos);
+                datos['contrasenia'] = "";
+                res.render("perfil", { titulo, datos });
+            } else {
+                res.redirect('/');
+            }
         } else {
-            datos = rows2[0];
-        }
+            const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE u.documento = ? and emp.id = u.documento  ', [session]);
+            const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ', [session]);
 
-        datos['contrasenia'] = "";
-        res.render("perfil", { titulo, datos });
+            if (rows.length > 0) {
+                datos = rows[0];
+            } else {
+                datos = rows2[0];
+            }
+            datos['contrasenia'] = "";
+            res.render("perfil", { titulo, datos });
+        }
     } else {
         res.redirect("/login");
     }

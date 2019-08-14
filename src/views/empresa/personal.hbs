@@ -47,12 +47,14 @@
                                     <td>
                                         <img class="fotoPerfilTabla"
                                             src="http://localhost:4005/img/perfiles/{{fotoPerfil}}" alt="" />
-                                      <p onclick="window.location = '/empleado/{{documento}}'" >{{nombre}} {{apellido}}</p>
+                                      {{nombre}} {{apellido}}
                                     </td>
                                     <td>
                                         <button onclick="despedirEmpleado({{documento}})"
                                             class="btn btn-danger">Borrar</button>
+                                        <a href="/perfil?doc={{documento}}">Ver</a>
                                     </td>
+                                    
                                 </tr>
                                 {{/each}}
                                 {{else}}

@@ -56,7 +56,7 @@ router.post('/update', multer({
 }).single('fotoPerfil'), usuarioControlador.update);
 
 router.get('/perfil', haySession, usuarioControlador.perfil);
-router.get('/empleado/:documento', haySession, usuarioControlador.perfilEmpleado);
+//router.get('/empleado/:documento', haySession, usuarioControlador.perfilEmpleado);
 
 router.post('/desactivar', haySession, usuarioControlador.desactivar);
 router.post('/resetPass', noHaySession, usuarioControlador.resetPass);
