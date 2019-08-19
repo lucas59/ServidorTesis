@@ -10,19 +10,21 @@
             {{/if}}
             <h4>{{datos.nombre}}</h4>
         </span>
-        <h3>Mis datos</h3>
-        <ul>
-            <li>Cédula: {{datos.documento}}</li>
-            <li>Nombre de usuario: {{datos.nombreUsuario}}</li>
-            <li>Correo: {{datos.email}}</li>
-            <li>Nombre: {{datos.nombre}}</li>
-        </ul>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Modificar mis datos</button>
+        <div class="misDatos">
+            <h3>Mis datos</h3>
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDesactivar">
-            Desactivar cuenta</button>
-        </span>
+            <p><i class="fas fa-at"></i>Cédula: {{datos.documento}}</p>
+            <p>Nombre de usuario: {{datos.nombreUsuario}}</p>
+            <p>Correo: {{datos.email}}</p>
+            <div id="opcionesPerfil">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Modificar mis datos</button>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDesactivar">
+                    Desactivar cuenta</button>
+            </div>
+        </div>
+
     </div>
 </div>
 

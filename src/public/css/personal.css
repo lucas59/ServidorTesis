@@ -5,14 +5,10 @@ table img.fotoPerfilTabla{
 }
 
 .sessionLista{
-  position: relative;
-  background-image: url('../img/oficinaFondo.png');
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  
-  
-}
+  }
 
 .sessionLista table{
   border-radius: 5px;

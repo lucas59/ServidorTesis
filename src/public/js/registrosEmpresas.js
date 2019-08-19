@@ -3,13 +3,16 @@ var map;
 
 $(document).ready(function () {
     console.log('todo listo');
-     map = L.map('mapid', {
+    map = L.map('mapid', {
         center: [-32.314347, -58.076697],
         zoom: 13
     }).setView([-32.314347, -58.076697], 14);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+
+
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+//        maxZoom: 20,
+        attribution: '&copy; Openstreetmap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
     map.invalidateSize();
@@ -29,5 +32,5 @@ function abrirMapa(latitud, longitud) {
 function agregarMarcador(lat, long) {
     console.log(lat, long);
     L.marker([lat, long]).addTo(map);
-    map.panTo(new L.LatLng(lat,long));
+    map.panTo(new L.LatLng(lat, long));
 }
