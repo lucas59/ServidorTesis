@@ -174,18 +174,33 @@ exports.Alta_tarea = async function (req, res) {
     var titulo = req.param('titulo');
     var inicio = req.param('inicio');
     var fin = req.param('fin');
-    var long = req.param('long');
-    var lat = req.param('lat');
+    var long_ini = req.param('long_ini');
+    var lat_ini = req.param('lat_ini');
+    var long_fin = req.param('long_fin');
+    var lat_fin = req.param('lat_fin');
     var empleado_id = req.param('empleado_id');
     var empresa_id = req.param('empresa_id');
 
-    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`) VALUES (?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id,empresa_id]);
-    await pool.query('INSERT INTO ubicacion (`latitud`,`longitud`) VALUES (?,?)', [lat,long]);
+    //inserta la tarea y la ubicación de inicio
+    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`) VALUES (?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id, empresa_id]);
+    await pool.query('INSERT INTO ubicacion (`latitud`,`longitud`,`tipo`) VALUES (?,?,?)', [lat_ini, long_ini, 0]);
 
+    //busca la ultima tarea y la ultima ubicación ingresada
     var id_tarea = await pool.query('SELECT MAX(id) AS id FROM tarea');
     var id_ubicacion = await pool.query('SELECT MAX(id) AS id FROM ubicacion');
 
-    await pool.query('INSERT INTO tarea_ubicacion (`Tarea_id`,`ubicaciones_id`) VALUES (?,?)', [id_tarea[0].id,id_ubicacion[0].id]);
+    //ingresa la conexión entre la tarea y la ubicación
+    await pool.query('INSERT INTO tarea_ubicacion (`Tarea_id`,`ubicaciones_id`) VALUES (?,?)', [id_tarea[0].id, id_ubicacion[0].id]);
+
+    //inserta la ubicación del final
+    await pool.query('INSERT INTO ubicacion (`latitud`,`longitud`,`tipo`) VALUES (?,?,?)', [lat_fin, long_fin, 1]);
+
+    //busca la ultima tarea y la ultima ubicación ingresada
+    var id_tarea = await pool.query('SELECT MAX(id) AS id FROM tarea');
+    var id_ubicacion = await pool.query('SELECT MAX(id) AS id FROM ubicacion');
+
+     //ingresa la conexión entre la tarea y la ubicación
+    await pool.query('INSERT INTO tarea_ubicacion (`Tarea_id`,`ubicaciones_id`) VALUES (?,?)', [id_tarea[0].id, id_ubicacion[0].id]);
 
     res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea ingresada correctamente' }));
 };
@@ -199,7 +214,7 @@ exports.Alta_asistencia = async function (req, res) {
         await pool.query('INSERT INTO asistencia (`inicio`,`fin`,`foto`,`empleado_id`) VALUES (?,?,?,?)', [inicio, fin, foto, id]);
         res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia ingresada correctamente' }));
     } else {
-        await pool.query('UPDATE asistencia set fin = ? WHERE fin IS null AND empleado_id = ?', [fin,id]);
+        await pool.query('UPDATE asistencia set fin = ? WHERE fin IS null AND empleado_id = ?', [fin, id]);
         res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia actualizada correctamente' }));
     }
 };
