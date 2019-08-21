@@ -17,6 +17,9 @@ const storage = multer.diskStorage({
 
 
 router.get('/', apiControlador.inicio);
+router.post('/user', apiControlador.user);
+router.post('/desactivar', apiControlador.desactivar);
+
 router.post('/login', apiControlador.login);
 router.post('/login_tablet', apiControlador.login_tablet);
 router.post('/signup', apiControlador.signup);
