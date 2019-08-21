@@ -1,10 +1,31 @@
 const pool = require("../database");
 const helpers = require("../lib/helpers");
 const bodyParser = require('body-parser');
-
+const buffer = require('buffer');
 exports.inicio = function (req, res) {
     res.send(JSON.stringify({ coso: 'Esto es la api' }));
 
+};
+
+
+exports.user = async function (req, res) {
+    const id = req.body.session;
+    console.log(id);
+
+    const sql = await pool.query('SELECT u.documento, u.email,u.fotoPerfil,u.nombreUsuario, emp.celular, emp.nombre, emp.apellido FROM `empleado` as emp, usuario as u WHERE u.documento = emp.id and emp.id = ?', [id]);
+
+    res.send(JSON.stringify({ datos: sql }));
+};
+
+exports.desactivar = async function (req, res) {
+    const id = req.body.session;
+    console.log(id);
+    try {
+        const sql = await pool.query('UPDATE `usuario` SET `estado` = 0 WHERE `usuario`.`documento` = ?', [id]);
+        res.send(JSON.stringify({ retorno: true }));
+    } catch (error) {
+        res.send(JSON.stringify({ retorno: false }));
+    }
 };
 
 exports.login = async function (req, res) {
@@ -12,18 +33,17 @@ exports.login = async function (req, res) {
     var pass = req.param('password');
 
     const rows = await pool.query('SELECT * FROM usuario WHERE email = ? OR nombreUsuario = ?', [id, id]);
-    console.log(id);
-    console.log(pass);
 
     if (rows.length > 0) {
-        console.log('asdasdasdasd');
 
         const user = rows[0];
+        console.log('usuario', user.documento);
         const validacion = await helpers.compararContraseña(pass, user.contrasenia);
         if (validacion) {
-            console.log("correo", id);
+            if (user.estado == 0) {
+                await pool.query('UPDATE `usuario` SET `estado` = 1 WHERE `usuario`.`documento` = ?',[user.documento]);
+            }
             var tipo = await obtenerTipoUsuario(id);
-            console.log('tipo', tipo);
             res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento }));
         } else {
             res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
@@ -199,7 +219,7 @@ exports.Alta_tarea = async function (req, res) {
     var id_tarea = await pool.query('SELECT MAX(id) AS id FROM tarea');
     var id_ubicacion = await pool.query('SELECT MAX(id) AS id FROM ubicacion');
 
-     //ingresa la conexión entre la tarea y la ubicación
+    //ingresa la conexión entre la tarea y la ubicación
     await pool.query('INSERT INTO tarea_ubicacion (`Tarea_id`,`ubicaciones_id`) VALUES (?,?)', [id_tarea[0].id, id_ubicacion[0].id]);
 
     res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea ingresada correctamente' }));
