@@ -17,6 +17,16 @@ exports.user = async function (req, res) {
     res.send(JSON.stringify({ datos: sql }));
 };
 
+exports.userEmpresa = async function (req, res) {
+    const id = req.body.session;
+    console.log(id);
+
+    const sql = await pool.query('SELECT u.documento, u.email,u.fotoPerfil,u.nombreUsuario,  emp.nombre FROM `empresa` as emp, usuario as u WHERE u.documento = emp.id and emp.id = ?', [id]);
+
+    res.send(JSON.stringify({ datos: sql }));
+};
+
+
 exports.desactivar = async function (req, res) {
     const id = req.body.session;
     console.log(id);
@@ -43,7 +53,7 @@ exports.login = async function (req, res) {
             if (user.estado == 0) {
                 await pool.query('UPDATE `usuario` SET `estado` = 1 WHERE `usuario`.`documento` = ?',[user.documento]);
             }
-            var tipo = await obtenerTipoUsuario(id);
+            var tipo = await obtenerTipoUsuario(id);7
             res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento }));
         } else {
             res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
