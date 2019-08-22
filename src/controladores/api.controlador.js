@@ -184,7 +184,8 @@ async function obtenerPin(documento) { //saco los ultimos cuatro digitos de la c
 
 exports.ListaTareas = async function (req, res) {
     var id = req.param('id');
-    const rows = await pool.query('SELECT * FROM tarea WHERE empleado_id = ? GROUP BY inicio', [id]);
+    var id_empresa = req.param('id_empresa');
+    const rows = await pool.query('SELECT * FROM tarea WHERE empleado_id = ? AND empresa_id = ? GROUP BY inicio', [id, id_empresa]);
     if (rows.length > 0) {
         console.log(rows[0]);
         res.send(JSON.stringify({ retorno: true, mensaje: rows }));
