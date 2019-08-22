@@ -51,9 +51,9 @@ exports.login = async function (req, res) {
         const validacion = await helpers.compararContraseña(pass, user.contrasenia);
         if (validacion) {
             if (user.estado == 0) {
-                await pool.query('UPDATE `usuario` SET `estado` = 1 WHERE `usuario`.`documento` = ?',[user.documento]);
+                await pool.query('UPDATE `usuario` SET `estado` = 1 WHERE `usuario`.`documento` = ?', [user.documento]);
             }
-            var tipo = await obtenerTipoUsuario(id);7
+            var tipo = await obtenerTipoUsuario(id); 7
             res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento }));
         } else {
             res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
@@ -184,8 +184,9 @@ async function obtenerPin(documento) { //saco los ultimos cuatro digitos de la c
 
 exports.ListaTareas = async function (req, res) {
     var id = req.param('id');
-    const rows = await pool.query('SELECT * FROM tarea WHERE empleado_id = ?', [id]);
+    const rows = await pool.query('SELECT * FROM tarea WHERE empleado_id = ? GROUP BY inicio', [id]);
     if (rows.length > 0) {
+        console.log(rows[0]);
         res.send(JSON.stringify({ retorno: true, mensaje: rows }));
     } else {
         res.send(JSON.stringify({ retorno: false, mensaje: 'No existen tareas' }));
@@ -194,7 +195,7 @@ exports.ListaTareas = async function (req, res) {
 
 exports.ListaEmpresas = async function (req, res) {
     var id = req.param('id');
-    const filas = await pool.query('SELECT * FROM empresa WHERE empresa.id IN (SELECT Empresa_id FROM empresa_empleado WHERE empleados_id = ?)',[id]);
+    const filas = await pool.query('SELECT * FROM empresa WHERE empresa.id IN (SELECT Empresa_id FROM empresa_empleado WHERE empleados_id = ?)', [id]);
     if (filas.length > 0) {
         res.send(JSON.stringify({ retorno: true, mensaje: filas }));
     } else {
@@ -244,9 +245,26 @@ exports.Modificar_tarea = async function (req, res) {
     var fin = req.param('fin');
     var id = req.param('id');
 
-    //inserta la tarea y la ubicación de inicio
+
     await pool.query('UPDATE tarea SET estado = ? ,fin = ?, inicio = ?, titulo = ? WHERE id = ?', [1, fin, inicio, titulo, id]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea modificada correctamente' }));
+};
+
+exports.EliminarTarea = async function (req, res) {
+    var id = req.param('id');
+    const filas = await pool.query('SELECT * FROM tarea_ubicacion WHERE Tarea_id = ?', [id]);
+    var tam = filas.length;
+    console.log(id);
+    await pool.query('DELETE FROM tarea_ubicacion WHERE Tarea_id = ?', [id]);
+    if (tam > 0) {
+        for (var i = 0; i < tam; i++) {
+            await pool.query('DELETE FROM ubicacion WHERE id = ?', [filas[i].ubicaciones_id]);
+        }
+    }
+
+    await pool.query('DELETE FROM tarea WHERE tarea.id = ?', [id]);
+
+    res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea eliminada correctamente' }));
 };
 
 

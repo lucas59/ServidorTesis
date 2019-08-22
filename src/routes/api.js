@@ -31,6 +31,7 @@ router.post('/signup2Empresa', apiControlador.signup2Empresa);
 router.post('/Alta_tarea', apiControlador.Alta_tarea);
 router.post('/Alta_asistencia', apiControlador.Alta_asistencia);
 router.post('/Modificar_tarea', apiControlador.Modificar_tarea);
+router.post('/EliminarTarea', apiControlador.EliminarTarea);
 
 router.post('/Tareas/ListaTareas', apiControlador.ListaTareas);
 router.post('/Tareas/ListaEmpresas', apiControlador.ListaEmpresas);
