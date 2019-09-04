@@ -7,8 +7,10 @@
     <input id="tab2" type="radio" name="tabs">
     <label for="tab2">Entradas</label>
 
-    <input id="tab3" type="radio" name="tabs">
-    <label for="tab3">Salidas</label>
+    <input id="tab2" type="radio" name="tabs">
+    <label for="tab2">Buscar</label>
+    <input type="text" name="tabs" id="buscar">
+
     <section id="content1">
         <table class="table">
             <thead class="thead-light">
@@ -17,6 +19,8 @@
                     <th scope="col">Tarea</th>
 
                     <th scope="col">Inicio / Fin</th>
+                    <th scope="col">Estado</th>
+
                     <th scope="col"></th>
 
                 </tr>
@@ -41,11 +45,23 @@
                     <td class="columnaTarea">
                         {{titulo}}
                     </td>
-                    <td class="columnaTiempo">{{timeago inicio}} /
+                    <td class="columnaTiempo">
+                        {{#if inicio}}
+                        {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
+                        {{else}}
                         {{#if fin}}
-                        {{timeago fin}}
+                        {{ fin}}
+                        {{/if}}
                         {{/if}}
                     </td>
+                    <td class="columnaTiempo">
+                        {{#if tipoUbic}}
+                        Ubicacion Fin
+                        {{else}}
+                        Ubicacion inicio
+                        {{/if}}
+                    </td>
+
                     <td class="columnaUbicacion"> <button onclick="abrirMapa({{latitud}},{{longitud}})"
                             class="btn btn-primary">Ubicacion</button> </td>
                 </tr>
@@ -61,81 +77,38 @@
                 <tr>
                     <th class="colUser" scope="col">Usuario</th>
                     <th scope="col">Tiempo</th>
-                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
+                {{#if asistencias}}
+
+                {{#each asistencias}}
                 <tr>
                     <th class="columnaUsuario" scope="row">
+                        {{#if fotoPerfil}}
                         <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Steve_Jobs_Headshot_2010-CROP2.jpg/220px-Steve_Jobs_Headshot_2010-CROP2.jpg"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
-                    </th>
-                    <td class="columnaTiempo"> 23/07/19 | 9 minutos</td>
-
-                    <td class="columnaOpciones">Otto</td>
-                </tr>
-                <tr>
-                    <th class="columnaUsuario" scope="row">
+                            src="http://localhost:4005/img/perfiles/{{fotoPerfil}}">
+                        {{else}}
                         <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://specials-images.forbesimg.com/imageserve/5c76b4b84bbe6f24ad99c370/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=0&cropY2=4000"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
+                            src="http://localhost:4005/img/user.jpg">
+                        {{/if}}
+                        <p>{{nombre}} {{apellido}}</p>
                     </th>
-                    <td class="columnaTiempo"> 23/07/19 | 10 minutos</td>
-                    <td class="columnaOpciones">Otto</td>
+                    <td class="columnaTiempo">
+                       {{#if inicio}}
+                        {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
+                        {{else}}
+                        {{#if fin}}
+                        {{ fin}}
+                        {{/if}}
+                        {{/if}}
+                    </td>
                 </tr>
-
+                {{/each}}
+                {{/if}}
             </tbody>
         </table>
     </section>
-
-    <section id="content3">
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th class="colUser" scope="col">Usuario</th>
-                    <th scope="col">Tiempo</th>
-                    <th scope="col">Tarea</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th class="columnaUsuario" scope="row">
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Steve_Jobs_Headshot_2010-CROP2.jpg/220px-Steve_Jobs_Headshot_2010-CROP2.jpg"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
-                    </th>
-                    <td class="columnaTiempo">9 minutos</td>
-                    <td class="columnaTarea">
-                        Nombre de la tarea
-                    </td>
-
-                    <td class="columnaOpciones">Otto</td>
-                </tr>
-                <tr>
-                    <th class="columnaUsuario" scope="row">
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="https://specials-images.forbesimg.com/imageserve/5c76b4b84bbe6f24ad99c370/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=0&cropY2=4000"
-                            alt="Empleado">
-                        <p>Nombre Usuario</p>
-                    </th>
-
-                    <td class="columnaTiempo">9 minutos</td>
-                    <td class="columnaTarea">
-                        Nombre de la tarea
-                    </td>
-
-                    <td class="columnaOpciones">Otto</td>
-                </tr>
-
-            </tbody>
-        </table>
-    </section>
-
 </main>
 
 

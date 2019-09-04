@@ -41,7 +41,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/update" enctype="multipart/form-data" method="POST" action="">
+            <form action="/update" enctype="multipart/form-data" method="POST">
                 <div class="modal-body">
                     <h3>Mis datos</h3>
                     {{#if datos.fotoPerfil}}
@@ -69,11 +69,12 @@
                         </div>
                     </ul>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
             </form>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Actualizar</button>
-            </div>
+
         </div>
     </div>
 </div>

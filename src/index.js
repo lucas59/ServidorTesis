@@ -9,8 +9,9 @@ const MYSQStore = require("express-mysql-session");
 const passport = require("passport");
 const { database } = require("./keys")
 const bodyParse = require("body-parser");
+const hbs = require('handlebars');
 
-
+hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 //settings
 app.set('port', process.env.PORT || 4005);
@@ -22,9 +23,11 @@ app.engine(".hbs", expresshbs({
     extname: ".hbs",
     helpers: require("./lib/handlebars")
 
-}));
+}) );
+
 
 app.set("view engine", ".hbs");
+app.set("view engines", hbs);
 
 //middleware
 app.use(session({
@@ -34,7 +37,6 @@ app.use(session({
     store: new MYSQStore(database)
 }));
 app.use(morgan('dev'));
-app.use(express.urlencoded());
 app.use(express.json({limit: '50mb'}));
 app.use(flash());
 app.use(passport.initialize());
