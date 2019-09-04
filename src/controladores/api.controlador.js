@@ -68,7 +68,7 @@ exports.login_tablet = async function (req, res) {
     const rows = await pool.query('SELECT * FROM empleado WHERE pin = ?', [pass]);
     if (rows.length > 0) {
         var id = rows[0].id;
-        const reentrada = await pool.query('SELECT * FROM asistencia WHERE empleado_id = ?', [id]);
+        const reentrada = await pool.query('SELECT * FROM asistencia WHERE empleado_id = ? AND fin IS NULL', [id]);
         if (reentrada.length > 0) {
             res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', id: id, estado_ree: 0 }));
         }
