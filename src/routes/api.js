@@ -36,4 +36,8 @@ router.post('/EliminarTarea', apiControlador.EliminarTarea);
 router.post('/Tareas/ListaTareas', apiControlador.ListaTareas);
 router.post('/Tareas/ListaEmpresas', apiControlador.ListaEmpresas);
 
+router.get('/misEmpleados',apiControlador.misEmpleados);
+
+router.get('/listaAsistencias', apiControlador.asistencias);
+
 module.exports = router;

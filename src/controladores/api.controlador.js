@@ -289,3 +289,15 @@ exports.login = function(req,res){
     res.send(JSON.stringify({coso:'Esto es la api' }));
 
 };*/
+
+exports.misEmpleados = async function (req, res) {
+    var id = req.param('documento');
+    const sql = await pool.query("SELECT u.*, emp.* FROM usuario as u, empleado_empresa as empE, empleado as emp WHERE emp.id=u.documento AND u.documento=empE.Empleado_id and empE.empresas_id=?",[id]);
+    res.send(JSON.stringify({ filas: sql }));
+}
+
+exports.asistencias = async function(req,res){
+    var id = req.param('documento');
+    const sql = await pool.query('SELECT asi.* FROM asistencia as asi, empresa_empleado as empE  WHERE asi.empleado_id=empE.empleados_id AND empE.Empresa_id=?',[id]);
+    res.send(JSON.stringify({ filas: sql }));   
+}

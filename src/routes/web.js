@@ -9,10 +9,11 @@ const storage = multer.diskStorage({
     destination: path.join(__dirname, "../public/img/perfiles"),
     filename: (req, file, cb) => {
         const { documento } = req.body;
-        console.log('documento', documento)
+        console.log('documento',req.body.documento);
         cb(null, documento + path.extname(file.originalname).toLocaleLowerCase());
     }
 });
+
 
 router.get('/', usuarioControlador.inicio);
 router.get('/login', noHaySession, usuarioControlador.login);

@@ -13,9 +13,10 @@ exports.inicio = async function (req, res) {
     if (req.isAuthenticated()) { //si hay session 
         var titulo = "Inicio";
         if (req.user.tipo == 0) {
-            const tareas = await pool.query('SELECT td.*, empleado.*, u.*, ubic.latitud, ubic.longitud FROM `tarea` as td, empleado AS empleado, usuario as u, tarea_ubicacion as tdUbic, ubicacion as ubic WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento AND tdUbic.Tarea_id=td.id AND ubic.id= tdUbic.ubicaciones_id ORDER BY td.inicio ASC', [req.user.documento])
-          //  const asistencias = await pool.query('') 
-            res.render("registros/empresaRegistros", { titulo, tareas });
+            const tareas = await pool.query('SELECT td.*, empleado.*, u.*, ubic.latitud, ubic.longitud, ubic.tipo as tipoUbic FROM `tarea` as td, empleado AS empleado, usuario as u, tarea_ubicacion as tdUbic, ubicacion as ubic WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento AND tdUbic.Tarea_id=td.id AND ubic.id= tdUbic.ubicaciones_id ORDER BY td.inicio ASC', [req.user.documento])
+            const asistencias = await pool.query('SELECT asi.* FROM asistencia AS asi WHERE asi.id and asi.empleado_id=?', [req.user.documento])
+          
+            res.render("registros/empresaRegistros", { titulo, tareas, asistencias });
         } else {
             res.render("autenticacion/inicio", { titulo });
         }
@@ -156,15 +157,21 @@ exports.registrarse = passport.authenticate('local.signup', {
 
 
 exports.update = async function (req, res) {
-
     const { nombre, email, documento, username } = req.body;
+    console.log("documento", req.file);
+    var nombreFinal=null;
+    if (req.file) {
+        var extension = path.extname(req.file.originalname).toLocaleLowerCase()
+         nombreFinal = documento + extension;
+        fs.rename(req.file.path,req.file.destination+"/"+nombreFinal,function(err){
+            console.log("Error: ",err);
+        });
+    }
 
-    //console.log(nombre, email, documento, username);
     const { passport } = req.session;
     var session = passport.user;
     var check = await checkUsuario(email, username, session);
 
-    // var nombreArchivo = (documento + path.extname(req.file.originalname)).toLocaleLowerCase();
     if (check.valor == true) {
         req.flash("message", check.mensaje);
         res.redirect('/perfil');
@@ -173,7 +180,13 @@ exports.update = async function (req, res) {
     const sql = await pool.query('UPDATE `empresa` SET nombre = ? WHERE `empresa`.`id` = ? ', [nombre, documento]);
 
     if (sql.affectedRows == 1) {
-        const editUsuario = await pool.query("UPDATE `usuario` SET  `nombreUsuario` = ?, email = ? WHERE `usuario`.`documento` = ?", [username, email, documento]);
+        var editUsuario=null;
+        if (nombreFinal) {
+            editUsuario = await pool.query("UPDATE `usuario` SET  `nombreUsuario` = ?,fotoPerfil = ?, email = ? WHERE `usuario`.`documento` = ?", [username,nombreFinal,email, documento]);        
+        }else{
+            editUsuario = await pool.query("UPDATE `usuario` SET  `nombreUsuario` = ?, email = ? WHERE `usuario`.`documento` = ?", [username, email, documento]);
+        }
+
         if (editUsuario.affectedRows == 1) {
             req.flash("succes", 'Cosooooo');
             res.redirect('/perfil');
