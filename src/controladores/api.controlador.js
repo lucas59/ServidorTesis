@@ -292,7 +292,7 @@ exports.login = function(req,res){
 
 exports.misEmpleados = async function (req, res) {
     var id = req.param('documento');
-    const sql = await pool.query("SELECT u.*, emp.* FROM usuario as u, empleado_empresa as empE, empleado as emp WHERE emp.id=u.documento AND u.documento=empE.Empleado_id and empE.empresas_id=?",[id]);
+    const sql = await pool.query("SELECT u.*, emp.* FROM usuario as u, empresa_empleado as empE, empleado as emp WHERE emp.id=u.documento AND u.documento=empE.empleados_id and empE.Empresa_id=?",[id]);
     res.send(JSON.stringify({ filas: sql }));
 }
 
