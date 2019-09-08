@@ -160,4 +160,11 @@ function showSpinner() {
     spinner.className = spinner.className.replace("show", "");
   }, 5000);
 }
+/*
+function descargarAsistencias(){
+    fetch(urlBase + 'exportarAsistencias ')
+    .then(function (response){
+        console.log(response);
 
+    })
+}*/

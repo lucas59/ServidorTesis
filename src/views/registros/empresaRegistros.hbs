@@ -1,28 +1,29 @@
 <link rel="stylesheet" href="css/tabsRegistrosEmpresa.css">
 <link rel="stylesheet" href="css/indicador.css">
+
 <main>
+    
     <input id="tab1" type="radio" name="tabs" checked>
     <label for="tab1">Tareas en proceso</label>
 
     <input id="tab2" type="radio" name="tabs">
     <label for="tab2">Entradas</label>
-
-    <input id="tab2" type="radio" name="tabs">
-    <label for="tab2">Buscar</label>
-    <input type="text" name="tabs" id="buscar">
-
+    
     <section id="content1">
+
+        <div class="buscadorTab">
+            <label> Buscar</label>
+            <input type="text" id="buscar">
+        </div>
+
         <table class="table">
             <thead class="thead-light">
                 <tr>
                     <th class="colUser" scope="col">Usuario</th>
                     <th scope="col">Tarea</th>
-
                     <th scope="col">Inicio / Fin</th>
                     <th scope="col">Estado</th>
-
                     <th scope="col"></th>
-
                 </tr>
             </thead>
             <tbody>
@@ -95,7 +96,7 @@
                         <p>{{nombre}} {{apellido}}</p>
                     </th>
                     <td class="columnaTiempo">
-                       {{#if inicio}}
+                        {{#if inicio}}
                         {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
                         {{else}}
                         {{#if fin}}

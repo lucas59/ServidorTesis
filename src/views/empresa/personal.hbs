@@ -47,14 +47,14 @@
                                     <td>
                                         <img class="fotoPerfilTabla"
                                             src="http://localhost:4005/img/perfiles/{{fotoPerfil}}" alt="" />
-                                      {{nombre}} {{apellido}}
+                                        {{nombre}} {{apellido}}
                                     </td>
                                     <td>
                                         <button onclick="despedirEmpleado({{documento}})"
                                             class="btn btn-danger">Borrar</button>
-                                        <a href="/perfil?doc={{documento}}">Ver</a>
+                                        <a href="/perfil?doc={{documento}}"><i class="fas fa-eye"></i></a>
                                     </td>
-                                    
+
                                 </tr>
                                 {{/each}}
                                 {{else}}
@@ -78,7 +78,7 @@
     </div>
 </div>
 
-<div id="spinner"></div> 
+<div id="spinner"></div>
 
 <div class="modal fade" id="modalAddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">

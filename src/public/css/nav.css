@@ -80,8 +80,7 @@ a{
 #datosSession img{
 	width: 80px;
 	border-radius:50%;
-	margin: 0px 10px 0px 10px;
-	  
+	margin: 0px 10px 0px 10px;  
 }
 
 .opciones *{
@@ -90,4 +89,40 @@ a{
 	border: solid 0.1px gray;
 	border-radius: 5px;
 	padding: 10px
+}
+
+.export-modal-body{
+	width: 500px;
+	height: 100px;
+}
+
+.csv{
+	height: 90px;
+	background-image: url(/img/csv.png);
+	background-size: 90px;
+	background-repeat: no-repeat;
+	background-position-x: center;
+	
+}
+
+.csv:hover{
+	background-color: lightgray;
+	border-radius: 5px;
+}
+
+.opcionesFormato{
+	padding: 20px;
+}
+
+.pdf{
+	height: 90px;
+	background-image: url(/img/pdf.png);
+	background-size: 90px;
+	background-repeat: no-repeat;
+	background-position-x: center;
+	
+} 
+.pdf:hover{
+	background-color: lightgray;
+	border-radius: 5px;
 }

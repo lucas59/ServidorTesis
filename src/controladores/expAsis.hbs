@@ -1,0 +1,32 @@
+<h1>Asistencias</h1>
+<section id="content2">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th class="colUser" scope="col">Usuario</th>
+                <th scope="col">Tiempo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if asistencias}}
+
+            {{#each asistencias}}
+            <tr>
+                <th class="columnaUsuario" scope="row">
+                    <p>{{nombre}} {{apellido}}</p>
+                </th>
+                <td class="columnaTiempo">
+                    {{#if inicio}}
+                    {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
+                    {{else}}
+                    {{#if fin}}
+                    {{ fin}}
+                    {{/if}}
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+</section>

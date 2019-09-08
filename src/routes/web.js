@@ -63,7 +63,12 @@ router.post('/desactivar', haySession, usuarioControlador.desactivar);
 router.post('/resetPass', noHaySession, usuarioControlador.resetPass);
 
 router.get('/busquedaEmpleado', haySession, usuarioControlador.busquedaEmpleado);
+router.get('/exportarAsistencias', haySession, usuarioControlador.exportarAsistenciascsv);
+router.get('/exportarTareas', haySession, usuarioControlador.exportarTareascsv);
 
+
+router.get('/exportarAsistenciaspdf', haySession, usuarioControlador.exportarAsistenciaspdf);
+router.get('/exportarTareaspdf', haySession, usuarioControlador.exportarTareaspdf);
 
 
 

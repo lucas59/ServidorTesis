@@ -1,0 +1,66 @@
+<section id="content1">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+
+                <th class="colUser" scope="col">Documento</th>
+                <th class="colUser" scope="col">Usuario</th>
+                <th scope="col">Tarea</th>
+                <th scope="col">Inicio / Fin</th>
+                <th scope="col">Estado</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if tareas}}
+
+            {{#each tareas}} <tr>
+                <th class="columnaUsuario" scope="row">
+                    {{empleado_id}}
+                </th>
+                <th class="columnaUsuario" scope="row">
+                    <p>{{nombre}} {{apellido}}</p>
+                </th>
+                <td class="columnaTarea">
+                    {{titulo}}
+                </td>
+                <td class="columnaTiempo">
+                    {{#if inicio}}
+                    {{ inicio}}
+                    {{else}}
+                    {{#if fin}}
+                    {{ fin}}
+                    {{/if}}
+                    {{/if}}
+                </td>
+                <td class="columnaTiempo">
+                    {{#if tipoUbic}}
+                    Fin
+                    {{else}}
+                    inicio
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+            {{/if}}
+
+            <tr>
+                <th class="columnaUsuario" scope="row">
+                    456456456
+                </th>
+                <th class="columnaUsuario" scope="row">
+                    <p>{{nombre}} {{apellido}}</p>
+                </th>
+                <td class="columnaTarea">
+                    asdasdasdasdasd
+                </td>
+                <td class="columnaTiempo">
+                    45/45/45-
+                </td>
+                <td class="columnaTiempo">
+                    Fin
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

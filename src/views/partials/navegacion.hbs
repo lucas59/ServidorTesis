@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
   <div class="container">
     <a class="navbar-brand" href="/">TINE</a>
@@ -17,6 +16,18 @@
         <li class="nav-item">
           <a class="nav-link" href="/personal">Personal</a>
         </li>
+        <!-- Example single danger button -->
+        <div class="btn-group">
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Informes
+          </button>
+          <div class="dropdown-menu">
+            <a data-toggle="modal" data-target="#modalExportarAsistencias" class="dropdown-item"
+              href="#">Asistencias</a>
+            <a data-toggle="modal" data-target="#modalExportarTareas" class="dropdown-item" href="#">Tareas</a>
+          </div>
+        </div>
       </ul>
 
       <div class="reloj">
@@ -63,3 +74,53 @@
     </div>
   </div>
 </nav>
+
+<div class="modal fade" id="modalExportarAsistencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Informe de Jornadas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- <div class="export-modal-body">
+        <div class="pdf"></div>
+        <div class="csv"></div>
+      </div>-->
+      <div class="container opcionesFormato ">
+         <div class="row">
+          <div onclick="descargarAsistenciaspdf()" class="col pdf">
+          </div>
+          <div onclick="descargarAsistencias()" class="col csv">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalExportarTareas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Informe de Tareas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="container opcionesFormato">
+        <div class="row">
+          <div onclick="descargarTareaspdf()" class="col pdf">
+          </div>
+          <div onclick="descargarTareas()" class="col csv">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/exportador.js"></script>

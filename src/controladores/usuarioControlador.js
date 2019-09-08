@@ -7,7 +7,11 @@ const helpers = require("../lib/helpers");
 const nodeMailer = require('nodemailer');
 var handlebars = require('handlebars');
 var templeateMail = require('../views/autenticacion/mail');
-
+var html = fs.readFileSync(__dirname + '\\expAsis.hbs', 'utf8');
+var htmlTareas = fs.readFileSync(__dirname + '\\expTareas.hbs', 'utf8');
+var dateFormat = require('dateformat');
+const { parse } = require('json2csv');
+let PDF = require('handlebars-pdf');
 
 exports.inicio = async function (req, res) {
     if (req.isAuthenticated()) { //si hay session 
@@ -15,7 +19,7 @@ exports.inicio = async function (req, res) {
         if (req.user.tipo == 0) {
             const tareas = await pool.query('SELECT td.*, empleado.*, u.*, ubic.latitud, ubic.longitud, ubic.tipo as tipoUbic FROM `tarea` as td, empleado AS empleado, usuario as u, tarea_ubicacion as tdUbic, ubicacion as ubic WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento AND tdUbic.Tarea_id=td.id AND ubic.id= tdUbic.ubicaciones_id ORDER BY td.inicio ASC', [req.user.documento])
             const asistencias = await pool.query('SELECT asi.* FROM asistencia AS asi WHERE asi.id and asi.empleado_id=?', [req.user.documento])
-          
+
             res.render("registros/empresaRegistros", { titulo, tareas, asistencias });
         } else {
             res.render("autenticacion/inicio", { titulo });
@@ -24,7 +28,6 @@ exports.inicio = async function (req, res) {
         var titulo = "Inicio";
         res.render("autenticacion/inicio", { titulo });
     }
-
 };
 
 
@@ -159,12 +162,12 @@ exports.registrarse = passport.authenticate('local.signup', {
 exports.update = async function (req, res) {
     const { nombre, email, documento, username } = req.body;
     console.log("documento", req.file);
-    var nombreFinal=null;
+    var nombreFinal = null;
     if (req.file) {
         var extension = path.extname(req.file.originalname).toLocaleLowerCase()
-         nombreFinal = documento + extension;
-        fs.rename(req.file.path,req.file.destination+"/"+nombreFinal,function(err){
-            console.log("Error: ",err);
+        nombreFinal = documento + extension;
+        fs.rename(req.file.path, req.file.destination + "/" + nombreFinal, function (err) {
+            console.log("Error: ", err);
         });
     }
 
@@ -180,10 +183,10 @@ exports.update = async function (req, res) {
     const sql = await pool.query('UPDATE `empresa` SET nombre = ? WHERE `empresa`.`id` = ? ', [nombre, documento]);
 
     if (sql.affectedRows == 1) {
-        var editUsuario=null;
+        var editUsuario = null;
         if (nombreFinal) {
-            editUsuario = await pool.query("UPDATE `usuario` SET  `nombreUsuario` = ?,fotoPerfil = ?, email = ? WHERE `usuario`.`documento` = ?", [username,nombreFinal,email, documento]);        
-        }else{
+            editUsuario = await pool.query("UPDATE `usuario` SET  `nombreUsuario` = ?,fotoPerfil = ?, email = ? WHERE `usuario`.`documento` = ?", [username, nombreFinal, email, documento]);
+        } else {
             editUsuario = await pool.query("UPDATE `usuario` SET  `nombreUsuario` = ?, email = ? WHERE `usuario`.`documento` = ?", [username, email, documento]);
         }
 
@@ -334,6 +337,137 @@ exports.resetPass = async function (req, res) {
 
     }
 }
+exports.exportarAsistenciascsv = async function (req, res) {
+    asistencias(req.user.id).then((asistencias) => {
+
+        asistencias.forEach(element => {
+            element.inicio = dateFormat(element.inicio, "dd,dm,yyyy hh:mm:ss");
+            element.fin = dateFormat(element.fin, "dd,dm,yyyy hh:mm:ss");
+
+        });
+        var fields = ['id', 'idEmpleado', 'inicio', 'fin'];
+        try {
+            var data = parse(asistencias, {fields});
+            console.log("data", data);
+
+            res.attachment(req.user.id + "-Asistencias.csv");
+            res.status(200).send(data);
+        } catch (err) {
+            console.log(err);
+        }
+    })
+}
+exports.exportarAsistenciaspdf = async function (req, res) {
+    asistencias(req.user.id).then((asistencias) => {
+
+        let document = {
+            template: html,
+            context: {
+                asistencias: asistencias
+            },
+            path: "./test-" + Math.random() + ".pdf"
+        }
+
+        PDF.create(document)
+            .then(result => {
+                console.log(result.filename);
+                res.sendFile(result.filename);
+                res.end();
+
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    })
+}
+
+
+
+exports.exportarTareascsv = async function (req, res) {
+    tareas(req.user.id).then((tareas) => {
+
+        tareas.forEach(element => {
+            element.inicio = dateFormat(element.inicio, "dd,dm,yyyy hh:mm:ss");
+            element.fin = dateFormat(element.fin, "dd,dm,yyyy hh:mm:ss");
+
+        });
+
+        try {
+            var data = parse(tareas);
+            console.log("data", data);
+
+            res.attachment(req.user.id + "-Tareas.csv");
+            res.status(200).send(data);
+        } catch (err) {
+            console.log(err);
+        }
+    })
+}
+
+
+exports.exportarTareaspdf = async function (req, res) {
+    tareas(req.user.id).then((tareas) => {
+
+        tareas.forEach(element => {
+            element.inicio = dateFormat(element.inicio, "dd,dm,yyyy");
+            element.fin = dateFormat(element.fin, "dd,dm,yyyy");
+
+        });
+
+        let document = {
+            template: htmlTareas,
+            context: {
+                tareas: tareas
+            },
+            path: "./test-" + Math.random() + ".pdf"
+        }
+
+        PDF.create(document)
+            .then(result => {
+                console.log(result.filename);
+                // res.sendFile(result.filename);
+                var buffer = fs.readFileSync(result.filename);
+
+                res.writeHead(200, {
+                    'Content-Type': 'pdf',
+                    'Content-disposition': 'attachment;filename=Tareas' + req.user.id + ".pdf",
+                    'Content-Length': buffer.length
+                });
+                res.end(Buffer.from(buffer, 'binary'));
+                fs.unlinkSync(result.filename);
+
+
+            })
+            .catch(error => {
+                console.error(error)
+            })
+
+
+
+
+    })
+}
+
+
+
+let asistencias = (documento) => {
+    return new Promise((res, rej) => {
+        var asistencias = pool.query('SELECT asi.* FROM asistencia AS asi WHERE asi.id and asi.empleado_id=?', [documento]);
+        res(asistencias);
+    });
+}
+
+let tareas = (documento) => {
+    return new Promise((res, rej) => {
+        var asistencias = pool.query('SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado, usuario as u, tarea_ubicacion as tdUbic, ubicacion as ubic WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento AND tdUbic.Tarea_id=td.id AND ubic.id= tdUbic.ubicaciones_id ORDER BY td.inicio ASC', [documento]);
+        res(asistencias, (err) => {
+            console.log(err);
+        });
+    });
+}
+
+
+
 
 function generar(longitud) {
     var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";

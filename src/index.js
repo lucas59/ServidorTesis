@@ -23,7 +23,7 @@ app.engine(".hbs", expresshbs({
     extname: ".hbs",
     helpers: require("./lib/handlebars")
 
-}) );
+}));
 
 
 app.set("view engine", ".hbs");

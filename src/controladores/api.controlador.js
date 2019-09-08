@@ -299,5 +299,5 @@ exports.misEmpleados = async function (req, res) {
 exports.asistencias = async function(req,res){
     var id = req.param('documento');
     const sql = await pool.query('SELECT asi.* FROM asistencia as asi, empresa_empleado as empE  WHERE asi.empleado_id=empE.empleados_id AND empE.Empresa_id=?',[id]);
-    res.send(JSON.stringify({ filas: sql }));   
+    res.send(JSON.stringify(sql));   
 }
