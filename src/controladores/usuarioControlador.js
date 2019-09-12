@@ -17,8 +17,8 @@ exports.inicio = async function (req, res) {
     if (req.isAuthenticated()) { //si hay session 
         var titulo = "Inicio";
         if (req.user.tipo == 0) {
-            const tareas = await pool.query('SELECT td.*, empleado.*, u.*, ubic.latitud, ubic.longitud, ubic.tipo as tipoUbic FROM `tarea` as td, empleado AS empleado, usuario as u, tarea_ubicacion as tdUbic, ubicacion as ubic WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento AND tdUbic.Tarea_id=td.id AND ubic.id= tdUbic.ubicaciones_id ORDER BY td.inicio ASC', [req.user.documento])
-            const asistencias = await pool.query('SELECT asi.* FROM asistencia AS asi WHERE asi.id and asi.empleado_id=?', [req.user.documento])
+            const tareas = await pool.query('SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento  ORDER BY td.inicio ASC', [req.user.documento])
+            const asistencias = await pool.query('SELECT asi.*, emp.nombre, emp.apellido FROM asistencia AS asi, empleado as emp WHERE asi.id and asi.empresa_id=? and asi.empleado_id=emp.id', [req.user.documento])
 
             res.render("registros/empresaRegistros", { titulo, tareas, asistencias });
         } else {
@@ -102,8 +102,6 @@ exports.perfil = async function (req, res) {
             const rows = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ', [documento]);
             if (rows.length > 0) {
                 datos = rows[0];
-
-                console.log(datos);
                 datos['contrasenia'] = "";
                 res.render("perfil", { titulo, datos });
             } else {
@@ -115,11 +113,14 @@ exports.perfil = async function (req, res) {
 
             if (rows.length > 0) {
                 datos = rows[0];
+                var configuracion = await pool.query("SELECT * FROM `configuracion` WHERE empresa_id = ?", [session]);
             } else {
                 datos = rows2[0];
             }
             datos['contrasenia'] = "";
-            res.render("perfil", { titulo, datos });
+            var config = configuracion[0];
+            console.log(config);
+            res.render("perfil", { titulo, datos, config });
         }
     } else {
         res.redirect("/login");
@@ -338,16 +339,18 @@ exports.resetPass = async function (req, res) {
     }
 }
 exports.exportarAsistenciascsv = async function (req, res) {
-    asistencias(req.user.id).then((asistencias) => {
+    var documento = req.query.doc;
+    console.log(documento);
+    asistencias(req.user.id, documento).then((asistencias) => {
 
         asistencias.forEach(element => {
-            element.inicio = dateFormat(element.inicio, "dd,dm,yyyy hh:mm:ss");
-            element.fin = dateFormat(element.fin, "dd,dm,yyyy hh:mm:ss");
+            element.inicio = dateFormat(element.inicio, "dd-mm-yyyy hh:mm:ss");
+            element.fin = dateFormat(element.fin, "dd-mm-yyyy hh:mm:ss");
 
         });
-        var fields = ['id', 'idEmpleado', 'inicio', 'fin'];
+        var fields = ['id', 'empleado_id', 'inicio', 'fin'];
         try {
-            var data = parse(asistencias, {fields});
+            var data = parse(asistencias, { fields });
             console.log("data", data);
 
             res.attachment(req.user.id + "-Asistencias.csv");
@@ -357,43 +360,68 @@ exports.exportarAsistenciascsv = async function (req, res) {
         }
     })
 }
+
 exports.exportarAsistenciaspdf = async function (req, res) {
-    asistencias(req.user.id).then((asistencias) => {
+    var documento = req.query.doc;
+
+    asistencias(req.user.id, documento).then((asistencias) => {
+
+        asistencias.forEach(element => {
+            element.inicio = dateFormat(element.inicio, "dd-mm-yyyy hh:mm:ss");
+            element.fin = dateFormat(element.fin, "dd-mm-yyyy hh:mm:ss");
+
+        });
 
         let document = {
             template: html,
             context: {
                 asistencias: asistencias
             },
-            path: "./test-" + Math.random() + ".pdf"
+            path: "test-" + Math.random() + ".pdf"
         }
 
         PDF.create(document)
             .then(result => {
-                console.log(result.filename);
-                res.sendFile(result.filename);
-                res.end();
-
+                var buffer = fs.readFileSync(result.filename);
+                res.writeHead(200, {
+                    'Content-Type': 'pdf',
+                    'Content-disposition': 'attachment;filename=Tareas' + req.user.id + ".pdf",
+                    'Content-Length': buffer.length
+                });
+                res.end(Buffer.from(buffer, 'binary'));
+                fs.unlinkSync(result.filename);
             })
             .catch(error => {
                 console.error(error)
             })
+
+
     })
 }
 
 
 
+
+exports.getConfig = async function (req, res) {
+    configuracion(req.user.id).then((configuracion) => {
+        res.send(JSON.stringify(configuracion));
+    });
+}
+
+
 exports.exportarTareascsv = async function (req, res) {
-    tareas(req.user.id).then((tareas) => {
+    var documento = req.query.doc;
+
+    tareas(req.user.id, documento).then((tareas) => {
 
         tareas.forEach(element => {
             element.inicio = dateFormat(element.inicio, "dd,dm,yyyy hh:mm:ss");
             element.fin = dateFormat(element.fin, "dd,dm,yyyy hh:mm:ss");
-
         });
 
         try {
-            var data = parse(tareas);
+            var fields = ['id', 'idEmpleado', 'inicio', 'fin'];
+            var data = parse(tareas, { fields });
             console.log("data", data);
 
             res.attachment(req.user.id + "-Tareas.csv");
@@ -404,14 +432,14 @@ exports.exportarTareascsv = async function (req, res) {
     })
 }
 
-
 exports.exportarTareaspdf = async function (req, res) {
-    tareas(req.user.id).then((tareas) => {
+    var documento = req.query.doc;
 
+    tareas(req.user.id, documento).then((tareas) => {
+        console.log("tareas", tareas.length);
         tareas.forEach(element => {
-            element.inicio = dateFormat(element.inicio, "dd,dm,yyyy");
-            element.fin = dateFormat(element.fin, "dd,dm,yyyy");
-
+            element.inicio = dateFormat(element.inicio, "d,m,yyyy");
+            element.fin = dateFormat(element.fin, "d,m,yyyy");
         });
 
         let document = {
@@ -424,8 +452,6 @@ exports.exportarTareaspdf = async function (req, res) {
 
         PDF.create(document)
             .then(result => {
-                console.log(result.filename);
-                // res.sendFile(result.filename);
                 var buffer = fs.readFileSync(result.filename);
 
                 res.writeHead(200, {
@@ -436,33 +462,62 @@ exports.exportarTareaspdf = async function (req, res) {
                 res.end(Buffer.from(buffer, 'binary'));
                 fs.unlinkSync(result.filename);
 
-
             })
             .catch(error => {
                 console.error(error)
             })
+    })
+}
 
+exports.actualizarConfiguracion = async function (req, res) {
 
+    const { camara, tareas, asistencias, modoTablet } = req.body;
+    var documento = req.user.id;
+    updateConfig(documento, camara, tareas, asistencias, modoTablet).then(function (response) {
+        res.send(JSON.stringify({ "retorno": true }))
+    })
 
+    console.log("2");
 
+}
+
+var updateConfig = (documento, camara, tareas, asistencias, modoTablet) => {
+    return new Promise((res, rej) => {
+        var actualizar = pool.query("UPDATE `configuracion` SET `asistencias`=?,`camara`=?,`modoTablet`=?,`tareas`=?,`empresa_id`=?", [asistencias, camara, modoTablet, tareas, documento]);
+        res(actualizar);
     })
 }
 
 
-
-let asistencias = (documento) => {
+let asistencias = (documento, empleado) => {
     return new Promise((res, rej) => {
-        var asistencias = pool.query('SELECT asi.* FROM asistencia AS asi WHERE asi.id and asi.empleado_id=?', [documento]);
-        res(asistencias);
+        if (empleado != null) {
+            var asistenciasEmpleado = pool.query("SELECT asi.*, emp.nombre, emp.apellido FROM asistencia AS asi, empleado as emp WHERE asi.id and asi.empresa_id=? and asi.empleado_id=emp.id and asi.empleado_id = ?", [documento, empleado]);
+            res(asistenciasEmpleado);
+        } else {
+            var asistencias = pool.query('SELECT asi.*, emp.nombre, emp.apellido FROM asistencia AS asi, empleado as emp WHERE asi.id and asi.empresa_id=? and asi.empleado_id=emp.id', [documento]);
+            res(asistencias);
+
+        }
     });
 }
 
-let tareas = (documento) => {
+let configuracion = (documento) => {
     return new Promise((res, rej) => {
-        var asistencias = pool.query('SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado, usuario as u, tarea_ubicacion as tdUbic, ubicacion as ubic WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento AND tdUbic.Tarea_id=td.id AND ubic.id= tdUbic.ubicaciones_id ORDER BY td.inicio ASC', [documento]);
-        res(asistencias, (err) => {
-            console.log(err);
-        });
+        var config = pool.query('SELECT * FROM configuracion WHERE empresa_id=?', [documento]);
+        res(config);
+    });
+}
+
+let tareas = (documento, empleado) => {
+    return new Promise((res, rej) => {
+        if (empleado != null) {
+            var tareasEmpleados = pool.query("SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id= ? ORDER BY td.inicio ASC",[documento,empleado]);
+            res(tareasEmpleados);
+        } else {
+            var tareas = pool.query('SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id= ? ORDER BY td.inicio ASC', [documento]);
+            res(tareas);
+        }
     });
 }
 

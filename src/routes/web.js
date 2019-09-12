@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     destination: path.join(__dirname, "../public/img/perfiles"),
     filename: (req, file, cb) => {
         const { documento } = req.body;
-        console.log('documento',req.body.documento);
+        console.log('documento', req.body.documento);
         cb(null, documento + path.extname(file.originalname).toLocaleLowerCase());
     }
 });
@@ -63,14 +63,15 @@ router.post('/desactivar', haySession, usuarioControlador.desactivar);
 router.post('/resetPass', noHaySession, usuarioControlador.resetPass);
 
 router.get('/busquedaEmpleado', haySession, usuarioControlador.busquedaEmpleado);
+
 router.get('/exportarAsistencias', haySession, usuarioControlador.exportarAsistenciascsv);
 router.get('/exportarTareas', haySession, usuarioControlador.exportarTareascsv);
-
 
 router.get('/exportarAsistenciaspdf', haySession, usuarioControlador.exportarAsistenciaspdf);
 router.get('/exportarTareaspdf', haySession, usuarioControlador.exportarTareaspdf);
 
-
+router.get("/getConfig", haySession, usuarioControlador.getConfig);
+router.post("/actualizarConfiguracion", haySession, usuarioControlador.actualizarConfiguracion);
 
 
 module.exports = router;

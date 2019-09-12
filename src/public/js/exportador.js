@@ -2,10 +2,10 @@ function descargarAsistenciaspdf(){
     location.replace("/exportarAsistenciaspdf");
 }
 
-function descargarTareaspdf(){
+function descargarTareascsv(){
     location.replace("/exportarTareas");    
 }
-
+ 
 function descargarAsistenciascsv(){
     location.replace("/exportarAsistencias");    
 }

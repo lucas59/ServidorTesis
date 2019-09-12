@@ -103,6 +103,8 @@ passport.use('local.signup', new LocalStrategy({
                 id: documento
             }
             const resultEmpresa = await pool.query('INSERT INTO empresa SET ? ', empresa);
+            var config = await pool.query("INSERT INTO `configuracion`(`id`, `asistencias`, `camara`, `modoTablet`, `tareas`, `empresa_id`) VALUES (?,?,?,?,?,?)", [null, true, true, true, true, documento]);
+
             console.log(resultEmpresa);
             console.log('usuario empresa insertado');
             return done(null, false, req.flash('success', 'Bienvenido ' + nombre));

@@ -10,8 +10,11 @@ const passport = require("passport");
 const { database } = require("./keys")
 const bodyParse = require("body-parser");
 const hbs = require('handlebars');
+var helpersHandle = require('handlebars-helpers');
+
 
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
+hbs.registerHelper("when", helpersHandle.comparison.eq);
 
 //settings
 app.set('port', process.env.PORT || 4005);
@@ -37,15 +40,15 @@ app.use(session({
     store: new MYSQStore(database)
 }));
 app.use(morgan('dev'));
-app.use(express.json({limit: '50mb'}));
+app.use(express.json({ limit: '50mb' }));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParse.urlencoded({limit: '50mb'},{extends:false}));
+app.use(bodyParse.urlencoded({ limit: '50mb' }, { extends: false }));
 
 //static file image
 
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //inicializacion
 require("./lib/passport");

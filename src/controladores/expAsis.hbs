@@ -3,8 +3,9 @@
     <table class="table">
         <thead class="thead-light">
             <tr>
-                <th class="colUser" scope="col">Usuario</th>
-                <th scope="col">Tiempo</th>
+                <th class="colUser" scope="col">Documento</th>
+                <th class="colUser" scope="col">Nombre y apellido</th>
+                <th class="colUser" scope="col">Fecha y hora </th>
             </tr>
         </thead>
         <tbody>
@@ -13,11 +14,14 @@
             {{#each asistencias}}
             <tr>
                 <th class="columnaUsuario" scope="row">
+                    <p>{{empleado_id}}</p>
+                </th>
+                <th class="columnaUsuario" scope="row">
                     <p>{{nombre}} {{apellido}}</p>
                 </th>
                 <td class="columnaTiempo">
                     {{#if inicio}}
-                    {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
+                    {{inicio}}
                     {{else}}
                     {{#if fin}}
                     {{ fin}}

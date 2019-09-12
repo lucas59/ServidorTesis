@@ -53,8 +53,11 @@ exports.login = async function (req, res) {
             if (user.estado == 0) {
                 await pool.query('UPDATE `usuario` SET `estado` = 1 WHERE `usuario`.`documento` = ?', [user.documento]);
             }
-            var tipo = await obtenerTipoUsuario(id); 7
-            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento }));
+            var tipo = await obtenerTipoUsuario(id);
+            if (tipo == 0) {
+                var config = await pool.query("SELECT * FROM configuracion WHERE empresa_id = ?",[user.documento]);
+            }
+            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento, config: {config} }));
         } else {
             res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
         }
@@ -84,8 +87,6 @@ exports.login_tablet = async function (req, res) {
 async function obtenerTipoUsuario(id) {
     const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.documento', [id, id]);
     const rows2 = await pool.query('SELECT * FROM usuario as u, empleado as emp WHERE  (u.email = ? OR u.nombreUsuario = ?) and (emp.id = u.documento)', [id, id]);
-    console.log(rows);
-    console.log(rows2);
     if (rows.length > 0) {
         return 0;
     } else if (rows2.length > 0) {
@@ -121,7 +122,8 @@ exports.signup = async function (req, res) {
                     id: documento
                 }
                 const resultEmpresa = await pool.query('INSERT INTO empresa SET ? ', empresa);
-                console.log(resultEmpresa);
+                var config = await pool.query("INSERT INTO `configuracion`(`id`, `asistencias`, `camara`, `modoTablet`, `tareas`, `empresa_id`) VALUES (?,?,?,?,?,?)", [null, true, true, true, true, documento]);
+
                 console.log('usuario empresa insertado');
                 res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.' }));
             } else {
@@ -292,12 +294,12 @@ exports.login = function(req,res){
 
 exports.misEmpleados = async function (req, res) {
     var id = req.param('documento');
-    const sql = await pool.query("SELECT u.*, emp.* FROM usuario as u, empresa_empleado as empE, empleado as emp WHERE emp.id=u.documento AND u.documento=empE.empleados_id and empE.Empresa_id=?",[id]);
+    const sql = await pool.query("SELECT u.*, emp.* FROM usuario as u, empresa_empleado as empE, empleado as emp WHERE emp.id=u.documento AND u.documento=empE.empleados_id and empE.Empresa_id=?", [id]);
     res.send(JSON.stringify({ filas: sql }));
 }
 
-exports.asistencias = async function(req,res){
+exports.asistencias = async function (req, res) {
     var id = req.param('documento');
-    const sql = await pool.query('SELECT asi.* FROM asistencia as asi, empresa_empleado as empE  WHERE asi.empleado_id=empE.empleados_id AND empE.Empresa_id=?',[id]);
-    res.send(JSON.stringify(sql));   
+    const sql = await pool.query('SELECT asi.* FROM asistencia as asi, empresa_empleado as empE  WHERE asi.empleado_id=empE.empleados_id AND empE.Empresa_id=?', [id]);
+    res.send(JSON.stringify(sql));
 }

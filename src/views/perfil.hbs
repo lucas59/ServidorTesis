@@ -16,6 +16,8 @@
             <p><i class="fas fa-at"></i>Cédula: {{datos.documento}}</p>
             <p>Nombre de usuario: {{datos.nombreUsuario}}</p>
             <p>Correo: {{datos.email}}</p>
+
+             {{#when <datos.documento> 'eq' <user.documento>}}
             <div id="opcionesPerfil">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Modificar mis datos</button>
@@ -26,6 +28,7 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#configuracionCuenta">
                     Configuracion cuenta</button>
             </div>
+            {{/when}}
         </div>
 
     </div>
@@ -118,26 +121,34 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modificar datos</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Configuracion</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/desactivar" method="POST" action="">
-                <div class="modal-body">
-                    <ul>
-                        <input type="text" style="display: none" value="{{datos.documento}}" name="documento">
-                        <div class="dato">
-                            <label for="">Contraseña </label>
-                            <input name="pass" type="password" value="{{datos.nombreUsuario}}" id="pass" />
-                        </div>
-                    </ul>
+            <div class="modal-body">
+
+                <div class="configOp"> <input onchange="modificarConfiguracion()" id="checktarea" type="checkbox">
+                    <label for="tare">Permitir registro de tareas</label>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Desactivar</button>
+                <div class="configOp">
+                    <input onchange="modificarConfiguracion()" id="checkasistencia" type="checkbox">
+                    <label for="tare">Permitir registro de asistencias</label>
                 </div>
-            </form>
+                <div class="configOp">
+                    <input onchange="modificarConfiguracion()" id="checkmodoTablet" type="checkbox">
+                    <label for="tare">Permitir acceder desde una tablet a mi cuenta</label>
+                </div>
+                <div class="configOp">
+                    <input onchange="modificarConfiguracion()" id="checkcamaraFrontal" type="checkbox">
+                    <label for="tare">Utilizar camara frontal</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" onclick="enviarConfiguracion()" id="btnGuardar" class="btn btn-primary">Guardar
+                    cambios</button>
+            </div>
         </div>
     </div>
 </div>
