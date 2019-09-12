@@ -218,26 +218,7 @@ exports.Alta_tarea = async function (req, res) {
     var empresa_id = req.param('empresa_id');
 
     //inserta la tarea y la ubicación de inicio
-    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`) VALUES (?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id, empresa_id]);
-    await pool.query('INSERT INTO ubicacion (`latitud`,`longitud`,`tipo`) VALUES (?,?,?)', [lat_ini, long_ini, 0]);
-
-    //busca la ultima tarea y la ultima ubicación ingresada
-    var id_tarea = await pool.query('SELECT MAX(id) AS id FROM tarea');
-    var id_ubicacion = await pool.query('SELECT MAX(id) AS id FROM ubicacion');
-
-    //ingresa la conexión entre la tarea y la ubicación
-    await pool.query('INSERT INTO tarea_ubicacion (`Tarea_id`,`ubicaciones_id`) VALUES (?,?)', [id_tarea[0].id, id_ubicacion[0].id]);
-
-    //inserta la ubicación del final
-    await pool.query('INSERT INTO ubicacion (`latitud`,`longitud`,`tipo`) VALUES (?,?,?)', [lat_fin, long_fin, 1]);
-
-    //busca la ultima tarea y la ultima ubicación ingresada
-    var id_tarea = await pool.query('SELECT MAX(id) AS id FROM tarea');
-    var id_ubicacion = await pool.query('SELECT MAX(id) AS id FROM ubicacion');
-
-    //ingresa la conexión entre la tarea y la ubicación
-    await pool.query('INSERT INTO tarea_ubicacion (`Tarea_id`,`ubicaciones_id`) VALUES (?,?)', [id_tarea[0].id, id_ubicacion[0].id]);
-
+    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`,`latitud_fin`, `latitud_ini`, `longitud_ini`, `longitud_fin`) VALUES (?,?,?,?,?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id, empresa_id, lat_fin,lat_ini,long_ini,long_fin]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea ingresada correctamente' }));
 };
 
@@ -272,8 +253,7 @@ exports.EliminarTarea = async function (req, res) {
 
 
 exports.Alta_asistencia = async function (req, res) {
-    var inicio = req.param('inicio');
-    var fin = req.param('fin');
+    var inicio = req.param('fecha');
     var foto = req.param('foto');
     var id = req.param('empleado_id');
     if (fin == null) {
