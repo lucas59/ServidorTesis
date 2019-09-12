@@ -16,12 +16,13 @@
                                     <div class="searchbar">
                                         <input onkeyup="FiltrarTabla()" id="buscar" class="search_input" type="text"
                                             name="" placeholder="Search...">
-                                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                                        <a href="#" class="search_icon"><i class="material-icons">search</i></a>
                                     </div>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
                                         data-target="#modalAddUser">
-                                        Agregar colaborador
-                                    </button>
+                                        <i class="material-icons">
+                                            person_add
+                                        </i> </button>
                                 </div>
                             </div>
                         </div>
@@ -50,8 +51,8 @@
                                         {{nombre}} {{apellido}}
                                     </td>
                                     <td>
-                                        <button onclick="despedirEmpleado({{documento}})"
-                                            class="btn btn-danger">Borrar</button>
+                                        <button onclick="despedirEmpleado({{documento}})" class="btn text-danger"><i
+                                                class="material-icons">delete</i></button>
                                         <a href="/perfil?doc={{documento}}"><i class="fas fa-eye"></i></a>
                                     </td>
 
