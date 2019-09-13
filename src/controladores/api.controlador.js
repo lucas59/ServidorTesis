@@ -55,9 +55,9 @@ exports.login = async function (req, res) {
             }
             var tipo = await obtenerTipoUsuario(id);
             if (tipo == 0) {
-                var config = await pool.query("SELECT * FROM configuracion WHERE empresa_id = ?",[user.documento]);
+                var config = await pool.query("SELECT * FROM configuracion WHERE empresa_id = ?", [user.documento]);
             }
-            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento, config: {config} }));
+            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento, config: { config } }));
         } else {
             res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
         }
@@ -216,9 +216,8 @@ exports.Alta_tarea = async function (req, res) {
     var lat_fin = req.param('lat_fin');
     var empleado_id = req.param('empleado_id');
     var empresa_id = req.param('empresa_id');
-
     //inserta la tarea y la ubicación de inicio
-    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`,`latitud_fin`, `latitud_ini`, `longitud_ini`, `longitud_fin`) VALUES (?,?,?,?,?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id, empresa_id, lat_fin,lat_ini,long_ini,long_fin]);
+    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`,`latitud_fin`, `latitud_ini`, `longitud_ini`, `longitud_fin`) VALUES (?,?,?,?,?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id, empresa_id, lat_fin, lat_ini, long_ini, long_fin]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea ingresada correctamente' }));
 };
 
@@ -228,7 +227,10 @@ exports.Modificar_tarea = async function (req, res) {
     var inicio = req.param('inicio');
     var fin = req.param('fin');
     var id = req.param('id');
-
+    console.log(titulo);
+    console.log(inicio);
+    console.log(fin);
+    console.log(id);
 
     await pool.query('UPDATE tarea SET estado = ? ,fin = ?, inicio = ?, titulo = ? WHERE id = ?', [1, fin, inicio, titulo, id]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea modificada correctamente' }));
@@ -236,16 +238,7 @@ exports.Modificar_tarea = async function (req, res) {
 
 exports.EliminarTarea = async function (req, res) {
     var id = req.param('id');
-    const filas = await pool.query('SELECT * FROM tarea_ubicacion WHERE Tarea_id = ?', [id]);
-    var tam = filas.length;
-    console.log(id);
-    await pool.query('DELETE FROM tarea_ubicacion WHERE Tarea_id = ?', [id]);
-    if (tam > 0) {
-        for (var i = 0; i < tam; i++) {
-            await pool.query('DELETE FROM ubicacion WHERE id = ?', [filas[i].ubicaciones_id]);
-        }
-    }
-
+    console.log("prueba");
     await pool.query('DELETE FROM tarea WHERE tarea.id = ?', [id]);
 
     res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea eliminada correctamente' }));
