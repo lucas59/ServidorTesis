@@ -28,6 +28,7 @@ router.post('/Modificar_tarea', apiControlador.Modificar_tarea);
 router.post('/EliminarTarea', apiControlador.EliminarTarea);
 router.post('/Tareas/ListaTareas', apiControlador.ListaTareas);
 router.post('/Tareas/ListaEmpresas', apiControlador.ListaEmpresas);
+router.post('/Tareas/ListaAsistencias',apiControlador.ListaAsistencias);
 router.get('/misEmpleados',apiControlador.misEmpleados);
 router.get('/listaAsistencias', apiControlador.asistencias);
 module.exports = router;

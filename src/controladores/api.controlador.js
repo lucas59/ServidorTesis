@@ -181,9 +181,6 @@ async function obtenerPin(documento) { //saco los ultimos cuatro digitos de la c
     return pin;
 }
 
-
-
-
 exports.ListaTareas = async function (req, res) {
     var id = req.param('id');
     var id_empresa = req.param('id_empresa');
@@ -193,6 +190,20 @@ exports.ListaTareas = async function (req, res) {
         res.send(JSON.stringify({ retorno: true, mensaje: rows }));
     } else {
         res.send(JSON.stringify({ retorno: false, mensaje: 'No existen tareas' }));
+    }
+};
+
+exports.ListaAsistencias = async function (req, res) {
+    var id = req.param('id');
+    var id_empresa = req.param('id_empresa');
+    console.log(id);7
+    console.log(id_empresa);
+    const rows = await pool.query('SELECT id,fecha,tipo FROM asistencia WHERE empleado_id = ? AND empresa_id = ? GROUP BY fecha', [id, id_empresa]);
+    if (rows.length > 0) {
+        console.log(rows[0]);
+        res.send(JSON.stringify({ retorno: true, mensaje: rows }));
+    } else {
+        res.send(JSON.stringify({ retorno: false, mensaje: 'No existen asistencias' }));
     }
 };
 
@@ -246,16 +257,15 @@ exports.EliminarTarea = async function (req, res) {
 
 
 exports.Alta_asistencia = async function (req, res) {
-    var inicio = req.param('fecha');
+    var fecha = req.param('fecha');
     var foto = req.param('foto');
     var id = req.param('empleado_id');
-    if (fin == null) {
-        await pool.query('INSERT INTO asistencia (`inicio`,`fin`,`foto`,`empleado_id`) VALUES (?,?,?,?)', [inicio, fin, foto, id]);
-        res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia ingresada correctamente' }));
-    } else {
-        await pool.query('UPDATE asistencia set fin = ? WHERE fin IS null AND empleado_id = ?', [fin, id]);
-        res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia actualizada correctamente' }));
-    }
+    var estado = req.param('estado');
+    var empresa_id = req.param('empresa_id');
+    console.log(empresa_id);
+    await pool.query('INSERT INTO asistencia (`fecha`,`foto`,`empleado_id`,`tipo`,`empresa_id`) VALUES (?,?,?,?,?)', [fecha, foto, id,estado,empresa_id]);
+    res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia ingresada correctamente' }));
+
 };
 
 
