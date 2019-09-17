@@ -4,6 +4,7 @@ table img.fotoPerfilTabla{
   margin: 0px 10px 0px 10px;
 }
 
+
 .sessionLista{
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -23,14 +24,18 @@ table img.fotoPerfilTabla{
   margin-right: auto;
   margin-left: auto;
 }
-
+#btnAddPerson{
+  border-radius: 50%;
+}
 .modal-body session div *{
   height: 40px;
   border-radius: 5px;
   border: solid 0.1px gray;
   
 }
-
+.buscador{
+  display: inline-block;`
+}
 #tablaUsuarios{
   width: 100%;
   border: solid;

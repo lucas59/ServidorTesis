@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const apiControlador = require("../controladores/api.controlador");
 const bodyParser = require('body-parser');
+const http = require("http");
 
 const path = require("path");
 const multer = require('multer');
@@ -13,6 +14,9 @@ const storage = multer.diskStorage({
         cb(null, documento + path.extname(file.originalname).toLocaleLowerCase());
     }
 });
+
+
+
 router.get('/', apiControlador.inicio);
 router.post('/user', apiControlador.user);
 router.post('/userEmpresa', apiControlador.userEmpresa);

@@ -2,9 +2,11 @@ const pool = require("../database");
 const helpers = require("../lib/helpers");
 const bodyParser = require('body-parser');
 const buffer = require('buffer');
+
+
+
 exports.inicio = function (req, res) {
     res.send(JSON.stringify({ coso: 'Esto es la api' }));
-
 };
 
 
@@ -55,9 +57,9 @@ exports.login = async function (req, res) {
             }
             var tipo = await obtenerTipoUsuario(id);
             if (tipo == 0) {
-                var config = await pool.query("SELECT * FROM configuracion WHERE empresa_id = ?",[user.documento]);
+                var config = await pool.query("SELECT * FROM configuracion WHERE empresa_id = ?", [user.documento]);
             }
-            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento, config: {config} }));
+            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', tipo: tipo, id: rows[0].documento, config: { config } }));
         } else {
             res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta.' }));
         }
@@ -218,7 +220,7 @@ exports.Alta_tarea = async function (req, res) {
     var empresa_id = req.param('empresa_id');
 
     //inserta la tarea y la ubicación de inicio
-    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`,`latitud_fin`, `latitud_ini`, `longitud_ini`, `longitud_fin`) VALUES (?,?,?,?,?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id, empresa_id, lat_fin,lat_ini,long_ini,long_fin]);
+    await pool.query('INSERT INTO tarea (`estado`,`fin`,`inicio`,`titulo`,`empleado_id`,`empresa_id`,`latitud_fin`, `latitud_ini`, `longitud_ini`, `longitud_fin`) VALUES (?,?,?,?,?,?,?,?,?,?)', [1, fin, inicio, titulo, empleado_id, empresa_id, lat_fin, lat_ini, long_ini, long_fin]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'Tarea ingresada correctamente' }));
 };
 

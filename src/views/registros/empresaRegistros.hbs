@@ -1,14 +1,12 @@
 <link rel="stylesheet" href="css/tabsRegistrosEmpresa.css">
 <link rel="stylesheet" href="css/indicador.css">
-
 <main>
-    
     <input id="tab1" type="radio" name="tabs" checked>
     <label for="tab1">Tareas en proceso</label>
 
     <input id="tab2" type="radio" name="tabs">
     <label for="tab2">Entradas</label>
-    
+
     <section id="content1">
 
         <div class="buscadorTab">
@@ -21,14 +19,13 @@
                 <tr>
                     <th class="colUser" scope="col">Usuario</th>
                     <th scope="col">Tarea</th>
-                    <th scope="col">Inicio / Fin</th>
+                    <th scope="col">Fecha - Hora</th>
                     <th scope="col">Estado</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 {{#if tareas}}
-
                 {{#each tareas}} <tr>
                     <th class="columnaUsuario" scope="row">
                         {{#if fotoPerfil}}
@@ -62,9 +59,8 @@
                         Ubicacion inicio
                         {{/if}}
                     </td>
-
                     <td class="columnaUbicacion"> <button onclick="abrirMapa({{latitud}},{{longitud}})"
-                            class="btn btn-primary">Ubicacion</button> </td>
+                            class="btn btn-secondary"><i class="material-icons">my_location</i></button> </td>
                 </tr>
                 {{/each}}
                 {{/if}}

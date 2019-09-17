@@ -2,7 +2,6 @@
 var map;
 
 $(document).ready(function () {
-    console.log('todo listo');
     map = L.map('mapid', {
         center: [-32.314347, -58.076697],
         zoom: 13
@@ -22,15 +21,18 @@ $(document).ready(function () {
             map.invalidateSize();
         }, 10);
     });
-});
-
+    
 function abrirMapa(latitud, longitud) {
     $('#modalUbicacion').modal('show');
+    console.log("asd");
     agregarMarcador(latitud, longitud);
 }
+
 
 function agregarMarcador(lat, long) {
     console.log(lat, long);
     L.marker([lat, long]).addTo(map);
     map.panTo(new L.LatLng(lat, long));
 }
+
+});

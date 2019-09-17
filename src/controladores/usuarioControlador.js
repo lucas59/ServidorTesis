@@ -13,6 +13,9 @@ var dateFormat = require('dateformat');
 const { parse } = require('json2csv');
 let PDF = require('handlebars-pdf');
 
+
+
+
 exports.inicio = async function (req, res) {
     if (req.isAuthenticated()) { //si hay session 
         var titulo = "Inicio";
@@ -27,6 +30,7 @@ exports.inicio = async function (req, res) {
     } else {
         var titulo = "Inicio";
         res.render("autenticacion/inicio", { titulo });
+
     }
 };
 

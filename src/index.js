@@ -38,6 +38,7 @@ hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });//settings
 app.set('port', process.env.PORT || 4005);
+
 app.set("views", path.join(__dirname, "views"))
 app.engine(".hbs", expresshbs({
     defaultLayout: "main",
@@ -47,6 +48,7 @@ app.engine(".hbs", expresshbs({
     helpers: require("./lib/handlebars")
 
 }));
+
 
 
 app.set("view engine", ".hbs");
@@ -81,13 +83,6 @@ app.use((req, res, next) => {
     app.locals.user = req.user;
     next();
 });
-
-
-//rutas
-
-/*app.use(require("./routes/"));
-app.use(require("./routes/autentication"));
-app.use('/links', require("./routes/links"));*/
 
 app.use('/api', require("./routes/api")); //url que devuelta solo objetos json APIREST
 
