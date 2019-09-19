@@ -186,7 +186,7 @@ async function obtenerPin(documento) { //saco los ultimos cuatro digitos de la c
 exports.ListaTareas = async function (req, res) {
     var id = req.param('id');
     var id_empresa = req.param('id_empresa');
-    const rows = await pool.query('SELECT * FROM tarea WHERE empleado_id = ? AND empresa_id = ? GROUP BY inicio', [id, id_empresa]);
+    const rows = await pool.query('SELECT * FROM tarea WHERE empleado_id = ? AND empresa_id = ? GROUP BY inicio DESC', [id, id_empresa]);
     if (rows.length > 0) {
         console.log(rows[0]);
         res.send(JSON.stringify({ retorno: true, mensaje: rows }));
@@ -198,9 +198,9 @@ exports.ListaTareas = async function (req, res) {
 exports.ListaAsistencias = async function (req, res) {
     var id = req.param('id');
     var id_empresa = req.param('id_empresa');
-    console.log(id);7
+    console.log(id); 7
     console.log(id_empresa);
-    const rows = await pool.query('SELECT id,fecha,tipo FROM asistencia WHERE empleado_id = ? AND empresa_id = ? GROUP BY fecha', [id, id_empresa]);
+    const rows = await pool.query('SELECT id,fecha,tipo FROM asistencia WHERE empleado_id = ? AND empresa_id = ? GROUP BY fecha DESC', [id, id_empresa]);
     if (rows.length > 0) {
         console.log(rows[0]);
         res.send(JSON.stringify({ retorno: true, mensaje: rows }));
@@ -211,7 +211,7 @@ exports.ListaAsistencias = async function (req, res) {
 
 exports.ListaEmpresas = async function (req, res) {
     var id = req.param('id');
-    const filas = await pool.query('SELECT * FROM empresa WHERE empresa.id IN (SELECT Empresa_id FROM empresa_empleado WHERE empleados_id = ?)', [id]);
+    const filas = await pool.query('SELECT empresa.nombre,empresa.id,usuario.fotoPerfil FROM empresa INNER JOIN usuario ON empresa.id = usuario.documento WHERE empresa.id IN (SELECT Empresa_id FROM empresa_empleado WHERE empleados_id = ?)', [id]);
     if (filas.length > 0) {
         res.send(JSON.stringify({ retorno: true, mensaje: filas }));
     } else {
