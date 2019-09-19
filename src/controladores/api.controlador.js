@@ -184,7 +184,7 @@ async function obtenerPin(documento) { //saco los ultimos cuatro digitos de la c
 exports.ListaTareas = async function (req, res) {
     var id = req.param('id');
     var id_empresa = req.param('id_empresa');
-    const rows = await pool.query('SELECT * FROM tarea WHERE empleado_id = ? AND empresa_id = ? GROUP BY inicio', [id, id_empresa]);
+    const rows = await pool.query('SELECT * FROM tarea WHERE empleado_id = ? AND empresa_id = ? GROUP BY inicio DESC', [id, id_empresa]);
     if (rows.length > 0) {
         console.log(rows[0]);
         res.send(JSON.stringify({ retorno: true, mensaje: rows }));
@@ -196,9 +196,9 @@ exports.ListaTareas = async function (req, res) {
 exports.ListaAsistencias = async function (req, res) {
     var id = req.param('id');
     var id_empresa = req.param('id_empresa');
-    console.log(id);7
+    console.log(id); 7
     console.log(id_empresa);
-    const rows = await pool.query('SELECT id,fecha,tipo FROM asistencia WHERE empleado_id = ? AND empresa_id = ? GROUP BY fecha', [id, id_empresa]);
+    const rows = await pool.query('SELECT id,fecha,tipo FROM asistencia WHERE empleado_id = ? AND empresa_id = ? GROUP BY fecha DESC', [id, id_empresa]);
     if (rows.length > 0) {
         console.log(rows[0]);
         res.send(JSON.stringify({ retorno: true, mensaje: rows }));
@@ -263,7 +263,7 @@ exports.Alta_asistencia = async function (req, res) {
     var estado = req.param('estado');
     var empresa_id = req.param('empresa_id');
     console.log(empresa_id);
-    await pool.query('INSERT INTO asistencia (`fecha`,`foto`,`empleado_id`,`tipo`,`empresa_id`) VALUES (?,?,?,?,?)', [fecha, foto, id,estado,empresa_id]);
+    await pool.query('INSERT INTO asistencia (`fecha`,`foto`,`empleado_id`,`tipo`,`empresa_id`) VALUES (?,?,?,?,?)', [fecha, foto, id, estado, empresa_id]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia ingresada correctamente' }));
 
 };
