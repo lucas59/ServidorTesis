@@ -21,7 +21,7 @@ exports.inicio = async function (req, res) {
         var titulo = "Inicio";
         if (req.user.tipo == 0) {
             const tareas = await pool.query('SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento  ORDER BY td.inicio ASC', [req.user.documento])
-            const asistencias = await pool.query('SELECT asi.*, emp.nombre, emp.apellido FROM asistencia AS asi, empleado as emp WHERE asi.id and asi.empresa_id=? and asi.empleado_id=emp.id ORDER BY asi.fecha DESC', [req.user.documento])
+            const asistencias = await pool.query('SELECT asi.*, emp.nombre, emp.apellido,u.fotoPerfil FROM asistencia AS asi, empleado as emp, usuario as u WHERE u.documento = emp.id and asi.id and asi.empresa_id=? and asi.empleado_id=emp.id ORDER BY asi.fecha DESC', [req.user.documento])
 
             res.render("registros/empresaRegistros", { titulo, tareas, asistencias });
         } else {
