@@ -211,7 +211,7 @@ exports.ListaAsistencias = async function (req, res) {
 
 exports.ListaEmpresas = async function (req, res) {
     var id = req.param('id');
-    const filas = await pool.query('SELECT * FROM empresa WHERE empresa.id IN (SELECT Empresa_id FROM empresa_empleado WHERE empleados_id = ?)', [id]);
+    const filas = await pool.query('SELECT empresa.nombre,empresa.id,usuario.fotoPerfil FROM empresa INNER JOIN usuario ON empresa.id = usuario.documento WHERE empresa.id IN (SELECT Empresa_id FROM empresa_empleado WHERE empleados_id = ?)', [id]);
     if (filas.length > 0) {
         res.send(JSON.stringify({ retorno: true, mensaje: filas }));
     } else {
