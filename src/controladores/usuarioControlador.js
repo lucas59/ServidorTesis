@@ -21,7 +21,7 @@ exports.inicio = async function (req, res) {
         var titulo = "Inicio";
         if (req.user.tipo == 0) {
             const tareas = await pool.query('SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento  ORDER BY td.inicio ASC', [req.user.documento])
-            const asistencias = await pool.query('SELECT asi.*, emp.nombre, emp.apellido FROM asistencia AS asi, empleado as emp WHERE asi.id and asi.empresa_id=? and asi.empleado_id=emp.id', [req.user.documento])
+            const asistencias = await pool.query('SELECT asi.*, emp.nombre, emp.apellido FROM asistencia AS asi, empleado as emp WHERE asi.id and asi.empresa_id=? and asi.empleado_id=emp.id ORDER BY asi.fecha DESC', [req.user.documento])
 
             res.render("registros/empresaRegistros", { titulo, tareas, asistencias });
         } else {
@@ -439,6 +439,7 @@ exports.exportarTareascsv = async function (req, res) {
 exports.exportarTareaspdf = async function (req, res) {
     var documento = req.query.doc;
 
+
     tareas(req.user.id, documento).then((tareas) => {
         console.log("tareas", tareas.length);
         tareas.forEach(element => {
@@ -519,7 +520,8 @@ let tareas = (documento, empleado) => {
             var tareasEmpleados = pool.query("SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id= ? ORDER BY td.inicio ASC",[documento,empleado]);
             res(tareasEmpleados);
         } else {
-            var tareas = pool.query('SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id= ? ORDER BY td.inicio ASC', [documento]);
+            console.log("nada");
+            var tareas = pool.query('SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? ORDER BY td.inicio ASC', [documento]);
             res(tareas);
         }
     });

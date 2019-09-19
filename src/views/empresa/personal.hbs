@@ -58,10 +58,8 @@
                                                 aria-haspopup="true" aria-expanded="false"><i
                                                     class="material-icons">list_alt</i></button>
                                             <div class="dropdown-menu">
-                                                <a data-toggle="modal" data-target="#modalExportarAsistencias"
-                                                    class="dropdown-item">Asistencias</a>
-                                                <a data-toggle="modal" data-target="#modalExportarTareas"
-                                                    class="dropdown-item">Tareas</a>
+                                                <a data-toggle="modal" onclick="exportarAsistencias({{documento}})" class="dropdown-item">Asistencias</a>
+                                                <a data-toggle="modal" onclick="exportarTareas({{documento}})" class="dropdown-item">Tareas</a>
                                             </div>
                                         </div>
 
@@ -133,7 +131,29 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalExportarTareas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modalAsistencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Informe de Asistencias</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="container opcionesFormato">
+                <div class="row">
+                    <div id="btnDesAsisPDF" onclick="descargarAsistenciaspdf()" class="col pdf">
+                    </div>
+                    <div id="btnDesAsisCSV" onclick="descargarAsistenciascsv()" class="col csv">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalTareas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -145,9 +165,9 @@
             </div>
             <div class="container opcionesFormato">
                 <div class="row">
-                    <div onclick="descargarTareaspdf()" class="col pdf">
+                    <div id="btnDesTareaPDF" onclick="descargarTareaspdf()" class="col pdf">
                     </div>
-                    <div onclick="descargarTareascsv()" class="col csv">
+                    <div id="btnDesTareaCSV" onclick="descargarTareascsv()" class="col csv">
                     </div>
                 </div>
             </div>
@@ -156,3 +176,4 @@
 </div>
 
 <script src="js/buscador.js"></script>
+<script src="js/personal.js"></script>

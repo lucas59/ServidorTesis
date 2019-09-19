@@ -20,8 +20,7 @@
                     <th class="colUser" scope="col">Usuario</th>
                     <th scope="col">Tarea</th>
                     <th scope="col">Fecha - Hora</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col"></th>
+                    <th scope="col">Ubicación</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +37,7 @@
                             src="http://localhost:4005/img/user.jpg">
 
                         {{/if}}
-                        <p>{{nombre}} {{apellido}}</p>
+                        {{nombre}} {{apellido}}
                     </th>
                     <td class="columnaTarea">
                         {{titulo}}
@@ -52,14 +51,8 @@
                         {{/if}}
                         {{/if}}
                     </td>
-                    <td class="columnaTiempo">
-                        {{#if tipoUbic}}
-                        Ubicacion Fin
-                        {{else}}
-                        Ubicacion inicio
-                        {{/if}}
-                    </td>
-                    <td class="columnaUbicacion"> <button onclick="abrirMapa({{latitud}},{{longitud}})"
+                    <td class="columnaUbicacion"> <button
+                            onclick="abrirMapa({{latitud_ini}},{{longitud_fin}},{{latitud_fin}},{{longitud_fin}})"
                             class="btn btn-secondary"><i class="material-icons">my_location</i></button> </td>
                 </tr>
                 {{/each}}
@@ -73,7 +66,10 @@
             <thead class="thead-light">
                 <tr>
                     <th class="colUser" scope="col">Usuario</th>
-                    <th scope="col">Tiempo</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Captura</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -92,13 +88,24 @@
                         <p>{{nombre}} {{apellido}}</p>
                     </th>
                     <td class="columnaTiempo">
-                        {{#if inicio}}
-                        {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
-                        {{else}}
-                        {{#if fin}}
-                        {{ fin}}
-                        {{/if}}
-                        {{/if}}
+                        {{dateFormat fecha "d/MM/YY"}}
+                    </td>
+
+                    <td class="columnaTiempo">
+                        {{dateFormat fecha "h:mm:ss a"}}
+                    </td>
+                    <td class="columnaCaptura">
+                        <button id="captura" onclick="mostrarCaptura(this)" value="{{foto}}"><i
+                                class="material-icons">photo_camera</i></button>
+                    </td>
+                    <td class="columnaTipo">
+
+                        {{#ifCond tipo "===" 0}}
+                        <div class="indicadorRojo bg-danger"></div>
+                        {{/ifCond}}
+                        {{#ifCond tipo "===" 1}}
+                        <div class="indicadorVerde bg-success"></div>
+                        {{/ifCond}}
                     </td>
                 </tr>
                 {{/each}}
@@ -124,6 +131,24 @@
         </div>
     </div>
 </div>
+
+
+<div id="modalCaptura" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Captura</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="imgCaptura" src="" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <script src="js/registrosEmpresas.js"></script>
