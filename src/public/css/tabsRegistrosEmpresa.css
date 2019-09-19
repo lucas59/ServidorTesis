@@ -101,10 +101,6 @@ input:checked+label {
     }
 }
 
-.table tbody img{
-    width: 40px;
-    height: 70px;
-}
 
 .table .thead-light {
     color: black;
@@ -115,9 +111,8 @@ input:checked+label {
     text-align: center;
 }
 
-.columnaUsuario *{
-    display: inline-block;
-    float: left;
+.columnaUsuario {
+    text-align: left;
 }
 
 .colUser{
@@ -131,9 +126,33 @@ input:checked+label {
 
 
 
+#modalCaptura img{
+    width: 100%;
+    display: block;
+    border-radius: 20px;
+    margin: 0px auto 0px auto;
+}
 
 
 
+.indicadorRojo{
+    width: 30px;
+    color: red;
+    height: 30px;
+    border-radius:50%;
+    border: solid 5px lightcoral;
+}
+
+.indicadorVerde{
+    width: 30px;
+    color: red;
+    height: 30px;
+    border: solid 5px lightgreen;
+    border-radius:50%;
+}
 
 
+.table td{
+    vertical-align: inherit;
+}
 

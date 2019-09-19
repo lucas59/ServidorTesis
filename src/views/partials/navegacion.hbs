@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
   <div class="container">
-    <a class="navbar-brand" href="/">TINE</a>
+    
+    <a class="navbar-brand" href="/"><i class="material-icons">home</i>TINE</a>
     <div id="vertical-bar"></div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07"
       aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,16 +13,13 @@
       {{#if user}}
 
 
-      <ul class="navbar-nav mr-auto">
+      <ul id="opcionesEmpesas" class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/personal">Personal</a>
+          <a class="nav-link" href="/personal"> <i class="material-icons">people</i>Personal</a>
         </li>
         <!-- Example single danger button -->
         <div class="btn-group">
-          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-            Informes
-          </button>
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons">description</i>Informes</button>
           <div class="dropdown-menu">
             <a data-toggle="modal" data-target="#modalExportarAsistencias" class="dropdown-item"
               href="#">Asistencias</a>
@@ -90,7 +88,7 @@
         <div class="csv"></div>
       </div>-->
       <div class="container opcionesFormato ">
-         <div class="row">
+        <div class="row">
           <div onclick="descargarAsistenciaspdf()" class="col pdf">
           </div>
           <div onclick="descargarAsistenciascsv()" class="col csv">

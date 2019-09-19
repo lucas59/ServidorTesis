@@ -17,8 +17,10 @@
             <p>Nombre de usuario: {{datos.nombreUsuario}}</p>
             <p>Correo: {{datos.email}}</p>
 
-             {{#when <datos.documento> 'eq' <user.documento>}}
+
+            {{#ifCond datos.documento "===" user.id}}
             <div id="opcionesPerfil">
+                <i class="material-icons">account_box</i>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Modificar mis datos</button>
 
@@ -28,7 +30,8 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#configuracionCuenta">
                     Configuracion cuenta</button>
             </div>
-            {{/when}}
+            {{/ifCond}}
+
         </div>
 
     </div>

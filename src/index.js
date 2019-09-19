@@ -10,14 +10,35 @@ const passport = require("passport");
 const { database } = require("./keys")
 const bodyParse = require("body-parser");
 const hbs = require('handlebars');
-var helpersHandle = require('handlebars-helpers');
 
 
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
-hbs.registerHelper("when", helpersHandle.comparison.eq);
-
-//settings
+hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
+});//settings
 app.set('port', process.env.PORT || 4005);
+
 app.set("views", path.join(__dirname, "views"))
 app.engine(".hbs", expresshbs({
     defaultLayout: "main",
@@ -27,6 +48,7 @@ app.engine(".hbs", expresshbs({
     helpers: require("./lib/handlebars")
 
 }));
+
 
 
 app.set("view engine", ".hbs");
@@ -61,13 +83,6 @@ app.use((req, res, next) => {
     app.locals.user = req.user;
     next();
 });
-
-
-//rutas
-
-/*app.use(require("./routes/"));
-app.use(require("./routes/autentication"));
-app.use('/links', require("./routes/links"));*/
 
 app.use('/api', require("./routes/api")); //url que devuelta solo objetos json APIREST
 

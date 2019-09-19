@@ -2,9 +2,11 @@ const pool = require("../database");
 const helpers = require("../lib/helpers");
 const bodyParser = require('body-parser');
 const buffer = require('buffer');
+
+
+
 exports.inicio = function (req, res) {
     res.send(JSON.stringify({ coso: 'Esto es la api' }));
-
 };
 
 

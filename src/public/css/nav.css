@@ -48,6 +48,8 @@ header nav ul li a:hover {
 	color: white;
 }
 
+
+
 a{
 	color: #0082ce;
 }
@@ -65,6 +67,7 @@ a{
 	margin: 0px 20px 0px 20px;
 }
 
+
 .reloj{
 	color: white;
 	margin: 0px auto 0px auto;
@@ -78,7 +81,7 @@ a{
 	}
 
 #datosSession img{
-	width: 80px;
+	width: 70px;
 	border-radius:50%;
 	margin: 0px 10px 0px 10px;  
 }
@@ -125,4 +128,14 @@ a{
 .pdf:hover{
 	background-color: lightgray;
 	border-radius: 5px;
+}
+
+#opcionesEmpesas *{
+	color: lightgray;
+	vertical-align: text-bottom;
+	
+}
+
+#opcionesEmpesas .dropdown-menu a{
+	color: black;
 }
