@@ -52,14 +52,16 @@
                                         {{nombre}} {{apellido}}
                                     </td>
                                     <td>
-                                        
+
                                         <div class="btn-group">
                                             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
                                                 aria-haspopup="true" aria-expanded="false"><i
                                                     class="material-icons">list_alt</i></button>
                                             <div class="dropdown-menu">
-                                                <a data-toggle="modal" onclick="exportarAsistencias({{documento}})" class="dropdown-item">Asistencias</a>
-                                                <a data-toggle="modal" onclick="exportarTareas({{documento}})" class="dropdown-item">Tareas</a>
+                                                <a data-toggle="modal" onclick="exportarAsistencias({{documento}})"
+                                                    class="dropdown-item">Asistencias</a>
+                                                <a data-toggle="modal" onclick="exportarTareas({{documento}})"
+                                                    class="dropdown-item">Tareas</a>
                                             </div>
                                         </div>
 
@@ -142,6 +144,12 @@
                 </button>
             </div>
             <div class="container opcionesFormato">
+                 <div class="fecha">
+                    <label for="inicio">Fecha de inicio</label>
+                    <input type="date" name="inicio" id="inputAsisInicio">
+                    <label for="fin">Fecha de fin</label>
+                    <input type="date" name="fin" id="inputAsisFin">
+                </div>
                 <div class="row">
                     <div id="btnDesAsisPDF" onclick="descargarAsistenciaspdf()" class="col pdf">
                     </div>
@@ -164,6 +172,12 @@
                 </button>
             </div>
             <div class="container opcionesFormato">
+                <div class="fecha">
+                    <label for="inicio">Fecha de inicio</label>
+                    <input type="date" name="inicio" id="inputTareaInicio">
+                    <label for="fin">Fecha de fin</label>
+                    <input type="date" name="fin" id="inputTareaFin">
+                </div>
                 <div class="row">
                     <div id="btnDesTareaPDF" onclick="descargarTareaspdf()" class="col pdf">
                     </div>
