@@ -475,15 +475,12 @@ exports.exportarTareaspdf = async function (req, res) {
 }
 
 exports.actualizarConfiguracion = async function (req, res) {
-
     const { camara, tareas, asistencias, modoTablet } = req.body;
     var documento = req.user.id;
     updateConfig(documento, camara, tareas, asistencias, modoTablet).then(function (response) {
         res.send(JSON.stringify({ "retorno": true }))
     })
-
     console.log("2");
-
 }
 
 var updateConfig = (documento, camara, tareas, asistencias, modoTablet) => {
@@ -517,7 +514,7 @@ let configuracion = (documento) => {
 let tareas = (documento, empleado) => {
     return new Promise((res, rej) => {
         if (empleado != null) {
-            var tareasEmpleados = pool.query("SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id= ? ORDER BY td.inicio ASC",[documento,empleado]);
+            var tareasEmpleados = pool.query("SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id= ? ORDER BY td.inicio ASC", [documento, empleado]);
             res(tareasEmpleados);
         } else {
             console.log("nada");

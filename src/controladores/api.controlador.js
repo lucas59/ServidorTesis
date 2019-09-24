@@ -69,22 +69,26 @@ exports.login = async function (req, res) {
 };
 
 exports.login_tablet = async function (req, res) {
-    var pass = req.param('codigo');
-    const rows = await pool.query('SELECT * FROM empleado WHERE pin = ?', [pass]);
-    if (rows.length > 0) {
-        var id = rows[0].id;
-        const reentrada = await pool.query('SELECT * FROM asistencia WHERE empleado_id = ? AND fin IS NULL', [id]);
-        if (reentrada.length > 0) {
-            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', id: id, estado_ree: 0 }));
-        }
-        else {
-            res.send(JSON.stringify({ retorno: true, mensaje: 'Un exito.', id: id, estado_ree: 1 }));
-        }
-
-    } else {
-        res.send(JSON.stringify({ retorno: false, mensaje: 'Contraseña incorrecta' }));
+    var id_usuario = req.param('id_usuario');
+    var id_empresa = req.param('id_empresa');
+    console.log(id_usuario);
+    console.log(id_empresa);
+    const reentrada = await pool.query('SELECT * FROM asistencia WHERE id=(SELECT MAX(id) from asistencia) AND empleado_id = ? AND empresa_id = ? AND tipo = 1', [id_usuario, id_empresa]);
+    if (reentrada.length > 0) {
+        res.send(JSON.stringify({ retorno: true, mensaje: "Su ultima asistencia fue una entrada,¿Usted esta ingresando o saliendo del establecimiento?", estado_ree: 1 }));
     }
-};
+    else {
+        res.send(JSON.stringify({ retorno: true, mensaje: "¿Usted esta ingresando o saliendo del establecimiento?", estado_ree: 2 }));
+    }
+}
+
+exports.configuraciones_empresa = async function (req, res) {
+    var id_empresa = req.param('id_empresa');
+    const reentrada = await pool.query('SELECT * FROM configuracion WHERE empresa_id = ?', [id_empresa]);
+    if (reentrada.length > 0) {
+        res.send(JSON.stringify({ retorno: true, mensaje: reentrada }));
+    }
+}
 
 async function obtenerTipoUsuario(id) {
     const rows = await pool.query('SELECT * FROM usuario as u, empresa as emp WHERE (u.email = ? OR u.nombreUsuario = ?) and emp.id = u.documento', [id, id]);
