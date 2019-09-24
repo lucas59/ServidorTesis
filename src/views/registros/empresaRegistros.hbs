@@ -8,12 +8,6 @@
     <label for="tab2">Entradas</label>
 
     <section id="content1">
-
-        <div class="buscadorTab">
-            <label> Buscar</label>
-            <input type="text" id="buscar">
-        </div>
-
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -79,11 +73,14 @@
                 <tr>
                     <th class="columnaUsuario" scope="row">
                         {{#if fotoPerfil}}
+
                         <img style="width: 70px" class="rounded-circle userTarea"
                             src="http://localhost:4005/img/perfiles/{{fotoPerfil}}">
                         {{else}}
+
                         <img style="width: 70px" class="rounded-circle userTarea"
                             src="http://localhost:4005/img/user.jpg">
+
                         {{/if}}
                         <p>{{nombre}} {{apellido}}</p>
                     </th>

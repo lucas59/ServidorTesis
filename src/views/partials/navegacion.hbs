@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
   <div class="container">
-    
+
     <a class="navbar-brand" href="/"><i class="material-icons">home</i>TINE</a>
     <div id="vertical-bar"></div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07"
@@ -19,7 +19,8 @@
         </li>
         <!-- Example single danger button -->
         <div class="btn-group">
-          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons">description</i>Informes</button>
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false"><i class="material-icons">description</i>Informes</button>
           <div class="dropdown-menu">
             <a data-toggle="modal" data-target="#modalExportarAsistencias" class="dropdown-item"
               href="#">Asistencias</a>
@@ -88,6 +89,12 @@
         <div class="csv"></div>
       </div>-->
       <div class="container opcionesFormato ">
+        <div class="fecha">
+          <label for="inicio">Fecha de inicio</label>
+          <input type="date" name="inicio" id="inputAsisInicio">
+          <label for="fin">Fecha de fin</label>
+          <input type="date" name="fin" id="inputAsisFin">
+        </div>
         <div class="row">
           <div onclick="descargarAsistenciaspdf()" class="col pdf">
           </div>
@@ -110,6 +117,12 @@
         </button>
       </div>
       <div class="container opcionesFormato">
+        <div class="fecha">
+          <label for="inicio">Fecha de inicio</label>
+          <input type="date" name="inicio" id="inputTareaInicio">
+          <label for="fin">Fecha de fin</label>
+          <input type="date" name="fin" id="inputTareaFin">
+        </div>
         <div class="row">
           <div onclick="descargarTareaspdf()" class="col pdf">
           </div>
