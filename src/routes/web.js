@@ -73,5 +73,6 @@ router.get('/exportarTareaspdf', haySession, usuarioControlador.exportarTareaspd
 router.get("/getConfig", haySession, usuarioControlador.getConfig);
 router.post("/actualizarConfiguracion", haySession, usuarioControlador.actualizarConfiguracion);
 
+router.post("/mensaje", usuarioControlador.enviarMensaje);
 
 module.exports = router;

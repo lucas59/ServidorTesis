@@ -16,7 +16,7 @@ exports.user = async function (req, res) {
 
     const sql = await pool.query('SELECT u.documento, u.email,u.fotoPerfil,u.nombreUsuario, emp.celular, emp.nombre, emp.apellido FROM `empleado` as emp, usuario as u WHERE u.documento = emp.id and emp.id = ?', [id]);
 
-    res.send(JSON.stringify({ datos: sql }));
+    res.send(JSON.stringify(sql));
 };
 
 exports.userEmpresa = async function (req, res) {
@@ -151,6 +151,23 @@ exports.signup = async function (req, res) {
         res.send(JSON.stringify({ retorno: false, mensaje: 'Ya existe este usuario.' }));
     }
 };
+
+exports.updatePerfil = async function(req,res){
+    
+    let email =req.param("email");
+    let nombre =req.param("nombre");    
+    let apellido =req.param("apellido");
+    let celular =req.param("celular");
+    let fullName =req.param("fullName");
+    let documento =req.param("documento");
+
+    const sql = await pool.query("UPDATE `empleado` SET `nombre` = ?, apellido=?, celular=? WHERE `empleado`.`id` = ?",[nombre,apellido,celular,documento]);
+    if (sql.affectedRows == 1) {
+        res.send(JSON.stringify({retorno:true, mensaje:"Datos actualizados."}));
+    }else{
+        res.send(JSON.stringify({retorno:false, mensaje:"No se actualizado el usuario."}));
+    }      
+}
 
 exports.signup2 = async function (req, res) {///////Registro dos de la aplicacion movil
     var email = req.param('email');
