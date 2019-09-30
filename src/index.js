@@ -46,7 +46,6 @@ app.engine(".hbs", expresshbs({
     partialsDir: path.join(app.get("views"), 'partials'),
     extname: ".hbs",
     helpers: require("./lib/handlebars")
-
 }));
 
 

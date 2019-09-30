@@ -49,6 +49,14 @@ function buscarUsuario() {
         });
 }
 
+
+
+function abrirModalMensaje(cedula) {
+    console.log(cedula);
+    $("#modalMensaje").modal("show");
+    $("#empleadoidMsj").val(cedula);    
+}
+
 function insertarEnTabla(element) {
     var table = document.getElementById('tablaUsuarios');
     table.style.display = 'block';
