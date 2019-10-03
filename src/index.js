@@ -37,6 +37,7 @@ hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
             return options.inverse(this);
     }
 });//settings
+app.set('port', process.env.PORT || 4005);
 
 app.set("views", path.join(__dirname, "views"))
 app.engine(".hbs", expresshbs({
@@ -92,8 +93,7 @@ app.use(require("./routes/web")); //llamada desde la web que devuelve vistas hbs
 app.use(express.static(path.join(__dirname, "public")));
 
 
-var port = process.env.PORT;
-
-app.listen(port, function() {
-    console.log("App is running on port " + port);
+//starting the server
+app.listen(app.get('port'), () => {
+    console.log("Server on port ", app.get('port'));
 });
