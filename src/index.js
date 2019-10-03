@@ -92,7 +92,7 @@ app.use(require("./routes/web")); //llamada desde la web que devuelve vistas hbs
 app.use(express.static(path.join(__dirname, "public")));
 
 
-var port = process.env.PORT || 8000;
+var port = process.env.PORT;
 
 app.listen(port, function() {
     console.log("App is running on port " + port);
