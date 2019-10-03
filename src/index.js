@@ -46,6 +46,7 @@ app.engine(".hbs", expresshbs({
     partialsDir: path.join(app.get("views"), 'partials'),
     extname: ".hbs",
     helpers: require("./lib/handlebars")
+
 }));
 
 
@@ -94,6 +95,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 //starting the server
-app.listen(process.env.PORT || 4005, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-  });
+app.listen(app.get('port'), () => {
+    console.log("Server on port ", app.get('port'));
+});
