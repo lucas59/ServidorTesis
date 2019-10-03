@@ -37,7 +37,7 @@ hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
             return options.inverse(this);
     }
 });//settings
-app.set('port', process.env.PORT || 4005);
+app.set('port', process.env.PORT || 3000);
 
 app.set("views", path.join(__dirname, "views"))
 app.engine(".hbs", expresshbs({
@@ -46,7 +46,6 @@ app.engine(".hbs", expresshbs({
     partialsDir: path.join(app.get("views"), 'partials'),
     extname: ".hbs",
     helpers: require("./lib/handlebars")
-
 }));
 
 
