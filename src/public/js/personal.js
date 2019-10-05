@@ -1,5 +1,5 @@
 //let urlBase = "https://servidortesis2019.herokuapp.com/";
-
+ //asd
 function exportarAsistencias(documento){
     $("#btnDesAsisPDF").attr("onclick","descargarAsistenciaspdf("+documento+")")
     $("#btnDesAsisCSV").attr("onclick","descargarAsistenciascsv("+documento+")")
