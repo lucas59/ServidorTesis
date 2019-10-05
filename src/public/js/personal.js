@@ -1,6 +1,4 @@
-import { url } from "inspector";
-
-const urlBase = 'http://localhost:4005/';
+//let urlBase = "https://servidortesis2019.herokuapp.com/";
 
 function exportarAsistencias(documento){
     $("#btnDesAsisPDF").attr("onclick","descargarAsistenciaspdf("+documento+")")
@@ -21,17 +19,5 @@ $("#btnEnviarMsj").click(function() {
     
     console.log(contenido);
     console.log(asunto);
-    /*var head = {
-        "mensaje":contenido,
-        "asunto":asunto,
-
-    }
-
-    fetch(urlBase + "mensaje", {
-        method: 'POST',
-        body: JSON.stringify(head),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })*/
+   
 })

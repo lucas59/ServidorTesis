@@ -5,6 +5,7 @@ const usuarioControlador = require("../controladores/usuarioControlador");
 const path = require("path");
 const multer = require('multer');
 
+
 const storage = multer.diskStorage({
     destination: path.join(__dirname, "../public/img/perfiles"),
     filename: (req, file, cb) => {
