@@ -133,6 +133,9 @@ right: 0;
 	padding: 20px;
 }
 
+.fecha{
+	color: white;
+}
 .pdf{
 	height: 90px;
 	background-image: url(/img/pdf.png);

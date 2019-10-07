@@ -15,6 +15,9 @@ th{
   text-align:center;
   
 }
+.as_tar{
+  cursor: pointer;
+}
 
 .seccion{
   display: block;
