@@ -1,117 +1,148 @@
 <link rel="stylesheet" href="css/tabsRegistrosEmpresa.css">
 <link rel="stylesheet" href="css/indicador.css">
-<main>
-    <input id="tab1" type="radio" name="tabs" checked>
-    <label for="tab1">Tareas en proceso</label>
+<div class="main_2">
+    <h3 class="titulo">
+        Tareas y asistencias
+    </h3>
+    <main class="main">
+        <!-- Preloader -->
+        <div class="spinner-wrapper">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+        <!-- end of preloader -->
+        <input id="tab1" type="radio" name="tabs" checked>
+        <label for="tab1">Tareas en proceso</label>
 
-    <input id="tab2" type="radio" name="tabs">
-    <label for="tab2">Entradas</label>
+        <input id="tab2" type="radio" name="tabs">
+        <label for="tab2">Entradas</label>
 
-    <section id="content1">
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th class="colUser" scope="col">Usuario</th>
-                    <th scope="col">Tarea</th>
-                    <th scope="col">Fecha - Hora</th>
-                    <th scope="col">Ubicación</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#if tareas}}
-                {{#each tareas}} <tr>
-                    <th class="columnaUsuario" scope="row">
-                        {{#if fotoPerfil}}
+        <section id="content1">
+            {{#if tareas}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="colUser" scope="col">Usuario</th>
+                        <th scope="col">Tarea</th>
+                        <th scope="col">Fecha - Hora</th>
+                        <th scope="col">Ubicación</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="http://localhost:4005/img/perfiles/{{fotoPerfil}}">
-                        {{else}}
+                    {{#each tareas}} <tr>
+                        <th class="columnaUsuario" scope="row">
+                            {{#if fotoPerfil}}
 
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="http://localhost:4005/img/user.jpg">
+                            <img style="width: 70px" class="rounded-circle userTarea"
+                                src="http://localhost:4005/img/perfiles/{{fotoPerfil}}">
+                            {{else}}
 
-                        {{/if}}
-                        {{nombre}} {{apellido}}
-                    </th>
-                    <td class="columnaTarea">
-                        {{titulo}}
-                    </td>
-                    <td class="columnaTiempo">
-                        {{#if inicio}}
-                        {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
-                        {{else}}
-                        {{#if fin}}
-                        {{ fin}}
-                        {{/if}}
-                        {{/if}}
-                    </td>
-                    <td class="columnaUbicacion"> <button
-                            onclick="abrirMapa({{latitud_ini}},{{longitud_fin}},{{latitud_fin}},{{longitud_fin}})"
-                            class="btn btn-secondary"><i class="material-icons">my_location</i></button> </td>
-                </tr>
-                {{/each}}
-                {{/if}}
-            </tbody>
-        </table>
-    </section>
+                            <img style="width: 70px" class="rounded-circle userTarea"
+                                src="http://localhost:4005/img/user.jpg">
 
-    <section id="content2">
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th class="colUser" scope="col">Usuario</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Captura</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#if asistencias}}
+                            {{/if}}
+                            {{nombre}} {{apellido}}
+                        </th>
+                        <td class="columnaTarea">
+                            {{titulo}}
+                        </td>
+                        <td class="columnaTiempo">
+                            {{#if inicio}}
+                            {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
+                            {{else}}
+                            {{#if fin}}
+                            {{ fin}}
+                            {{/if}}
+                            {{/if}}
+                        </td>
+                        <td class="columnaUbicacion"> <button
+                                onclick="abrirMapa({{latitud_ini}},{{longitud_fin}},{{latitud_fin}},{{longitud_fin}})"
+                                class="btn btn-secondary"><i class="material-icons">my_location</i></button> </td>
+                    </tr>
+                    {{/each}}
 
-                {{#each asistencias}}
-                <tr>
-                    <th class="columnaUsuario" scope="row">
-                        {{#if fotoPerfil}}
+                </tbody>
+            </table>
+            {{else}}
+            <div id="lista_vacia">
+                <img style="width: 50%" src="img/reloj-durmiendo.png">
+                <p style="font-size: 20px">No se encontraron resultados</p>
+                <p>La lista de tareas de sus empleados<br> esta vacia</p>
+            </div>
 
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="http://localhost:4005/img/perfiles/{{fotoPerfil}}">
-                        {{else}}
+            {{/if}}
 
-                        <img style="width: 70px" class="rounded-circle userTarea"
-                            src="http://localhost:4005/img/user.jpg">
+        </section>
 
-                        {{/if}}
-                        <p>{{nombre}} {{apellido}}</p>
-                    </th>
-                    <td class="columnaTiempo">
-                        {{dateFormat fecha "d/MM/YY"}}
-                    </td>
+        <section id="content2">
+            {{#if asistencias}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="colUser" scope="col">Usuario</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Captura</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                    <td class="columnaTiempo">
-                        {{dateFormat fecha "h:mm:ss a"}}
-                    </td>
-                    <td class="columnaCaptura">
-                        <button id="captura" onclick="mostrarCaptura(this)" value="{{foto}}"><i
-                                class="material-icons">photo_camera</i></button>
-                    </td>
-                    <td class="columnaTipo">
 
-                        {{#ifCond tipo "===" 0}}
-                        <div class="indicadorRojo bg-danger"></div>
-                        {{/ifCond}}
-                        {{#ifCond tipo "===" 1}}
-                        <div class="indicadorVerde bg-success"></div>
-                        {{/ifCond}}
-                    </td>
-                </tr>
-                {{/each}}
-                {{/if}}
-            </tbody>
-        </table>
-    </section>
-</main>
+                    {{#each asistencias}}
+                    <tr>
+                        <th class="columnaUsuario" scope="row">
+                            {{#if fotoPerfil}}
 
+                            <img style="width: 70px" class="rounded-circle userTarea"
+                                src="http://localhost:4005/img/perfiles/{{fotoPerfil}}">
+                            {{else}}
+
+                            <img style="width: 70px" class="rounded-circle userTarea"
+                                src="http://localhost:4005/img/user.jpg">
+
+                            {{/if}}
+                            <p>{{nombre}} {{apellido}}</p>
+                        </th>
+                        <td class="columnaTiempo">
+                            {{dateFormat fecha "d/MM/YY"}}
+                        </td>
+
+                        <td class="columnaTiempo">
+                            {{dateFormat fecha "h:mm:ss a"}}
+                        </td>
+                        <td class="columnaCaptura">
+                            <button id="captura" onclick="mostrarCaptura(this)" value="{{foto}}"><i
+                                    class="material-icons">photo_camera</i></button>
+                        </td>
+                        <td class="columnaTipo">
+                            {{#ifCond tipo "===" 0}}
+                            <div class="indicadorRojo bg-danger"></div>
+                            {{/ifCond}}
+                            {{#ifCond tipo "===" 1}}
+                            <div class="indicadorVerde bg-success"></div>
+                            {{/ifCond}}
+                        </td>
+                    </tr>
+                    {{/each}}
+
+                </tbody>
+            </table>
+            {{else}}
+            <div id="lista_vacia">
+                <img style="width: 50%" src="img/cama.png">
+                <p style="font-size: 20px">No se encontraron resultados</p>
+                <p>La lista de asistencias de sus empleados<br> esta vacia</p>
+            </div>
+            {{/if}}
+        </section>
+
+    </main>
+</div>
 
 <div id="modalUbicacion" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

@@ -1,8 +1,8 @@
 :root {
     --color-bg-1: #f5f6f5;
     --color-bg-2: #ffff;
-    --color-btn: #034358;
-    --color-header-step: #034358;
+    --color-btn: #005D71;
+    --color-header-step: #005D71;
     --color-shadow: #ddd;
     --color-border-input: #ddd;
 }
@@ -14,9 +14,7 @@
     min-height: 100vh;
     font-size: 16px;
     font-family: sans-serif;
-    background-image: linear-gradient(var(--color-bg-1), var(--color-bg-2));
     overflow: hidden;
-    background: #f5f5f6;
 }
 
 /* Formulario */
@@ -24,6 +22,9 @@
     padding: 20px 15px;
     width: 100%;
     max-width: 400px;
+    position: absolute;
+color: white;
+top: 12%;
 }
 
 /* Header del formulario */
@@ -50,7 +51,7 @@
     counter-increment: step;
     width: 20px;
     height: 20px;
-    background-color: white;
+    background-color: black;
     margin: 0 auto 5px;
     border-radius: 3px;
     justify-content: center;
@@ -65,7 +66,7 @@
     content: '';
     width: 100%;
     height: 2px;
-    background-color: white;
+    background-color: #005D71;
     position: absolute;
     top: 10px;
     left: -50%;
@@ -85,6 +86,7 @@
     font-size: 1.4rem;
     text-align: center;
     margin-bottom: 15px;
+    color: white;
 }
 
 /* body del formulario */
@@ -96,7 +98,7 @@
 /* step */
 .step {
     background-color: white;
-    box-shadow: 5px 5px 5px 2px var(--color-shadow);
+    /*box-shadow: 5px 5px 5px 2px var(--color-shadow);*/
     border-radius: 3px;
     min-width: 100%;
     opacity: 0;
@@ -138,11 +140,13 @@
 .step__title {
     font-size: 1.1rem;
     text-align: center;
+    color:white;
 }
 
 /* body de step */
 .step__body {
     padding: 20px 15px 0;
+    color:black;
 }
 
 /* step inputs */

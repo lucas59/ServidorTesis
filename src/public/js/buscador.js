@@ -42,7 +42,7 @@ function buscarUsuario() {
             return response.json();
         })
         .then(function (myJson) {
-
+            console.log(myJson);
             myJson.forEach(element => {
                 insertarEnTabla(element);
             });

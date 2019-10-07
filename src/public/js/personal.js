@@ -2,7 +2,8 @@ import { url } from "inspector";
 
 const urlBase = 'http://localhost:4005/';
 
-function exportarAsistencias(documento){
+function exportarAsistencias(documento) {
+    console.log("pru");
     $("#btnDesAsisPDF").attr("onclick","descargarAsistenciaspdf("+documento+")")
     $("#btnDesAsisCSV").attr("onclick","descargarAsistenciascsv("+documento+")")
     

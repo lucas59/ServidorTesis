@@ -9,19 +9,31 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-
+.titulo{
+    position: absolute;
+    left: 10%;
+    bottom: 100%;
+    color: white;
+}
+.main{
+  
+border-radius: 8px;
+max-width: 80%;
+padding: 20px 30px 20px 30px;
+border: 1px solid rgba(0, 0, 0, .2);
+background: #fff;
+box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+margin: auto;
+}
 p:not(:last-child) {
     margin: 0 0 20px;
 }
-
-main {
-    max-width: 80%;
-    padding: 20px 30px 20px 30px;
-    border: 1px solid rgba(0, 0, 0, .2);
-    background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
-    margin: auto;
+.main_2{
+    position: relative;
+    top: 24%;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 section {
@@ -30,9 +42,6 @@ section {
     border-top: 1px solid #abc;
 }
 
-input {
-    display: none;
-}
 
 label {
     display: inline-block;
@@ -40,10 +49,19 @@ label {
     padding: 15px 25px;
     font-weight: 600;
     text-align: center;
-    color: #abc;
+    color: black;
     border: 1px solid transparent;
 }
 
+#tab1{
+visibility: hidden;
+}
+#tab2{
+visibility: hidden;
+}
+.fecha{
+    text-align: center;
+}
 label:before {
     font-family: fontawesome;
     font-weight: normal;
@@ -78,11 +96,28 @@ input:checked+label {
     border-bottom: 1px solid #fff;
 }
 
+thead{
+background-color: #007E99
+}
+
+#lista_vacia{
+    display:inline-block;
+    text-align:center;
+    
+}
+p{
+    color:black
+}
+th{
+    color:white
+}
+
 #tab1:checked~#content1,
 #tab2:checked~#content2,
 #tab3:checked~#content3,
 #tab4:checked~#content4 {
     display: block;
+    text-align: center;
 }
 
 @media screen and (max-width: 800px) {
@@ -141,6 +176,15 @@ input:checked+label {
     height: 30px;
     border-radius:50%;
     border: solid 5px lightcoral;
+    position: absolute;
+    left: 77px;
+    top: 35px;
+    bottom: 0;
+    right: 0;
+}
+
+.columnaTipo{
+    position: relative;
 }
 
 .indicadorVerde{
@@ -149,6 +193,11 @@ input:checked+label {
     height: 30px;
     border: solid 5px lightgreen;
     border-radius:50%;
+    position: absolute;
+    left: 77px;
+    top: 35px;
+    bottom: 0;
+    right: 0;
 }
 
 

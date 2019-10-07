@@ -22,7 +22,6 @@ video{
 }
 
 .index{
-    width: 100vw;
     height: 100vh;
 }
 
@@ -30,4 +29,9 @@ video{
 .login{
     width: 50%;
     margin: auto;
+    position: absolute;
+    top: 28%;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }

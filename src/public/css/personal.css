@@ -4,11 +4,70 @@ table img.fotoPerfilTabla{
   margin: 0px 10px 0px 10px;
 }
 
-
+thead{
+  background-color: #007E99;
+}
+th{
+  color: white;
+}
+#lista_vacia{
+  display:inline-block;
+  text-align:center;
+  
+}
+.material-icons{
+  display: inline-flex;
+  vertical-align: top;
+}
+p{
+  color: black;
+}
+h3{
+  color: black;
+}
+.main{
+  position: relative;
+  top: 16%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.titulo{
+  position: relative;
+left: 10%;
+width: 10%;
+color: white;
+}
+.buscador_icono{
+  left: 0;
+position: absolute;
+padding: 10px;
+pointer-events: none;
+color: black
+}
+.buscador{
+  position: relative;
+  bottom: 10px;
+  left:13px;
+  display: inline-block;
+}
+#buscar{
+  padding-left:  30px;
+}
+#agregar{
+  position: relative;
+float: right;
+right: 14px;
+bottom: 4%;
+}
 .sessionLista{
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
+  border-radius: 8px;
+  max-width: 80%;
+  padding: 20px 30px 20px 30px;
+  border: 1px solid rgba(0, 0, 0, .2);
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+  margin: auto;
   }
 
 .sessionLista table{
@@ -25,7 +84,7 @@ table img.fotoPerfilTabla{
   margin-left: auto;
 }
 #btnAddPerson{
-  border-radius: 50%;
+  display:inline-block
 }
 .modal-body session div *{
   height: 40px;
@@ -33,9 +92,7 @@ table img.fotoPerfilTabla{
   border: solid 0.1px gray;
   
 }
-.buscador{
-  display: inline-block;`
-}
+
 #tablaUsuarios{
   width: 100%;
   border: solid;
