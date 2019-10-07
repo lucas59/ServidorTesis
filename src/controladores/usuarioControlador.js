@@ -325,6 +325,9 @@ exports.desactivar = async function(req, res) {
 exports.busquedaEmpleado = async function(req, res) {
   const { identificador } = req.query;
   const session = req.user.documento;
+  //res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+  res.setHeader("Access-Control-Allow-Credentials", true); // If needed
+console.log(identificador);
   const sql = await pool.query(
     "SELECT * FROM usuario as u, empleado as emp WHERE u.documento=emp.id AND emp.id = " +
       identificador +
@@ -458,6 +461,9 @@ exports.exportarAsistenciaspdf = async function(req, res) {
 };
 
 exports.getConfig = async function(req, res) {
+ // res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+  res.setHeader("Access-Control-Allow-Credentials", true); // If needed
+
   configuracion(req.user.id).then(configuracion => {
     res.send(JSON.stringify(configuracion));
   });

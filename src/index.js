@@ -10,7 +10,10 @@ const passport = require("passport");
 const { database } = require("./keys")
 const bodyParse = require("body-parser");
 const hbs = require('handlebars');
+var cors = require('cors')
 
+
+app.use(cors());
 
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 hbs.registerHelper('ifCond', function (v1, operator, v2, options) {

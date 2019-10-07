@@ -1,9 +1,6 @@
-import { url } from "inspector";
-
-const urlBase = 'http://localhost:4005/';
-
-function exportarAsistencias(documento) {
-    console.log("pru");
+//let urlBase = "https://servidortesis2019.herokuapp.com/";
+ //asd
+function exportarAsistencias(documento){
     $("#btnDesAsisPDF").attr("onclick","descargarAsistenciaspdf("+documento+")")
     $("#btnDesAsisCSV").attr("onclick","descargarAsistenciascsv("+documento+")")
     
@@ -22,17 +19,5 @@ $("#btnEnviarMsj").click(function() {
     
     console.log(contenido);
     console.log(asunto);
-    /*var head = {
-        "mensaje":contenido,
-        "asunto":asunto,
-
-    }
-
-    fetch(urlBase + "mensaje", {
-        method: 'POST',
-        body: JSON.stringify(head),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })*/
+   
 })

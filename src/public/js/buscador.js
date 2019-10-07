@@ -1,10 +1,6 @@
 
-const urlBase = 'http://localhost:4005/';
-
-
-
-
-
+const urlBase = 'https://servidortesis2019.herokuapp.com/';
+//https://servidortesis2019.herokuapp.com/api/
 function FiltrarTabla() {
 
     var tableReg = document.getElementById('tabla');
@@ -37,7 +33,7 @@ function buscarUsuario() {
     var input = document.getElementById('buscadorUsuario');
     var identificador = input.value;
     if (identificador == "") return;
-    fetch(urlBase + 'busquedaEmpleado?identificador= ' + identificador)
+    fetch(urlBase + 'busquedaEmpleado?identificador=' + identificador)
         .then(function (response) {
             return response.json();
         })

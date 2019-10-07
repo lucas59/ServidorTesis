@@ -1,5 +1,5 @@
 var configuracion = null;
-const urlBase = 'http://localhost:4005/';
+const urlBase = 'https://servidortesis2019.herokuapp.com/';
 
 
 function readURL(input) {
