@@ -15,6 +15,11 @@ th{
   text-align:center;
   
 }
+
+.seccion{
+  display: block;
+  text-align: center;
+}
 .material-icons{
   display: inline-flex;
   vertical-align: top;
