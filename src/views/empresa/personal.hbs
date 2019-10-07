@@ -56,9 +56,12 @@
                                         {{documento}}
                                     </td>
                                     <td>
-                                        <img class="fotoPerfilTabla"
-                                            src="img/perfiles/{{fotoPerfil}}" alt="" />
+                                        {{#if fotoPerfil}}
+                                        <img class="fotoPerfilTabla" src="img/perfiles/{{fotoPerfil}}" alt="" />
                                         {{nombre}} {{apellido}}
+                                        {{else}}
+                                        <img class="fotoPerfilTabla" src="img/perfiles/user.jpg" alt="" />
+                                        {{/if}}
                                     </td>
                                     <td>
 
@@ -88,17 +91,17 @@
                             </tbody>
                         </table>
                         {{else}}
-                            <div id="lista_vacia">
-                                <img style="width: 50%" src="img/personas.png">
-                                <p style="font-size: 20px">No se encontraron resultados</p>
-                                <p>La lista de empleados esta vacia</p>
-                                <button type="button" id="btnAddPerson" class="btn btn-info" data-toggle="modal"
-                                    data-target="#modalAddUser">
-                                    <i class="material-icons">
-                                        person_add
-                                    </i> Agregar usuarios </button>
-                            </div>
-                        
+                        <div id="lista_vacia">
+                            <img style="width: 50%" src="img/personas.png">
+                            <p style="font-size: 20px">No se encontraron resultados</p>
+                            <p>La lista de empleados esta vacia</p>
+                            <button type="button" id="btnAddPerson" class="btn btn-info" data-toggle="modal"
+                                data-target="#modalAddUser">
+                                <i class="material-icons">
+                                    person_add
+                                </i> Agregar usuarios </button>
+                        </div>
+
 
 
                     </div>
@@ -202,7 +205,7 @@
             <div class="container opcionesFormato">
                 <div class="fecha">
                     <label for="inicio">Fecha de inicio</label>
-                    <input  type="date" name="inicio" id="inputAsisInicio">
+                    <input type="date" name="inicio" id="inputAsisInicio">
                     <label for="fin">Fecha de fin</label>
                     <input type="date" name="fin" id="inputAsisFin">
                 </div>
