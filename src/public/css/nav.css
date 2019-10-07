@@ -136,6 +136,9 @@ right: 0;
 .fecha{
 	color: white;
 }
+.as_tar{
+	cursor: pointer;
+  }
 .pdf{
 	height: 90px;
 	background-image: url(/img/pdf.png);
