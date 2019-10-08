@@ -612,7 +612,7 @@ let tareas = (documento, empleado, inicio, fin) => {
     } else {
       console.log("nada");
       var tareas = pool.query(
-        "SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? AND td.inicio>=? AND td.fin<=? ORDER BY td.inicio ASC",
+        "SELECT td.empleado_id, td.titulo,td.inicio,td.fin FROM `tarea` as td, empleado AS empleado WHERE td.empresa_id = ? AND empleado.id=td.empleado_id  AND td.inicio>=? AND td.fin<=? ORDER BY td.inicio ASC",
         [documento, inicio, fin]
       );
       res(tareas);
