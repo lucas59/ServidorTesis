@@ -111,7 +111,7 @@ exports.perfil = async function(req, res) {
   const { passport } = req.session;
   var documento = req.query.doc;
   var session = passport.user;
-  var titulo = "TINE - Inicia Sesión";
+  var titulo = "TINE - Perfil";
   var datos;
   if (session) {
     if (documento) {
