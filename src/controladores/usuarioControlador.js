@@ -36,13 +36,13 @@ exports.inicio = async function(req, res) {
       res.render("autenticacion/inicio", { titulo });
     }
   } else {
-    var titulo = "Inicio";
+    var titulo = "TINE - Inicio";
     res.render("autenticacion/inicio", { titulo });
   }
 };
 
 exports.login = function(req, res) {
-  var titulo = "Inicia Sesión";
+  var titulo = "TINE - Inicia Sesión";
   res.render("autenticacion/login", { titulo });
 };
 
