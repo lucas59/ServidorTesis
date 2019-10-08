@@ -20,7 +20,7 @@ mqttClient.connect();
 exports.inicio = async function(req, res) {
   if (req.isAuthenticated()) {
     //si hay session
-    var titulo = "Inicio";
+    var titulo = "TINE - Inicio";
     if (req.user.tipo == 0) {
       const tareas = await pool.query(
         "SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento  ORDER BY td.inicio ASC",
@@ -47,7 +47,7 @@ exports.login = function(req, res) {
 };
 
 exports.mail = function(req, res) {
-  var titulo = "Inicia Sesión";
+  var titulo = "TINE - Inicia Sesión";
   var pass = "Coso";
 
   res.render("autenticacion/mail", { titulo, pass });
@@ -62,7 +62,7 @@ exports.personal = async function(req, res) {
   );
   let listaPersonal = sql;
 
-  var titulo = "Personal";
+  var titulo = "TINE - Personal";
   res.render("empresa/personal", { titulo, listaPersonal });
 };
 
@@ -111,7 +111,7 @@ exports.perfil = async function(req, res) {
   const { passport } = req.session;
   var documento = req.query.doc;
   var session = passport.user;
-  var titulo = "Inicia Sesión";
+  var titulo = "TINE - Inicia Sesión";
   var datos;
   if (session) {
     if (documento) {
@@ -156,7 +156,7 @@ exports.perfil = async function(req, res) {
 };
 
 exports.perfilEmpleado = async function(req, res) {
-  var titulo = "Perfil";
+  var titulo = "TINE - Perfil";
   const documento = req.params;
   console.log(documento.documento);
   var datos;
@@ -270,7 +270,7 @@ async function checkUsuario(email, username, session) {
 }
 
 exports.singin = function(req, res) {
-  var titulo = "Registrarse";
+  var titulo = "TINE - Registrarse";
   res.render("autenticacion/singin", { titulo });
 };
 
