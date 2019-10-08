@@ -54,7 +54,7 @@ color: black
 .buscador{
   position: relative;
   bottom: 10px;
-  left:13px;
+  left: -346px;
   display: inline-block;
 }
 #buscar{
