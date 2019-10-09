@@ -283,8 +283,12 @@ exports.Alta_asistencia = async function (req, res) {
     var fecha = req.param('fecha');
     var foto = req.param('foto');
     var id = req.param('empleado_id');
-    var tipo = req.param('tipo');
+    var tipo = req.param('estado');
     var empresa_id = req.param('empresa_id');
+    console.log(empresa_id);
+    console.log(fecha);
+    console.log(id);
+    console.log(tipo);
     console.log(empresa_id);
     await pool.query('INSERT INTO asistencia (`fecha`,`foto`,`empleado_id`,`tipo`,`empresa_id`) VALUES (?,?,?,?,?)', [fecha, foto, id,tipo,empresa_id]);
     res.send(JSON.stringify({ retorno: true, mensaje: 'asistencia ingresada correctamente' }));
