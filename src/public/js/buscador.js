@@ -71,9 +71,9 @@ function insertarEnTabla(element) {
     correo.innerHTML = element.email;
     img.setAttribute('class', 'rounded-circle imgTablaEmpleado')
     if (element.fotoPerfil) {
-        img.setAttribute('src', 'img/perfiles/' + element.fotoPerfil + '');
+        img.setAttribute('src', urlBase + 'img/perfiles/' + element.fotoPerfil + '');
     } else {
-        img.setAttribute('src', 'img/user.jpg');
+        img.setAttribute('src', urlBase + 'img/user.jpg');
     }
 
     agregar.setAttribute('class', 'btn btn-success');
@@ -84,7 +84,7 @@ function insertarEnTabla(element) {
     tdOpciones.appendChild(agregar);
 
 
-    img.setAttribute('src',  'img/perfiles/' + element.fotoPerfil + '')
+    img.setAttribute('src', urlBase + 'img/perfiles/' + element.fotoPerfil + '')
     tr.appendChild(tdUsuario);
     tr.appendChild(tdNombre);
     tr.appendChild(tdOpciones);
