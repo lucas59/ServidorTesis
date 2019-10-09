@@ -1,10 +1,13 @@
 var map;
-
+var layerGroup;
+var marker2=null;
+var marker=null;
 $(document).ready(function() {
   map = L.map("mapid", {
     center: [-32.314347, -58.076697],
-    zoom: 13
+    zoom: 16
   }).setView([-32.314347, -58.076697], 14);
+  layerGroup = L.layerGroup().addTo(map);
 
   L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
     //        maxZoom: 20,
@@ -22,6 +25,10 @@ $(document).ready(function() {
 });
 
 function agregarMarcador(latIni, longIni, latFin, longFin) {
+  if (marker!=null) {
+    map.removeLayer(marker);
+    map.removeLayer(marker2); 
+  }
   var greenIcon = new L.Icon({
     iconUrl:
       "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
@@ -44,11 +51,13 @@ function agregarMarcador(latIni, longIni, latFin, longFin) {
     shadowSize: [41, 41]
   });
 
-  L.marker([latIni, longIni], { icon: greenIcon }).addTo(map);
+   marker = L.marker([latIni, longIni], { icon: greenIcon }).addTo(map);
 
-  L.marker([latFin, longFin], { icon: redIcon }).addTo(map);
+   marker2 = L.marker([latFin, longFin], { icon: redIcon }).addTo(map);
 
   map.panTo([latIni, longIni]);
+  layerGroup.clearLayers();
+ 
 }
 function mostrarCaptura(btn) {
   var base64 = btn.value;
