@@ -37,6 +37,16 @@ top: 12%;
     counter-reset: step;
 }
 
+.tipo{
+    color: black;
+    margin: 20px; 
+    
+}
+.tipo input{
+    display: inline-block;
+    width: auto;
+}
+
 .progressbar__option {
     width: 100%;
     text-align: center;

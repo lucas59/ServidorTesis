@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/registrarse.css">
 <div class="root">
-    <form method="POST" action="/signup" enctype="multipart/form-data" class="form-register">
+    <form onsubmit="return validarRegistroUsuario();" method="POST" action="/signup" enctype="multipart/form-data" class="form-register">
         <div class="form-register__header">
             <ul class="progressbar">
                 <li class="progressbar__option active">Identificación</li>
@@ -15,11 +15,15 @@
                     <h2 class="step__title">Identificación</h2>
                 </div>
                 <div class="step__body">
-                    <input name="username" type="text" placeholder="Nombre de usuario" class="step__input" placeholder>
-                    <input name="email" type="email" placeholder="Correo" class="step__input" placeholder>
-                    <input name="password" type="password" placeholder="Contraseña" class="step__input" placeholder="">
-                    <input name="password2" type="password" placeholder="Confirmar contraseña" class="step__input"
+                    <input name="username" type="text" placeholder="Nombre de usuario" class="step__input" required placeholder>
+                    <input name="email" type="email" placeholder="Correo" class="step__input" placeholder required>
+                    <input name="password" type="password" placeholder="Contraseña" class="step__input" required placeholder="">
+                    <input name="password2" type="password" placeholder="Confirmar contraseña" class="step__input" required
                         placeholder>
+                </div>
+                <div class="tipo">
+                    <input type="radio" name="tipo" value="empleado" checked>Colaborador<br>
+                    <input type="radio" name="tipo" value="empresa" >Empresa<br>
                 </div>
                 <div class="step__footer">
                     <button type="button" class="step__button step__button--next" data-to_step="2"
@@ -31,11 +35,11 @@
                     <h2 class="step__title">Información personal</h2>
                 </div>
                 <div class="step__body">
-                    <input name="documento" type="text" placeholder="Nro documento" class="step__input" placeholder>
-                    <input name="nombre" type="text" placeholder="Nombre" class="step__input" placeholder>
-                    <input name="apellido" type="text" placeholder="Apellido" class="step__input" placeholder>
-                    <input name="tel" type="tel" placeholder="Teléfono" class="step__input" placeholder>
-                    <textarea rows="4" cols="80" placeholder="Dirección" class="step__input"></textarea>
+                    <input name="documento" type="text" placeholder="Nro documento" class="step__input" placeholder required>
+                    <input name="nombre" type="text" placeholder="Nombre" class="step__input" placeholder required>
+                    <input id="inputApellido" name="apellido" type="text" placeholder="Apellido" class="step__input" required placeholder>
+                    <input name="tel" type="tel" placeholder="Teléfono" class="step__input" placeholder required>
+                    <textarea rows="4" cols="80" placeholder="Dirección" class="step__input" required></textarea>
                 </div>
                 <div class="step__footer">
                     <button type="button" class="step__button step__button--back" data-to_step="1"
@@ -53,8 +57,6 @@
                     <div class="contenedorFoto">
                         <input name="fotoPerfil" alt="asd" id="inputFoto" class="inputFoto" type="file" />
                     </div>
-                    <input type="radio" name="tipo" value="empresa" checked>Empresa<br>
-                    <input type="radio" name="tipo" value="empleado">Colaborador<br>
                 </div>
                 <div class="step__footer">
                     <button type="button" class="step__button step__button--back" data-to_step="2"
