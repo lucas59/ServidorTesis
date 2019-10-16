@@ -37,4 +37,6 @@ router.post('/Tareas/ListaAsistencias', apiControlador.ListaAsistencias);
 router.get('/misEmpleados', apiControlador.misEmpleados);
 router.get('/listaAsistencias', apiControlador.asistencias);
 router.post('/configuraciones_empresa', apiControlador.configuraciones_empresa);
+router.post('/fotoSeguridad', apiControlador.fotoSeguridad);
+
 module.exports = router;
