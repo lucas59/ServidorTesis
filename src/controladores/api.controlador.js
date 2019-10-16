@@ -409,8 +409,6 @@ exports.fotoSeguridad = async function(req, res) {
 };
 
 let checkFoto = (url1, url2) => {
-    url1="https://file1.telestar.fr/var/telestar/storage/images/3/1/2/4/3124370/bryan-cranston-dans-breaking-bad-2007_exact1024x768_p.jpg";
-    url2="http://cdn.tvc.com.ec/files/2019/09/11/Screenshot_47.jpg";
   return new Promise((res, rej) => {
     var data = new URLSearchParams();
     data.append("face1", url1);
