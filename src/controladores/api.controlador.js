@@ -408,11 +408,14 @@ exports.fotoSeguridad = async function(req, res) {
   res.send(JSON.stringify({ retorno: true }));
 };
 
-let checkFoto = (url1, url2) => {
+let checkFoto = (id) => {
+   var fotolocal = "http://servidortesis2019.herokuapp.com/img/seguridad/"+id+".temp";
+   var fototemporal = "http://servidortesis2019.herokuapp.com/img/seguridad/"+id+"+temp.temp";
+   
   return new Promise((res, rej) => {
     var data = new URLSearchParams();
-    data.append("face1", url1);
-    data.append("face2", url2);
+    data.append("face1", fotolocal);
+    data.append("face2", fototemporal);
 
     console.log("data", data);
     fetch("https://theface-api.herokuapp.com/verify", {
@@ -504,7 +507,7 @@ exports.Alta_asistencia = async function(req, res) {
   fs.writeFile(fototemporal, foto, "base64", err => {
     console.log("errorr: ", err);
     if (!err) {
-      checkFoto(fototemporal, fotolocal).then(retorno => {
+      checkFoto(id).then(retorno => {
         console.log("retorno", retorno);
         if (retorno) {
           console.log("se checkeo que es igual");
