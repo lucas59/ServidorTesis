@@ -759,7 +759,7 @@ input[type='checkbox'] {
 /*    04. Header     */
 /*********************/
 .header {
-	background: linear-gradient(to bottom right, rgba(3, 125, 151, 0), rgba(3, 125, 151, 0)), url('../img/header-background.png') center center no-repeat;
+	background: url('../img/header-background.png') center no-repeat;
 	background-size: cover;
 }
 

@@ -18,24 +18,35 @@
     color: black;
 }
 .foto{
-    width: 30%;
     text-align: center;
     display: block;
     border-radius: 10px;
     margin-right: auto;
     margin-left: auto;
+    position: relative;
+    top: 14%;
 }
 .foto img{
     border-radius: 50%;
 }
 
 .misDatos{
-    border-radius: 5px;
+    border-radius: 40px;
     width: 60%;
     margin: 3px auto 3px auto;
     padding: 15px;
     background-color: #ffff;  
     color: black;
+}
+
+.contenedor_perfil{
+    position: absolute;
+    top: 234px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+}
 }
 
 #titulomodificar{
