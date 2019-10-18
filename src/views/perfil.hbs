@@ -1,39 +1,41 @@
 <link type="text/css" rel="stylesheet" href="css/perfil.css">
 
-<div class="containerPerfil ">
-    <div class="row">
-        <span class="foto">
-            {{#if datos.fotoPerfil}}
-            <img src="img/perfiles/{{datos.fotoPerfil}}" alt="">
-            {{else}}
-            <img src="img/user.jpg" alt="">
-            {{/if}}
-        </span>
-        <div class="misDatos">
-            <h3 id="titulo">Mis datos</h3>
-            <dt>Nombre de usuario: </dt>
-            <dd>{{datos.nombreUsuario}}</dd>
-              <dt>Cedula</dt>
-            <dd> {{datos.documento}}</dd>
-            <dt>Correo</dt>
-            <dd> {{datos.email}}</dd>
-
-
-            {{#ifCond datos.documento "===" user.id}}
-            <div id="opcionesPerfil">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Modificar mis datos</button>
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDesactivar">
-                    Desactivar cuenta</button>
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#configuracionCuenta">
-                    Configuracion cuenta</button>
+<div class="container contenedor_perfil">
+    <div class="row misDatos">
+            <div class="col">
+                <span class="foto">
+                    {{#if datos.fotoPerfil}}
+                    <img src="img/perfiles/{{datos.fotoPerfil}}" alt="">
+                    {{else}}
+                    <img src="img/user.jpg" alt="">
+                    {{/if}}
+                </span>
             </div>
-            {{/ifCond}}
+            <div class="col">
+                <h3 id="titulo">Mis datos</h3>
+                <dt>Nombre de usuario: </dt>
+                <dd>{{datos.nombreUsuario}}</dd>
+                <dt>Cedula</dt>
+                <dd> {{datos.documento}}</dd>
+                <dt>Correo</dt>
+                <dd> {{datos.email}}</dd>
 
-        </div>
 
+                {{#ifCond datos.documento "===" user.id}}
+                <div id="opcionesPerfil">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Modificar mis datos</button>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDesactivar">
+                        Desactivar cuenta</button>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#configuracionCuenta">
+                        Configuracion cuenta</button>
+                </div>
+                {{/ifCond}}
+
+            </div>
     </div>
 </div>
 
