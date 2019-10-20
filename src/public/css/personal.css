@@ -53,8 +53,8 @@ color: black
 }
 .buscador{
   position: relative;
-  float: right;
-  right: 14px;
+  float: left;
+  right: -14px;
   bottom: 2%;
 }
 #buscar{
@@ -62,9 +62,12 @@ color: black
 }
 #agregar{
   position: relative;
-  float: left;
-  right: -14px;
+float: right;
+right: 14px;
 bottom: 2%;
+}
+.table{
+  margin-top: 6%;
 }
 .sessionLista{
   border-radius: 8px;
