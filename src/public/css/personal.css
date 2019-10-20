@@ -53,18 +53,18 @@ color: black
 }
 .buscador{
   position: relative;
-  bottom: 10px;
-  left: -346px;
-  display: inline-block;
+  float: right;
+  right: 14px;
+  bottom: 2%;
 }
 #buscar{
   padding-left:  30px;
 }
 #agregar{
   position: relative;
-float: right;
-right: 14px;
-bottom: 4%;
+  float: left;
+  right: -14px;
+bottom: 2%;
 }
 .sessionLista{
   border-radius: 8px;
