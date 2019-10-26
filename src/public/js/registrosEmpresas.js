@@ -3,6 +3,7 @@ var layerGroup;
 var marker2=null;
 var marker=null;
 $(document).ready(function() {
+  
   map = L.map("mapid", {
     center: [-32.314347, -58.076697],
     zoom: 16

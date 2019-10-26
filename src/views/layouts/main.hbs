@@ -6,7 +6,7 @@
     <title>{{titulo}}</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    
+
     <link type="text/css" rel="stylesheet" href="css/general.css">
     <link type="text/css" rel="stylesheet" href="css/nav.css">
     <link type="text/css" rel="stylesheet" href="css/buscador.css">
@@ -14,7 +14,9 @@
     <link href="css/styles.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
- <link rel="icon" href="img/icono.png">
+    <link rel="icon" href="img/icono.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+
 </head>
 
 <body style="background: rgb(0,116,141);
@@ -22,7 +24,7 @@ background: linear-gradient(0deg, rgba(0,116,141,1) 71%, rgba(0,100,121,1) 97%);
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;">
-     <!-- Preloader -->
+    <!-- Preloader -->
     <div class="spinner-wrapper">
         <div class="spinner">
             <div class="bounce1"></div>
@@ -36,7 +38,7 @@ background: linear-gradient(0deg, rgba(0,116,141,1) 71%, rgba(0,100,121,1) 97%);
     {{>message}}
     {{{body}}}
 
-  
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script type="script" src="js/nav.js"></script>
