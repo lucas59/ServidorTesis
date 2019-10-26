@@ -53,9 +53,9 @@ color: black
 }
 .buscador{
   position: relative;
-  bottom: 10px;
-  left: -346px;
-  display: inline-block;
+  float: left;
+  right: -14px;
+  bottom: 2%;
 }
 #buscar{
   padding-left:  30px;
@@ -64,7 +64,10 @@ color: black
   position: relative;
 float: right;
 right: 14px;
-bottom: 4%;
+bottom: 2%;
+}
+#tabla{
+  margin-top: 6%;
 }
 .sessionLista{
   border-radius: 8px;
