@@ -110,6 +110,7 @@ exports.salir = function(req, res) {
 exports.perfil = async function(req, res) {
   const { passport } = req.session;
   var documento = req.query.doc;
+  console.log(documento);
   var session = passport.user;
   var titulo = "TINE - Perfil";
   var datos;
@@ -118,7 +119,7 @@ exports.perfil = async function(req, res) {
       const rows = await pool.query(
         "SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ",
         [documento]
-      );
+      );  
       if (rows.length > 0) {
         datos = rows[0];
         datos["contrasenia"] = "";
@@ -147,7 +148,6 @@ exports.perfil = async function(req, res) {
       }
       datos["contrasenia"] = "";
       var config = configuracion[0];
-      console.log(config);
       res.render("perfil", { titulo, datos, config });
     }
   } else {

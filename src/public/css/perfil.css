@@ -10,6 +10,12 @@
     display: block;
 }
 
+#opcionesPerfil button{
+    width: 100%;
+    margin: 5px;
+    
+}
+
 .foto img{
     width: 250px;
 }
@@ -17,15 +23,22 @@
 #titulo{
     color: black;
 }
+
+#opcionesPerfil i{
+    vertical-align:  top;
+    margin-right: 10%;
+}
+
 .foto{
     text-align: center;
     display: block;
-    border-radius: 10px;
     margin-right: auto;
     margin-left: auto;
-    position: relative;
-    top: 14%;
+    margin-bottom: auto;
+    margin-top: auto;
+    position: initial;
 }
+
 .foto img{
     border-radius: 50%;
 }

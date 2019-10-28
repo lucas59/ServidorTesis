@@ -2,40 +2,47 @@
 
 <div class="container contenedor_perfil">
     <div class="row misDatos">
-            <div class="col">
-                <span class="foto">
-                    {{#if datos.fotoPerfil}}
-                    <img src="img/perfiles/{{datos.fotoPerfil}}" alt="">
-                    {{else}}
-                    <img src="img/user.jpg" alt="">
-                    {{/if}}
-                </span>
+        <div class="col">
+            <span class="foto">
+                {{#if datos.fotoPerfil}}
+                <img src="img/perfiles/{{datos.fotoPerfil}}" alt="">
+                {{else}}
+                <img src="img/user.jpg" alt="">
+                {{/if}}
+            </span>
+        </div>
+        <div class="col">
+            <h3 id="titulo">{{datos.nombre}} {{ datos.apellido}}</h3>
+            <dt>Nombre de usuario: </dt>
+            <dd>{{datos.nombreUsuario}}</dd>
+            <dt>Cedula</dt>
+            <dd> {{datos.documento}}</dd>
+            <dt>Correo</dt>
+            <dd> {{datos.email}}</dd>
+            {{#if datos.celular}}
+            <dt>Teléfono</dt>
+            <dd> {{datos.celular}}</dd>
+            {{/if}}
+
+            {{#ifCond datos.documento "===" user.id}}
+            <div id="opcionesPerfil">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <i class="material-icons">
+                        edit
+                    </i>Modificar mis datos</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDesactivar">
+                    <i class="material-icons">
+                        close
+                    </i> Desactivar cuenta</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#configuracionCuenta">
+                    <i class="material-icons">
+                        settings_applications
+                    </i>
+                    Configuracion cuenta</button>
             </div>
-            <div class="col">
-                <h3 id="titulo">Mis datos</h3>
-                <dt>Nombre de usuario: </dt>
-                <dd>{{datos.nombreUsuario}}</dd>
-                <dt>Cedula</dt>
-                <dd> {{datos.documento}}</dd>
-                <dt>Correo</dt>
-                <dd> {{datos.email}}</dd>
+            {{/ifCond}}
 
-
-                {{#ifCond datos.documento "===" user.id}}
-                <div id="opcionesPerfil">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        Modificar mis datos</button>
-
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDesactivar">
-                        Desactivar cuenta</button>
-
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#configuracionCuenta">
-                        Configuracion cuenta</button>
-                </div>
-                {{/ifCond}}
-
-            </div>
+        </div>
     </div>
 </div>
 
