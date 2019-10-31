@@ -112,7 +112,7 @@ exports.login_tablet = async function(req, res) {
       JSON.stringify({
         retorno: true,
         mensaje:
-          "Su ultima asistencia fue una entrada,¿Usted esta ingresando o saliendo del establecimiento?",
+          "Su ultima asistencia fue una entrada,¿Usted esta ingresando o saliendo de la empresa?",
         estado_ree: 1
       })
     );
@@ -120,7 +120,7 @@ exports.login_tablet = async function(req, res) {
     res.send(
       JSON.stringify({
         retorno: true,
-        mensaje: "¿Usted esta ingresando o saliendo del establecimiento?",
+        mensaje: "¿Usted esta ingresando o saliendo de la empresa?",
         estado_ree: 2
       })
     );
