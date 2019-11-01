@@ -409,9 +409,14 @@ exports.fotoSeguridad = async function(req, res) {
 };
 
 let checkFoto = (id) => {
-   var fotolocal = "http://servidortesis2019.herokuapp.com/img/seguridad/"+id+".jpg";
+
+  var url = path.join(__dirname, "..//public//img//seguridad//");
+  var fototemporal = url + id + "-temp" + ".jpg";
+  var fotolocal = url + id + ".jpg";
+
+   /*var fotolocal = "http://servidortesis2019.herokuapp.com/img/seguridad/"+id+".jpg";
    var fototemporal = "http://servidortesis2019.herokuapp.com/img/seguridad/"+id+"-temp.jpg";
-   
+  */
   return new Promise((res, rej) => {
     var data = new URLSearchParams();
     data.append("face1", fotolocal);
