@@ -17,12 +17,13 @@
 
         <input id="tab2" type="radio" name="tabs">
         <label for="tab2">Entradas</label>
-        <div class="buscador">
-            <i class="buscador_icono material-icons">search</i>
-            <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text" id="buscar"
-                name="">
-        </div>
         <section id="content1">
+            <div class="buscador">
+                <i class="buscador_icono material-icons">search</i>
+                <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text" id="buscar"
+                    name="">
+            </div>
+
             {{#if tareas}}
             <table id="tabla" class="table">
                 <thead>
