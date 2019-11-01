@@ -24,7 +24,7 @@
         </div>
         <section id="content1">
             {{#if tareas}}
-            <table class="table">
+            <table id="tabla" class="table">
                 <thead>
                     <tr>
                         <th class="colUser" scope="col">Usuario</th>
@@ -36,7 +36,7 @@
                 <tbody>
 
                     {{#each tareas}} <tr>
-                        <th class="columnaUsuario" scope="row">
+                        <td class="columnaUsuario" scope="row">
                             {{#if fotoPerfil}}
 
                             <img style="width: 70px" class="rounded-circle userTarea" src="img/perfiles/{{fotoPerfil}}">
@@ -47,7 +47,7 @@
                             {{/if}}
                             <a href="perfil?doc={{documento}}"> {{nombre}} {{apellido}}</a>
 
-                        </th>
+                        </td>
                         <td class="columnaTarea">
                             {{titulo}}
                         </td>
@@ -81,7 +81,7 @@
 
         <section id="content2">
             {{#if asistencias}}
-            <table class="table">
+            <table id="tabla" class="table">
                 <thead>
                     <tr>
                         <th class="colUser" scope="col">Usuario</th>
@@ -176,6 +176,6 @@
     </div>
 </div>
 
-
+<script src="js/buscador.js"></script>
 
 <script src="js/registrosEmpresas.js"></script>
