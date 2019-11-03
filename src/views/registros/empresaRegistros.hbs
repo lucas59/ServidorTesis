@@ -17,12 +17,13 @@
 
         <input id="tab2" type="radio" name="tabs">
         <label for="tab2">Entradas</label>
-        <div class="buscador">
-            <i class="buscador_icono material-icons">search</i>
-            <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text" id="buscar"
-                name="">
-        </div>
         <section id="content1">
+            <div class="buscador">
+                <i class="buscador_icono material-icons">search</i>
+                <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text" id="buscar"
+                    name="">
+            </div>
+
             {{#if tareas}}
             <table id="tabla" class="table">
                 <thead>
@@ -36,7 +37,7 @@
                 <tbody>
 
                     {{#each tareas}} <tr>
-                        <th class="columnaUsuario" scope="row">
+                        <td class="columnaUsuario" scope="row">
                             {{#if fotoPerfil}}
 
                             <img style="width: 70px" class="rounded-circle userTarea" src="img/perfiles/{{fotoPerfil}}">
@@ -47,7 +48,7 @@
                             {{/if}}
                             <a href="perfil?doc={{documento}}"> {{nombre}} {{apellido}}</a>
 
-                        </th>
+                        </td>
                         <td class="columnaTarea">
                             {{titulo}}
                         </td>
@@ -175,7 +176,7 @@
     </div>
 </div>
 
-
+<script src="js/buscador.js"></script>
 
 <script src="js/registrosEmpresas.js"></script>
 <script src="js/buscador.js"></script>
