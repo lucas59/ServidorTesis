@@ -24,7 +24,7 @@
         </div>
         <section id="content1">
             {{#if tareas}}
-            <table class="table">
+            <table id="tabla" class="table">
                 <thead>
                     <tr>
                         <th class="colUser" scope="col">Usuario</th>
@@ -61,8 +61,7 @@
                             {{/if}}
                         </td>
                         <td class="columnaUbicacion"> <button
-                                onclick="abrirMapa({{latitud_ini}},{{longitud_ini}},{{latitud_fin}},{{longitud_fin}})"
-                                class="btn btn-secondary"><i class="material-icons">my_location</i></button> </td>
+                                onclick="abrirMapa({{latitud_ini}},{{longitud_ini}},{{latitud_fin}},{{longitud_fin}})" class="btnUbicacion"><i class="material-icons">my_location</i></button> </td>
                     </tr>
                     {{/each}}
 
@@ -81,7 +80,7 @@
 
         <section id="content2">
             {{#if asistencias}}
-            <table class="table">
+            <table id="tabla" class="table">
                 <thead>
                     <tr>
                         <th class="colUser" scope="col">Usuario</th>
@@ -179,3 +178,4 @@
 
 
 <script src="js/registrosEmpresas.js"></script>
+<script src="js/buscador.js"></script>

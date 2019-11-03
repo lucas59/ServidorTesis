@@ -141,6 +141,14 @@ bottom: 2%;
 
 
 
+.btnMensaje{
+  color: rgba(0,116,141,1);
+  border: none;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background: none;
+}
 
 #modalMensaje .cabeceraMensaje input{
   width: 50%;
