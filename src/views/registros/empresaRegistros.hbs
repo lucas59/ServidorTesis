@@ -54,7 +54,7 @@
                         </td>
                         <td class="columnaTiempo">
                             {{#if inicio}}
-                            {{dateFormat inicio "d/MM/YY, h:mm:ss a"}}
+                            {{dateFormat inicio "DD/MM/YY, h:mm:ss a"}}
                             {{else}}
                             {{#if fin}}
                             {{ fin}}
@@ -62,8 +62,7 @@
                             {{/if}}
                         </td>
                         <td class="columnaUbicacion"> <button
-                                onclick="abrirMapa({{latitud_ini}},{{longitud_ini}},{{latitud_fin}},{{longitud_fin}})"
-                                class="btn btn-secondary"><i class="material-icons">my_location</i></button> </td>
+                                onclick="abrirMapa({{latitud_ini}},{{longitud_ini}},{{latitud_fin}},{{longitud_fin}})" class="btnUbicacion"><i class="material-icons">my_location</i></button> </td>
                     </tr>
                     {{/each}}
 
@@ -109,7 +108,7 @@
                             <p>{{nombre}} {{apellido}}</p>
                         </th>
                         <td class="columnaTiempo">
-                            {{dateFormat fecha "d/MM/YY"}}
+                            {{dateFormat fecha "DD/MM/YY"}}
                         </td>
 
                         <td class="columnaTiempo">
@@ -180,3 +179,4 @@
 <script src="js/buscador.js"></script>
 
 <script src="js/registrosEmpresas.js"></script>
+<script src="js/buscador.js"></script>

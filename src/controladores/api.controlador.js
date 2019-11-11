@@ -414,9 +414,6 @@ let checkFoto = (id) => {
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
 
-   /*var fotolocal = "http://servidortesis2019.herokuapp.com/img/seguridad/"+id+".jpg";
-   var fototemporal = "http://servidortesis2019.herokuapp.com/img/seguridad/"+id+"-temp.jpg";
-  */
   return new Promise((res, rej) => {
     var data = new URLSearchParams();
     data.append("face1", fotolocal);
