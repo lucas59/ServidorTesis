@@ -409,13 +409,10 @@ exports.fotoSeguridad = async function(req, res) {
 };
 
 let checkFoto = (id) => {
-
   var url = path.join(__dirname, "..//public//img//seguridad//");
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
-  console.log("fotolocal", fotolocal);
-  console.log("fotoTemporal", fototemporal);
-  
+
   return new Promise((res, rej) => {
     var data = new URLSearchParams();
     data.append("face1", fotolocal);
@@ -498,7 +495,7 @@ exports.Alta_asistencia = async function(req, res) {
   var id = req.param("empleado_id");
   var tipo = req.param("estado");
   var empresa_id = req.param("empresa_id");
-  
+    
   await pool.query(
     "INSERT INTO asistencia (`fecha`,`foto`,`empleado_id`,`tipo`,`empresa_id`) VALUES (?,?,?,?,?)",
     [fecha, foto, id, tipo, empresa_id]
@@ -507,6 +504,10 @@ exports.Alta_asistencia = async function(req, res) {
   var url = path.join(__dirname, "..//public//img//seguridad//");
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
+
+  console.log("fotolocal", fotolocal);
+  console.log("fotoTemporal", fototemporal);
+
 
   fs.writeFile(fototemporal, foto, "base64", err => {
     console.log("errorr: ", err);
@@ -524,6 +525,8 @@ exports.Alta_asistencia = async function(req, res) {
           });
         }
       });
+    }else{
+      console.log(err);
     }
   });
   res.send(
