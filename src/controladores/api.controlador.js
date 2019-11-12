@@ -413,7 +413,9 @@ let checkFoto = (id) => {
   var url = path.join(__dirname, "..//public//img//seguridad//");
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
-
+  console.log("fotolocal", fotolocal);
+  console.log("fotoTemporal", fototemporal);
+  
   return new Promise((res, rej) => {
     var data = new URLSearchParams();
     data.append("face1", fotolocal);
