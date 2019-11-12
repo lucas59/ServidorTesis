@@ -501,7 +501,7 @@ exports.Alta_asistencia = async function(req, res) {
     [fecha, foto, id, tipo, empresa_id]
   );
 
-  var url = path.join(__dirname, "..//public//img//seguridad//");
+  var url = path.join(__dirname, "..//public//img//");
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
 
