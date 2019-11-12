@@ -409,7 +409,7 @@ exports.fotoSeguridad = async function(req, res) {
 };
 
 let checkFoto = (id) => {
-  var url = path.join(__dirname, "..//public//img//seguridad//");
+  var url = path.join(__dirname, "..//public//img//");
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
 
