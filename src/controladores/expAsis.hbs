@@ -20,13 +20,7 @@
                     <p>{{nombre}} {{apellido}}</p>
                 </th>
                 <td class="columnaTiempo">
-                    {{#if inicio}}
-                    {{inicio}}
-                    {{else}}
-                    {{#if fin}}
-                    {{ " - " + fin}}
-                    {{/if}}
-                    {{/if}}
+                  <p>{{fecha}}</p>  
                 </td>
             </tr>
             {{/each}}

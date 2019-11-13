@@ -1,6 +1,16 @@
 function descargarAsistenciaspdf(documento) {
-    var fechaIni = $("#inputAsisInicio").val();
-    var fechaFin = $("#inputAsisFin").val();
+    var fechaIni = null;
+    var fechaFin =null;
+
+    if (documento) {
+     fechaIni = $("#inputAsisInicioEmp").val();
+     fechaFin = $("#inputAsisFinEmp").val();
+            
+    }else{
+    fechaIni = $("#inputAsisInicio").val();
+    fechaFin = $("#inputAsisFin").val();
+
+    }
 
     if (!fechaIni || !fechaFin) {
         alert("falta fecha");
@@ -20,9 +30,17 @@ function descargarAsistenciaspdf(documento) {
 }
 
 function descargarTareascsv(documento) {
-    var fechaIni = $("#inputTareaInicio").val();
-    var fechaFin = $("#inputTareaFin").val();
+    var fechaIni = null;
+    var fechaFin =null;
 
+    if (documento) {
+        fechaIni = $("#inputTareaInicioEmp").val();
+        fechaFin = $("#inputTareaFinEmp").val();       
+    }else{
+     fechaIni = $("#inputTareaInicio").val();
+     fechaFin = $("#inputTareaFin").val();
+
+    }
     
     if (!fechaIni || !fechaFin) {
         alert("falta fecha");
@@ -44,10 +62,17 @@ function descargarTareascsv(documento) {
 }
 
 function descargarAsistenciascsv(documento) {
+    var fechaFin=null;
+    var fechaIni=null;
 
-    var fechaIni = $("#inputAsisInicio").val();
-    var fechaFin = $("#inputAsisFin").val();
-    
+    if (documento) {
+         fechaIni = $("#inputAsisInicioEmp").val();
+         fechaFin = $("#inputAsisFinEmp").val();
+    }else{
+         fechaIni = $("#inputAsisInicio").val();
+         fechaFin = $("#inputAsisFin").val();
+    }
+   
     
     if (!fechaIni || !fechaFin) {
         alert("falta fecha");
@@ -68,8 +93,16 @@ function descargarAsistenciascsv(documento) {
 }
 
 function descargarTareaspdf(documento) {
-    var fechaIni = $("#inputTareaInicio").val();
-    var fechaFin = $("#inputTareaFin").val();
+    var fechaIni = null;
+    var fechaFin = null;
+
+    if (documento) {
+     fechaIni = $("#inputTareaInicioEmp").val();
+     fechaFin = $("#inputTareaFinEmp").val();        
+    }else{
+     fechaIni = $("#inputTareaInicio").val();
+     fechaFin = $("#inputTareaFin").val();
+    }
 
     
     if (!fechaIni || !fechaFin) {
