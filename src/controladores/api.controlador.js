@@ -500,7 +500,7 @@ exports.Alta_asistencia = async function(req, res) {
     [fecha, foto, id, tipo, empresa_id]
   );
 
-  var idFoto = bcrypt.getSalt(id);
+  var idFoto = await bcrypt.genSaltSync(id);
   var url = path.join(__dirname, "..//public//img//seguridad//");
   var fototemporal = url + idFoto + ".jpg";
   var fotolocal = url + id + ".jpg";
