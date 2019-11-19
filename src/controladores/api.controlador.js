@@ -426,8 +426,7 @@ var url = "https://servidortesis2019.herokuapp.com/img/seguridad/";
       body: data
     })
       .then(async res => {
-        console.log("res", res);
-        return res;
+        return res.json();
       })
       .then(data => {
         console.log("res",data);
