@@ -8,7 +8,7 @@ const fetch = require("node-fetch");
 const nodeMailer = require("nodemailer");
 var handlebars = require("handlebars");
 const { URLSearchParams} = require('url');
-
+const bcrypt = require("bcryptjs");
 exports.inicio = function(req, res) {
   res.send(JSON.stringify({ coso: "Esto es la api" }));
 };
@@ -409,10 +409,10 @@ exports.fotoSeguridad = async function(req, res) {
   res.send(JSON.stringify({ retorno: true }));
 };
 
-let checkFoto = (id) => {
+let checkFoto = (id, idFoto) => {
 var url = "https://servidortesis2019.herokuapp.com/img/seguridad/";
   //var url = path.join(__dirname, "..//public//img//seguridad//");
-  var fototemporal = url + id + "-temp" + ".jpg";
+  var fototemporal = url + idFoto + ".jpg";
   var fotolocal = url + id + ".jpg";
 
 
@@ -500,9 +500,12 @@ exports.Alta_asistencia = async function(req, res) {
     [fecha, foto, id, tipo, empresa_id]
   );
 
+  var idFoto = bcrypt.getSalt(id);
   var url = path.join(__dirname, "..//public//img//seguridad//");
-  var fototemporal = url + id + "-temp" + ".jpg";
+  var fototemporal = url + idFoto + ".jpg";
   var fotolocal = url + id + ".jpg";
+
+  
 
   console.log("fotolocal", fotolocal);
   console.log("fotoTemporal", fototemporal);
@@ -511,7 +514,7 @@ exports.Alta_asistencia = async function(req, res) {
   fs.writeFile(fototemporal, foto, "base64", err => {
     console.log("errorr: ", err);
     if (err==null) {
-      checkFoto(id).then(retorno => {
+      checkFoto(id, idFoto).then(retorno => {
         if (retorno==true) {
           console.log("se checkeo que es igual");
         } else {
