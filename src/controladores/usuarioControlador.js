@@ -509,7 +509,6 @@ exports.exportarTareaspdf = async function(req, res) {
       element.inicio = dateFormat(element.inicio, "d-m-yyyy");
       element.fin = dateFormat(element.fin, "d-m-yyyy");
     });
-    console.log("tareas", tareas);
 
 
     let document = {

@@ -1,4 +1,7 @@
 <section id="content1">
+    <div class="cabecera">
+        <img src="../public/img/TINE.png" alt="">
+    </div>
     <table class="table">
         <thead class="thead-light">
             <tr>
@@ -12,9 +15,9 @@
             {{#if tareas}}
 
             {{#each tareas}} <tr>
-                <th class="columnaUsuario" scope="row">
+                <td class="columnaUsuario">
                     {{Empleado}}
-                </th>
+                </td>
                 <td class="columnaTarea">
                     {{titulo}}
                 </td>
@@ -30,3 +33,44 @@
         </tbody>
     </table>
 </section>
+
+<style>
+
+.cabecera{
+    height: auto;
+    border-radius: 5px;
+    background: lightgray
+}
+
+.cabecera img{
+    display: block;
+    position: relative;
+    width: 200px;
+}
+
+.table{
+    width: 70%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.table thead{
+    background: lightgray;
+}
+.table thead tr{ 
+    height: 30px;
+    border-radius: 5px;
+}
+
+.table tbody tr{
+    text-align: center;
+}
+
+#content1{
+    width: 80%;
+    margin: auto;
+}
+
+
+</style>
+

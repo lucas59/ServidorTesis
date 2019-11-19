@@ -7,6 +7,7 @@ const path = require("path");
 const fetch = require("node-fetch");
 const nodeMailer = require("nodemailer");
 var handlebars = require("handlebars");
+const { URLSearchParams} = require('url');
 
 exports.inicio = function(req, res) {
   res.send(JSON.stringify({ coso: "Esto es la api" }));
@@ -409,28 +410,26 @@ exports.fotoSeguridad = async function(req, res) {
 };
 
 let checkFoto = (id) => {
-  var url = path.join(__dirname, "..//public//img//");
+  var url = path.join(__dirname, "..//public//img//seguridad");
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
 
-  return new Promise((res, rej) => {
+
+  return new Promise( (res, rej)  =>  {
     var data = new URLSearchParams();
     data.append("face1", fotolocal);
     data.append("face2", fototemporal);
-
-    console.log("data", data);
-    fetch("https://theface-api.herokuapp.com/verify", {
+    console.log(data);
+      fetch("https://theface-api.herokuapp.com/verify", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
       body: data
     })
-      .then(res => {
-        return res.json();
+      .then(async res => {
+        console.log("res", res);
+        return res;
       })
-      .then(async data => {
-        console.log(data);
+      .then(data => {
+        console.log("res",data);
         if (data.isIdentical == true) {
           console.log("son identicas");
           console.log(data.confidence);
@@ -441,7 +440,7 @@ let checkFoto = (id) => {
         }
       })
       .catch(function(error) {
-        console.log(error);
+        console.log("error", error);
         res(false);
       });
   });
@@ -459,8 +458,8 @@ var enviarMail = (url, id) => {
       port: 465,
       secure: true,
       auth: {
-        user: "idevelopcomunidad@gmail.com",
-        pass: "idevelop2019"
+        user: "tine161119@gmail.com",
+        pass: "Tine2019"
       }
     });
 
@@ -501,7 +500,7 @@ exports.Alta_asistencia = async function(req, res) {
     [fecha, foto, id, tipo, empresa_id]
   );
 
-  var url = path.join(__dirname, "..//public//img//");
+  var url = path.join(__dirname, "..//public//img//seguridad//");
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
 
@@ -511,10 +510,9 @@ exports.Alta_asistencia = async function(req, res) {
 
   fs.writeFile(fototemporal, foto, "base64", err => {
     console.log("errorr: ", err);
-    if (!err) {
+    if (err==null) {
       checkFoto(id).then(retorno => {
-        console.log("retorno", retorno);
-        if (retorno) {
+        if (retorno==true) {
           console.log("se checkeo que es igual");
         } else {
           enviarMail(fototemporal, empresa_id).then(data => {
