@@ -499,8 +499,8 @@ exports.Alta_asistencia = async function(req, res) {
     "INSERT INTO asistencia (`fecha`,`foto`,`empleado_id`,`tipo`,`empresa_id`) VALUES (?,?,?,?,?)",
     [fecha, foto, id, tipo, empresa_id]
   );
-
-  var idFoto = await bcrypt.genSaltSync(id);
+  var idFoto = Math.random().toString(36).slice(-8);
+  //var idFoto = await bcrypt.genSaltSync(id);
   var url = path.join(__dirname, "..//public//img//seguridad//");
   var fototemporal = url + idFoto + ".jpg";
   var fotolocal = url + id + ".jpg";
