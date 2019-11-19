@@ -410,7 +410,7 @@ exports.fotoSeguridad = async function(req, res) {
 };
 
 let checkFoto = (id) => {
-var url = "https://servidortesis2019.herokuapp.com//img//seguridad//";
+var url = "https://servidortesis2019.herokuapp.com/img/seguridad/";
   //var url = path.join(__dirname, "..//public//img//seguridad//");
   var fototemporal = url + id + "-temp" + ".jpg";
   var fotolocal = url + id + ".jpg";
@@ -420,7 +420,6 @@ var url = "https://servidortesis2019.herokuapp.com//img//seguridad//";
     var data = new URLSearchParams();
     data.append("face1", fotolocal);
     data.append("face2", fototemporal);
-    console.log(data);
       fetch("https://theface-api.herokuapp.com/verify", {
       method: "POST",
       body: data
@@ -520,7 +519,7 @@ exports.Alta_asistencia = async function(req, res) {
             if (data) {
               console.log("se envio el mail ");
             }
-            fs.unlinkSync(fototemporal);
+           // fs.unlinkSync(fototemporal);
           });
         }
       });
