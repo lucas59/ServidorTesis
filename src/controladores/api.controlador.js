@@ -420,6 +420,7 @@ var url = "https://servidortesis2019.herokuapp.com/img/seguridad/";
     var data = new URLSearchParams();
     data.append("face1", fotolocal);
     data.append("face2", fototemporal);
+    console.log(data);
       fetch("https://theface-api.herokuapp.com/verify", {
       method: "POST",
       body: data
