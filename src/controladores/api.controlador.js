@@ -522,7 +522,7 @@ exports.Alta_asistencia = async function(req, res) {
             if (data) {
               console.log("se envio el mail ");
             }
-           // fs.unlinkSync(fototemporal);
+            fs.unlinkSync(fototemporal);
           });
         }
       });
