@@ -18,7 +18,7 @@ pool.getConnection((err, connection)=>{
     }
 
     if (connection) {
-        console.log('DB conectada');
+        console.log('DB connectada');
         return;
     }
 });
