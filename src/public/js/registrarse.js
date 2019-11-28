@@ -49,6 +49,7 @@ $("input[name='tipo']").click(e => {
   }
 });
 
+
 function validarRegistroUsuario() {
   var nombreuser = document.getElementsByName("username");
   var email = document.getElementsByName("email");
