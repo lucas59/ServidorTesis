@@ -64,7 +64,7 @@ function mostrarCaptura(btn) {
   var base64 = btn.value;
   console.log(base64);
   $("#modalCaptura").modal("show");
-  var img = "/img/asistencias/"+base64+".jpg";
+  var img = "img/asistencias/"+base64+".jpg";
   $("#imgCaptura").attr("src", img);
 }
 
