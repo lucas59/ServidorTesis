@@ -7,8 +7,10 @@ const path = require("path");
 const fetch = require("node-fetch");
 const nodeMailer = require("nodemailer");
 var handlebars = require("handlebars");
-const { URLSearchParams} = require('url');
+const { URLSearchParams } = require("url");
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
+
 exports.inicio = function(req, res) {
   res.send(JSON.stringify({ coso: "Esto es la api" }));
 };
@@ -410,18 +412,17 @@ exports.fotoSeguridad = async function(req, res) {
 };
 
 let checkFoto = (id, idFoto) => {
-var url = "https://servidortesis2019.herokuapp.com/img/seguridad/";
+  var url = "https://servidortesis2019.herokuapp.com/img/seguridad/";
   //var url = path.join(__dirname, "..//public//img//seguridad//");
   var fototemporal = url + idFoto + ".jpg";
   var fotolocal = url + id + ".jpg";
 
-
-  return new Promise( (res, rej)  =>  {
+  return new Promise((res, rej) => {
     var data = new URLSearchParams();
     data.append("face1", fotolocal);
     data.append("face2", fototemporal);
     console.log(data);
-      fetch("https://theface-api.herokuapp.com/verify", {
+    fetch("https://theface-api.herokuapp.com/verify", {
       method: "POST",
       body: data
     })
@@ -429,7 +430,7 @@ var url = "https://servidortesis2019.herokuapp.com/img/seguridad/";
         return res.json();
       })
       .then(data => {
-        console.log("res",data);
+        console.log("res", data);
         if (data.isIdentical == true) {
           console.log("son identicas");
           console.log(data.confidence);
@@ -488,54 +489,73 @@ var enviarMail = (url, id) => {
   });
 };
 
+guardarFotobs64 = (base64, id) => {
+  return new Promise(function(resolve, reject) {
+    var hash = crypto.randomBytes(20).toString("hex");
+    console.log(hash);
+    var url = path.join(__dirname, "..//public//img//asistencias//");
+    var foto = url + hash + ".jpg";
+    fs.writeFile(foto, base64, { encoding: "base64" }, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(hash);
+      }
+    });
+  });
+};
+
 exports.Alta_asistencia = async function(req, res) {
   var fecha = req.param("fecha");
   var foto = req.param("foto");
   var id = req.param("empleado_id");
   var tipo = req.param("estado");
   var empresa_id = req.param("empresa_id");
-    
-  await pool.query(
-    "INSERT INTO asistencia (`fecha`,`foto`,`empleado_id`,`tipo`,`empresa_id`) VALUES (?,?,?,?,?)",
-    [fecha, foto, id, tipo, empresa_id]
-  );
-  var idFoto = Math.random().toString(36).slice(-8);
-  //var idFoto = await bcrypt.genSaltSync(id);
-  var url = path.join(__dirname, "..//public//img//seguridad//");
-  var fototemporal = url + idFoto + ".jpg";
-  var fotolocal = url + id + ".jpg";
-
-  
-
-  console.log("fotolocal", fotolocal);
-  console.log("fotoTemporal", fototemporal);
 
 
-  fs.writeFile(fototemporal, foto, "base64", err => {
-    console.log("errorr: ", err);
-    if (err==null) {
-      checkFoto(id, idFoto).then(retorno => {
-        if (retorno==true) {
-          console.log("se checkeo que es igual");
-        } else {
-          enviarMail(fototemporal, empresa_id).then(data => {
-            if (data) {
-              console.log("se envio el mail ");
-            }
-            fs.unlinkSync(fototemporal);
-          });
-        }
-      });
-    }else{
-      console.log(err);
-    }
+  guardarFotobs64(foto, id).then(async function(idFoto) {
+    console.log("id foto: ", idFoto);
+    await pool.query(
+      "INSERT INTO asistencia (`fecha`,`foto`,`empleado_id`,`tipo`,`empresa_id`) VALUES (?,?,?,?,?)",
+      [fecha, idFoto, id, tipo, empresa_id]
+    );
+    var idFoto = Math.random()
+      .toString(36)
+      .slice(-8);
+
+    var url = path.join(__dirname, "..//public//img//seguridad//");
+    var fototemporal = url + idFoto + ".jpg";
+    var fotolocal = url + id + ".jpg";
+
+    console.log("fotolocal", fotolocal);
+    console.log("fotoTemporal", fototemporal);
+
+    fs.writeFile(fototemporal, foto, "base64", err => {
+      console.log("errorr: ", err);
+      if (err == null) {
+        checkFoto(id, idFoto).then(retorno => {
+          if (retorno == true) {
+            console.log("se checkeo que es igual");
+          } else {
+            enviarMail(fototemporal, empresa_id).then(data => {
+              if (data) {
+                console.log("se envio el mail ");
+              }
+              fs.unlinkSync(fototemporal);
+            });
+          }
+        });
+      } else {
+        console.log(err);
+      }
+    });
+    res.send(
+      JSON.stringify({
+        retorno: true,
+        mensaje: "asistencia ingresada correctamente"
+      })
+    );
   });
-  res.send(
-    JSON.stringify({
-      retorno: true,
-      mensaje: "asistencia ingresada correctamente"
-    })
-  );
 };
 
 exports.misEmpleados = async function(req, res) {

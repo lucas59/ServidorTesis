@@ -62,8 +62,9 @@ function agregarMarcador(latIni, longIni, latFin, longFin) {
 }
 function mostrarCaptura(btn) {
   var base64 = btn.value;
+  console.log(base64);
   $("#modalCaptura").modal("show");
-  var img = "data:image/jpg;base64," + base64;
+  var img = "http://localhost:4005/img/asistencias/"+base64+".jpg";
   $("#imgCaptura").attr("src", img);
 }
 
