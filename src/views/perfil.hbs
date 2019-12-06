@@ -13,7 +13,7 @@
         </div>
         <div class="col">
             <h3 id="titulo">{{datos.nombre}} {{ datos.apellido}}</h3>
-            <dt>Nombre de usuario: </dt>
+            <dt>Nombre de usuario </dt>
             <dd>{{datos.nombreUsuario}}</dd>
             <dt>Cedula</dt>
             <dd> {{datos.documento}}</dd>
@@ -61,31 +61,41 @@
             </div>
             <form action="/update" enctype="multipart/form-data" method="POST">
                 <div class="modal-body">
-                    <h3 id="titulomodificar">Mis datos</h3>
                     {{#if datos.fotoPerfil}}
                     <img id="fotoUsuario" class="fotoUsuario" src="img/perfiles/{{datos.fotoPerfil}}" alt="">
                     {{else}}
                     <img id="fotoUsuario" class="fotoUsuario" src="img/user.jpg" alt="">
                     {{/if}}
+                    <input type="text" style="display: none" value="{{datos.documento}}" name="documento">
 
                     <div class="contenedorFoto">
                         <input name="fotoPerfil" alt="asd" id="inputFoto" class="inputFoto" type="file" />
                     </div>
-                    <ul>
-                        <input type="text" style="display: none" value="{{datos.documento}}" name="documento">
-                        <div class="dato">
-                            <label for="">Nombre de usuario</label>
-                            <input name="username" value="{{datos.nombreUsuario}}" id="username" />
+                    <div class="modifiardatos">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="">Nombre de usuario</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input name="username" value="{{datos.nombreUsuario}}" id="username" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="">Nombre</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" name="nombre" value="{{datos.nombre}}" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4"><label for="">Correo</label></div>
+                                <div class="col-sm-8"><input type="text" name="email" value="{{datos.email}}" required>
+                                </div>
+                            </div>
                         </div>
-                        <div class="dato">
-                            <label for="">Nombre</label>
-                            <input type="text" name="nombre" value="{{datos.nombre}}" required>
-                        </div>
-                        <div class="dato">
-                            <label for="">Correo</label>
-                            <input type="text" name="email" value="{{datos.email}}" required>
-                        </div>
-                    </ul>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

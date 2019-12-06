@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="css/tabsRegistrosEmpresa.css">
 <link rel="stylesheet" href="css/indicador.css">
+
+
+
 <div class="main_2">
-    <h3 class="titulo">
-        Tareas y asistencias
-    </h3>
     <main class="main">
         <div class="spinner-wrapper">
             <div class="spinner">
@@ -18,10 +18,31 @@
         <input id="tab2" type="radio" name="tabs">
         <label for="tab2">Entradas</label>
         <section id="content1">
-            <div class="buscador">
-                <i class="buscador_icono material-icons">search</i>
-                <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text" id="buscar"
-                    name="">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="pagination pagination-centered">
+                        <ul>
+                            {{#paginate paginationTareas type="previous"}}
+                            <li {{#if disabled}}class="disabled" {{/if}}><a onclick="verTareas({{n}})"><<</a>
+                            </li>
+                            {{/paginate}}
+                            {{#paginate paginationTareas type="middle" limit="7"}}
+                            <li {{#if active}}class="active" {{/if}}><a onclick="verTareas({{n}})">{{n}}</a></li>
+                            {{/paginate}}
+                            {{#paginate paginationTareas type="next"}}
+                            <li {{#if disabled}}class="disabled" {{/if}}><a onclick="verTareas({{n}})">>></a>
+                            </li>
+                            {{/paginate}}
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="buscador">
+                        <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text"
+                            id="buscar" name="">
+                    </div>
+                </div>
             </div>
 
             {{#if tareas}}
@@ -34,7 +55,7 @@
                         <th scope="col">Ubicación</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="bodyTareas">
 
                     {{#each tareas}} <tr>
                         <td class="columnaUsuario" scope="row">
@@ -62,7 +83,8 @@
                             {{/if}}
                         </td>
                         <td class="columnaUbicacion"> <button
-                                onclick="abrirMapa({{latitud_ini}},{{longitud_ini}},{{latitud_fin}},{{longitud_fin}})" class="btnUbicacion"><i class="material-icons">my_location</i></button> </td>
+                                onclick="abrirMapa({{latitud_ini}},{{longitud_ini}},{{latitud_fin}},{{longitud_fin}})"
+                                class="btnUbicacion"><i class="material-icons">my_location</i></button> </td>
                     </tr>
                     {{/each}}
 
@@ -80,8 +102,39 @@
         </section>
 
         <section id="content2">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="pagination pagination-centered">
+                        <ul>
+                            {{#paginate paginationAsis type="previous"}}
+                            <li {{#if disabled}}class="disabled" {{/if}}><a onclick="verAsistencias({{n}})"><<</a>
+                            </li>
+                            {{/paginate}}
+                            {{#paginate paginationAsis type="middle" limit="7"}}
+                            <li {{#if active}}class="active" {{/if}}><a onclick="verAsistencias({{n}})">{{n}}</a></li>
+                            {{/paginate}}
+                            {{#paginate paginationAsis type="next"}}
+                            <li {{#if disabled}}class="disabled" {{/if}}><a onclick="verAsistencias({{n}})">>></a>
+                            </li>
+                            {{/paginate}}
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="buscador">
+                        <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text"
+                            id="buscar" name="">
+                    </div>
+                </div>
+            </div>
+
+
+
             {{#if asistencias}}
             <table id="tabla" class="table">
+
                 <thead>
                     <tr>
                         <th class="colUser" scope="col">Usuario</th>
@@ -91,7 +144,7 @@
                         <th scope="col">Estado</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="bodyAsistencias">
 
 
                     {{#each asistencias}}

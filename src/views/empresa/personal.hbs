@@ -12,6 +12,7 @@
     <h3 class="titulo">
         Personal
     </h3>
+
     <div class="sessionLista">
 
         <div class="container">
@@ -19,19 +20,43 @@
 
                 <div class="container-fluid seccion">
                     {{#if listaPersonal}}
-                    <div id="agregar">
-                        <button type="button" id="btnAddPerson" class="btn btn-info" data-toggle="modal"
-                            data-target="#modalAddUser">
-                            <i class="material-icons">
-                                person_add
-                            </i> Agregar usuarios </button>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="pagination pagination-centered">
+                                <ul>
+                                    {{#paginate paginationPersonal type="previous"}}
+                                    <li {{#if disabled}}class="disabled" {{/if}}><a onclick="verTareas({{n}})">
+                                            <<</a> </li> {{/paginate}}
+                                                {{#paginate paginationPersonal type="middle" limit="7"}} <li
+                                                {{#if active}}class="active" {{/if}}><a
+                                                    onclick="verTareas({{n}})">{{n}}</a></li>
+                                    {{/paginate}}
+                                    {{#paginate paginationPersonal type="next"}}
+                                    <li {{#if disabled}}class="disabled" {{/if}}><a onclick="verTareas({{n}})">>></a>
+                                    </li>
+                                    {{/paginate}}
+                                </ul>
+                            </div>
 
+                        </div>
+                        <div class="col-sm">
+                            <div class="buscador">
+                                <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text"
+                                    id="buscar" name="">
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div id="agregar">
+                                <button type="button" id="btnAddPerson" class="btn btn-info" data-toggle="modal"
+                                    data-target="#modalAddUser">
+                                    <i class="material-icons">
+                                        person_add
+                                    </i> Agregar usuarios </button>
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="buscador">
-                        <i class="buscador_icono material-icons">search</i>
-                        <input class="form-control" placeholder="Buscar..." onkeyup="FiltrarTabla()" type="text"
-                            id="buscar" name="">
-                    </div>
+
                     <div id="divtabla" class="col-md-12">
                         <table id="tabla" class="table">
                             <thead>
@@ -177,9 +202,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-10 col-sm-offset-2">
-                            <input id="submit" name="submit" type="submit" value="Enviar"
-                                class="btn btn-primary">
-                                <i class="material-icons">
+                            <input id="submit" name="submit" type="submit" value="Enviar" class="btn btn-primary">
+                            <i class="material-icons">
                                 send
                             </i>
                         </div>

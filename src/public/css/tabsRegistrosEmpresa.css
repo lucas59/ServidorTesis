@@ -35,6 +35,37 @@ p:not(:last-child) {
     left: 0;
     right: 0;
 }
+
+.columnaUsuario p{
+    display: inline-block;   
+}
+.columnaUsuario  img{
+    margin-right: 10%;
+}
+
+.pagination *{
+    display: inline-block;
+    color: white;        
+    margin: 3px;;
+}
+
+.pagination{
+    min-width: auto;
+    background: rgb(0, 116, 141);   
+}
+
+.active{
+    border: solid 0.5px;
+    border-radius: 2px
+}
+
+
+
+
+.columnaUsuario img{
+    width: 70px;
+}
+
 .columnaUbicacion .btnUbicacion{
     
     border: none;

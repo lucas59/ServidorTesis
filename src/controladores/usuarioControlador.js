@@ -23,16 +23,42 @@ exports.inicio = async function(req, res) {
     var titulo = "TINE - Inicio";
     if (req.user.tipo == 0) {
       const tareas = await pool.query(
-        "SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento  ORDER BY td.inicio DESC",
+        "SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento  ORDER BY td.inicio DESC LIMIT 10 offset 1",
         [req.user.documento]
       );
-      console.log(tareas);
       const asistencias = await pool.query(
-        "SELECT asi.*, emp.nombre, emp.apellido,u.fotoPerfil FROM asistencia AS asi, empleado as emp, usuario as u WHERE u.documento = emp.id and asi.id and asi.empresa_id=? and asi.empleado_id=emp.id ORDER BY asi.fecha DESC",
+        "SELECT asi.*, emp.nombre, emp.apellido,u.fotoPerfil FROM asistencia AS asi, empleado as emp, usuario as u WHERE u.documento = emp.id and asi.id and asi.empresa_id=? and asi.empleado_id=emp.id ORDER BY asi.fecha DESC LIMIT 10 offset 1",
         [req.user.documento]
       );
 
-      res.render("registros/empresaRegistros", { titulo, tareas, asistencias });
+      const canttareas = await pool.query(
+        "SELECT count(*) as cantidad FROM `tarea` WHERE tarea.empresa_id = ?",
+        [req.user.documento]
+      );
+      const cantasistencias = await pool.query(
+        "SELECT count(*) as cantidad FROM asistencia  WHERE empresa_id=?",
+        [req.user.documento]
+      );
+
+      var cantidadAsistencias = cantasistencias[0].cantidad / 10; //calculo la cantidad de paginas para dividiarlas en 10 registros
+      var cantidadTareas = canttareas[0].cantidad / 10;
+
+      var paginationAsis = {
+        page: 1, // The current page the user is on
+        pageCount: cantidadAsistencias // The total number of available pages
+      };
+      var paginationTareas = {
+        page: 1, // The current page the user is on
+        pageCount: cantidadTareas // The total number of available pages
+      };
+      res.render("registros/empresaRegistros", {
+        titulo,
+        tareas,
+        asistencias,
+        paginationAsis,
+        paginationTareas,
+        empresa: req.user.documento
+      });
     } else {
       res.render("autenticacion/inicio", { titulo });
     }
@@ -58,13 +84,20 @@ exports.personal = async function(req, res) {
   const { passport } = req.session;
   var session = passport.user;
   const sql = await pool.query(
-    "SELECT u.*, col.* FROM `empresa_empleado` as ee, usuario as u, empleado as col WHERE  u.documento = col.id AND u.documento = ee.empleados_id AND ee.empresa_id = ? ",
-    [session]
-  );
+    "SELECT u.*, col.* FROM `empresa_empleado` as ee, usuario as u, empleado as col WHERE  u.documento = col.id AND u.documento = ee.empleados_id AND ee.empresa_id = ? LIMIT  10 offset 1",[session] );
   let listaPersonal = sql;
+  var cont = 0;
+  var sqlcant = await pool.query("SELECT count(*) as cantidad FROM `empresa_empleado` as ee, usuario as u, empleado as col WHERE  u.documento = col.id AND u.documento = ee.empleados_id AND ee.empresa_id = '48594398'");
+  var cant = sqlcant[0].cantidad / 10;
+  
+  var paginationPersonal = {
+    page: 1, // The current page the user is on
+    pageCount: cant // The total number of available pages
+  };
 
   var titulo = "TINE - Personal";
-  res.render("empresa/personal", { titulo, listaPersonal });
+
+  res.render("empresa/personal", { titulo, listaPersonal, paginationPersonal });
 };
 
 exports.agregarAEmp = function(req, res) {
@@ -120,7 +153,7 @@ exports.perfil = async function(req, res) {
       const rows = await pool.query(
         "SELECT * FROM usuario as u, empleado as emp WHERE u.documento = ? and emp.id = u.documento ",
         [documento]
-      );  
+      );
       if (rows.length > 0) {
         datos = rows[0];
         datos["contrasenia"] = "";
@@ -328,7 +361,7 @@ exports.busquedaEmpleado = async function(req, res) {
   const session = req.user.documento;
   //res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
   res.setHeader("Access-Control-Allow-Credentials", true); // If needed
-console.log(identificador);
+  console.log(identificador);
   const sql = await pool.query(
     "SELECT * FROM usuario as u, empleado as emp WHERE u.documento=emp.id AND emp.id = " +
       identificador +
@@ -405,7 +438,7 @@ exports.exportarAsistenciascsv = async function(req, res) {
   var fechaFin = req.query.fechaFin;
   asistencias(req.user.id, documento, fechaIni, fechaFin).then(asistencias => {
     asistencias.forEach(element => {
-      console.log("element", element)
+      console.log("element", element);
 
       element.fecha = dateFormat(element.fecha, "dd-mm-yyyy hh:mm:ss");
     });
@@ -413,7 +446,7 @@ exports.exportarAsistenciascsv = async function(req, res) {
     try {
       var data = parse(asistencias, { fields });
       console.log("data", data);
-      
+
       res.attachment(req.user.id + "-Asistencias.csv");
       res.status(200).send(data);
     } catch (err) {
@@ -430,9 +463,8 @@ exports.exportarAsistenciaspdf = async function(req, res) {
 
   asistencias(req.user.id, documento, fechaIni, fechaFin).then(asistencias => {
     asistencias.forEach(element => {
-      element.fecha= dateFormat(element.fecha, "dd-mm-yyyy hh:mm:ss");
+      element.fecha = dateFormat(element.fecha, "dd-mm-yyyy hh:mm:ss");
       console.log(element);
-
     });
     var path = "test" + Math.random() + ".pdf";
 
@@ -463,7 +495,7 @@ exports.exportarAsistenciaspdf = async function(req, res) {
 };
 
 exports.getConfig = async function(req, res) {
- // res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+  // res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
   res.setHeader("Access-Control-Allow-Credentials", true); // If needed
 
   configuracion(req.user.id).then(configuracion => {
@@ -510,7 +542,6 @@ exports.exportarTareaspdf = async function(req, res) {
       element.fin = dateFormat(element.fin, "d-m-yyyy");
     });
 
-
     let document = {
       template: htmlTareas,
       context: {
@@ -535,6 +566,62 @@ exports.exportarTareaspdf = async function(req, res) {
       .catch(error => {
         console.error(error);
       });
+  });
+};
+
+exports.getTareas = async function(req, res) {
+  var pagina = req.param("pag");
+  var empresa = req.user.documento;
+  var limit = pagina * 10;
+  var index = limit - 10;
+
+  tareasPag(empresa, limit, index).then(data => {
+    console.log(data);
+    res.status(200).send(data);
+  });
+};
+
+const tareasPag = (empresa, limit, index) => {
+  return new Promise((res, rej) => {
+    console.log("asd", limit, index);
+    var asistencia = pool.query(
+      "SELECT td.*, empleado.*, u.* FROM `tarea` as td, empleado AS empleado, usuario as u WHERE td.empresa_id = ? AND td.empleado_id = empleado.id AND empleado.id=u.documento  ORDER BY td.inicio DESC LIMIT " +
+        limit +
+        " offset " +
+        index +
+        "",
+      [empresa]
+    );
+    res(asistencia);
+  });
+};
+
+exports.getAsistencias = async function(req, res) {
+  var pagina = req.param("pag");
+  var empresa = req.user.documento;
+  var limit = pagina * 10;
+  var index = limit - 10;
+
+  console.log(empresa, limit, pagina);
+
+  asistenciasPag(empresa, limit, index).then(data => {
+    console.log(data);
+    res.status(200).send(data);
+  });
+};
+
+const asistenciasPag = (empresa, limit, index) => {
+  return new Promise((res, rej) => {
+    console.log("asd", limit, index);
+    var asistencia = pool.query(
+      "SELECT asi.fecha, asi.foto as captura, asi.tipo, emp.nombre, emp.apellido,u.fotoPerfil FROM .asistencia as asi, empleado as emp, usuario as u WHERE u.documento = emp.id and asi.id and asi.empresa_id=? and asi.empleado_id=emp.id ORDER BY asi.fecha DESC  LIMIT " +
+        limit +
+        " offset " +
+        index +
+        "",
+      [empresa]
+    );
+    res(asistencia);
   });
 };
 
