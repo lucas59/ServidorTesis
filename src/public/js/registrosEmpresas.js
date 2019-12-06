@@ -2,7 +2,7 @@ var map;
 var layerGroup;
 var marker2 = null;
 var marker = null;
-const server = "http://servidortesis2019.herokuapp.com/";
+const server = "https://servidortesis2019.herokuapp.com/";
 $(document).ready(function() {
   map = L.map("mapid", {
     center: [-32.314347, -58.076697],
