@@ -2,6 +2,7 @@ var map;
 var layerGroup;
 var marker2 = null;
 var marker = null;
+const server = "http://servidortesis2019.herokuapp.com/";
 $(document).ready(function() {
   map = L.map("mapid", {
     center: [-32.314347, -58.076697],
@@ -90,7 +91,7 @@ $("#pagination-container").pagination({
 
 function verTareas(pagina) {
   $.ajax({
-    url: "http://localhost:4005/tareas?pag= " + pagina + "",
+    url: server + "tareas?pag= " + pagina + "",
     success: function(data) {
       console.log("dataaa: ", data);
       listarTareas(data);
@@ -103,7 +104,7 @@ function verTareas(pagina) {
 
 function verAsistencias(pagina) {
   $.ajax({
-    url: "http://localhost:4005/asistencias?pag= " + pagina + "",
+    url: server+"asistencias?pag= " + pagina + "",
     success: function(data) {
       listarAsistencias(data);
     },
