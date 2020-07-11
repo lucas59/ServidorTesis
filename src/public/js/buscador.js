@@ -53,6 +53,10 @@ function abrirModalMensaje(cedula) {
     $("#empleadoidMsj").val(cedula);    
 }
 
+function abrirModalConfiguración(cedula){
+    
+}
+
 function insertarEnTabla(element) {
     var table = document.getElementById('tablaUsuarios');
     table.style.display = 'block';

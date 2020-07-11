@@ -495,10 +495,11 @@ exports.exportarAsistenciaspdf = async function(req, res) {
 };
 
 exports.getConfig = async function(req, res) {
-  // res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
-  res.setHeader("Access-Control-Allow-Credentials", true); // If needed
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  console.log("configuracion", req.user.id);
 
   configuracion(req.user.id).then(configuracion => {
+    console.log("configuracion", configuracion);
     res.send(JSON.stringify(configuracion));
   });
 };
@@ -644,22 +645,21 @@ exports.enviarMensaje = async function(req, res) {
   }
 };
 
-exports.actualizarConfiguracion = async function(req, res) {
-  const { camara, tareas, asistencias, modoTablet } = req.body;
+exports.actualizarConfiguracion = async function(req, res) { //actualiza la configuracion de la empresa
+  const { camara, tareas, asistencias, modoTablet, facial } = req.body;
   var documento = req.user.id;
-  updateConfig(documento, camara, tareas, asistencias, modoTablet).then(
+  updateConfig(documento, camara, tareas, asistencias, modoTablet, facial).then(
     function(response) {
       res.send(JSON.stringify({ retorno: true }));
     }
   );
-  console.log("2");
 };
 
-var updateConfig = (documento, camara, tareas, asistencias, modoTablet) => {
+var updateConfig = (documento, camara, tareas, asistencias, modoTablet, facial) => {
   return new Promise((res, rej) => {
     var actualizar = pool.query(
-      "UPDATE `configuracion` SET `asistencias`=?,`camara`=?,`modoTablet`=?,`tareas`=?,`empresa_id`=?",
-      [asistencias, camara, modoTablet, tareas, documento]
+      "UPDATE `configuracion` SET `asistencias`=?,`camara`=?,`modoTablet`=?,`tareas`=?,`empresa_id`=?, facial=?",
+      [asistencias, camara, modoTablet, tareas, documento, facial]
     );
     res(actualizar);
   });
@@ -688,6 +688,7 @@ let configuracion = documento => {
     var config = pool.query("SELECT * FROM configuracion WHERE empresa_id=?", [
       documento
     ]);
+    console.log(config);
     res(config);
   });
 };

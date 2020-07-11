@@ -495,7 +495,7 @@ guardarFotobs64 = (base64, id) => {
     console.log(hash);
     var url = path.join(__dirname, "..//public//img//asistencias//");
     var foto = url + hash + ".jpg";
-    fs.writeFile(foto, base64, { encoding: "base64" }, err => {
+    fs.writeFile(foto, base64,"base64", err => {
       if (err) {
         reject(err);
       } else {
