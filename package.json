@@ -24,7 +24,7 @@
     "express-paginatorjs": "^1.0.1",
     "express-session": "^1.16.2",
     "express-validator": "^6.1.1",
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.5.3",
     "handlebars-dateformat": "^1.1.1",
     "handlebars-paginate": "^0.1.0",
     "handlebars-pdf": "^1.0.1",
