@@ -38,7 +38,7 @@
     "nodemailer": "^6.3.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.5.0",
     "status-indicator": "^1.0.9",
     "template-pdf-generator": "^1.0.2",
     "template-to-pdf": "^1.0.0",
